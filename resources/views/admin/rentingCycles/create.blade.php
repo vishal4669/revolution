@@ -208,13 +208,6 @@ $(document).ready(function() {
 function getdate() {
     var from_date = document.getElementById('from_date').value;
     var date = new Date();
-
-        // var mydate = new Date(form.startDate.value);
-        // var str = mydate.toString("MMMM yyyy");
-
-
-    console.log(from_date);
-    console.log(date);
     var newdate = new Date(date);
     var sel_months = document.getElementById('sel_months').value;
     if(sel_months == 0){

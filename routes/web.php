@@ -10,6 +10,7 @@ Route::get('/cycle-detail/{id}', 'Frontend\FrontController@getCycleDetails')->na
 Route::get('/rent-trainers', 'Frontend\FrontController@RentTrainers')->name('rent-trainers');
 Route::get('/trainer-detail/{id}', 'Frontend\FrontController@getTrainerDetails')->name('trainer-detail');
 
+Route::get('invoice', 'Frontend\FrontController@loadInvoice')->name('invoice');
 Route::get('training', 'Frontend\FrontController@loadTraining')->name('training');
 Route::get('/offroad', 'Frontend\FrontController@getOffroadPage')->name('offroad');
 Route::get('allevents', 'Frontend\FrontController@loadEvents')->name('allevents');
@@ -17,6 +18,10 @@ Route::get('/shop', 'Frontend\FrontController@getShopPage')->name('shop');
 Route::get('/contact', 'Frontend\FrontController@getContactUsPage')->name('contact');
 Route::get('/package', 'Frontend\FrontController@getPackagesPage')->name('package');
 Route::get('book-trainer', 'Frontend\FrontController@bookTrainerCafe')->name('bookTrainerCafe');
+
+//RazorPay
+Route::get('razorpay-payment', 'RazorpayPaymentController@index');
+Route::post('razorpay-payment', 'RazorpayPaymentController@store')->name('razorpay.payment.store');
 
 Auth::routes();
 
@@ -37,10 +42,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('users', 'UsersController');
 
     // Cycle
+    Route::resource('cycles', 'CycleController');
     Route::delete('cycles/destroy', 'CycleController@massDestroy')->name('cycles.massDestroy');
     Route::post('cycles/media', 'CycleController@storeMedia')->name('cycles.storeMedia');
     Route::post('cycles/ckmedia', 'CycleController@storeCKEditorImages')->name('cycles.storeCKEditorImages');
-    Route::resource('cycles', 'CycleController');
+    Route::post('cycles/addReview/{id}', 'CycleController@addReview')->name('cycles.addReview');
 
     // Renting Cycle
     Route::delete('renting-cycles/destroy', 'RentingCycleController@massDestroy')->name('renting-cycles.massDestroy');
@@ -71,10 +77,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('event-registrations', 'EventRegistrationController');
 
     // Trainers
-    Route::delete('trainers/destroy', 'TrainersController@massDestroy')->name('trainers.massDestroy');
-    Route::post('trainers/media', 'TrainersController@storeMedia')->name('trainers.storeMedia');
-    Route::post('trainers/ckmedia', 'TrainersController@storeCKEditorImages')->name('trainers.storeCKEditorImages');
-    Route::resource('trainers', 'TrainersController');
+    Route::delete('trainers/destroy', 'App\Http\Controllers\TrainerController@massDestroy')->name('trainers.massDestroy');
+    Route::post('trainers/media', 'App\Http\Controllers\TrainerController@storeMedia')->name('trainers.storeMedia');
+    Route::post('trainers/ckmedia', 'App\Http\Controllers\TrainerController@storeCKEditorImages')->name('trainers.storeCKEditorImages');
+    Route::resource('trainers', TrainerController::class);
+    Route::post('trainers/addReview/{id}', 'App\Http\Controllers\TrainerController@addReview')->name('trainers.addReview');
 
     // Renting Trainer
     Route::delete('renting-trainers/destroy', 'RentingTrainerController@massDestroy')->name('renting-trainers.massDestroy');
@@ -138,6 +145,16 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
 
     // For Rental Booking Backend
     Route::post('/getRentalBooking','Admin\TrainerBookingRentalController@getRentalBookingData')->name('bookings.getRentalBooking');
+
+    // Checkout
+    Route::get('checkout', 'FrontController@checkoutRentals')->name('checkout');
+    Route::get('/checkout/{id}/{prod}', 'FrontController@checkoutRentals')->name('checkout-details');
+    Route::get('order-complete/{prod}/{savedRentalId}', 'FrontController@loadInvoice')->name('order-complete');
+    Route::post('checkout', 'FrontController@completeCheckout')->name('complete-checkout');
+
+    //Add Review
+    Route::post('cycles/addReview/{id}', 'ReviewController@addCycleReview')->name('addCycleReview');
+    Route::post('trainers/addReview/{id}', 'ReviewController@addTrainerReview')->name('addTrainerReview');
     
 
     Route::get('frontend/profile', 'ProfileController@index')->name('profile.index');

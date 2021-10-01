@@ -34,6 +34,7 @@ final class Versions
      */
     const VERSIONS          = array (
   'asm89/stack-cors' => 'v2.0.3@9cb795bf30988e8c96dd3c40623c48a877bc6714',
+  'barryvdh/laravel-snappy' => 'v0.4.8@1903ab84171072b6bff8d98eb58d38b2c9aaf645',
   'brick/math' => '0.9.3@ca57d18f028f84f777b2168cd1911b0dee2343ae',
   'bugsnag/bugsnag' => 'v3.26.1@cf0a69401dfe46e3f978cdcc5a32edb24c2efe6b',
   'bugsnag/bugsnag-laravel' => 'v2.22.2@cc5ec4ea3ea3704d384f1c684fa19704289390c0',
@@ -56,7 +57,9 @@ final class Versions
   'guzzlehttp/guzzle' => '7.3.0@7008573787b430c1c1f650e3722d9bba59967628',
   'guzzlehttp/promises' => '1.4.1@8e7d04f1f6450fef59366c399cfad4b9383aa30d',
   'guzzlehttp/psr7' => '2.0.0@1dc8d9cba3897165e16d12bb13d813afb1eb3fe7',
+  'h4cc/wkhtmltopdf-amd64' => '0.12.4@4e2ab2d032a5d7fbe2a741de8b10b8989523c95b',
   'intervention/image' => '2.6.1@0925f10b259679b5d8ca58f3a2add9255ffcda45',
+  'knplabs/knp-snappy' => 'v1.2.1@7bac60fb729147b7ccd8532c07df3f52a4afa8a4',
   'laravel/dusk' => 'v6.18.1@c99116b354a93faf9e75aeeeadc73445df705570',
   'laravel/framework' => 'v8.61.0@3d528d3d3c8ecb444b50a266c212a52973a6669b',
   'laravel/tinker' => 'v2.6.1@04ad32c1a3328081097a181875733fa51f402083',
@@ -168,7 +171,7 @@ final class Versions
   'sebastian/type' => '2.3.4@b8cd8a1c753c90bc1a0f5372170e3e489136f914',
   'sebastian/version' => '3.0.2@c6c1022351a901512170118436c764e473f6de8c',
   'theseer/tokenizer' => '1.2.1@34a41e998c2183e22995f158c581e7b5e755ab9e',
-  'laravel/laravel' => 'dev-main@3617f1dad43cbc49eb5cb9b11c56cdf1bf43a0fb',
+  'laravel/laravel' => 'dev-main@56be4f048fd6425363db5a3313f6621d5ad72cc9',
 );
 
     private function __construct()

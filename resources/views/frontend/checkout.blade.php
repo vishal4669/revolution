@@ -66,7 +66,7 @@
                           </ul>
                           <hr>
                       </div>
-                      <form id="main-form" method="post" action="{{ route('complete-checkout') }}" class="main-form full">
+                      <form id="main-form" method="post" action="{{ route('frontend.complete-checkout') }}" class="main-form full">
                         @csrf
                         <input type="hidden" name="prod_id" id="prod_id" value="{{ $product->id }}">
                         <input type="hidden" name="prod_type" id="prod_type" value="{{ $prodType }}">
@@ -339,15 +339,38 @@
                                 <div class="payment-option-box-inner gray-bg">
                                   <div class="payment-top-box">
                                     <div class="radio-box left-side"> <span>
-                                      <input type="radio" id="cash" value="cash" name="payment_type">
+                                      <input type="radio" id="cash" value="1" name="payment_type">
                                       </span>
-                                      <label for="cash">Would you like to pay by Cash on Delivery?</label>
+                                      <label for="cash">Would you like to pay by Cash at Store during pickup?</label>
                                     </div>
                                   </div>
                                   <p>Vestibulum semper accumsan nisi, at blandit tortor maxi'mus in phasellus malesuada sodales odio, at dapibus libero malesuada quis.</p>
                                 </div>
                               </div>
                               <div class="right-side float-none-xs"> <button type="submit" form="main-form" class="btn btn-color">Place Order</button></div>
+                              @auth
+                              <form action="{{ route('razorpay.payment.store') }}" method="POST" >
+                                  @csrf
+                                  <script src="https://checkout.razorpay.com/v1/checkout.js"
+                                          data-key="{{ env('RAZORPAY_KEY') }}"
+                                          data-amount = 150000
+                                          data-buttontext="Pay Now"
+                                          data-name="RevolutionBikeCafe.com"
+                                          data-description="Package"
+                                          data-image=""
+                                          data-prefill.name="name"
+                                          data-prefill.email="email"
+                                          data-theme.color="#ff7529"
+                                          data-class="btn btn-info"
+                                          id="paymentWidget">
+                                  </script>
+                              </form>
+                           @else
+                              {!! Form::open(['method' => 'GET','route' => ['login'],'style'=>'display:inline']) !!}
+                            {!! Form::submit('Buy Now', ['class' => 'btn btn-info']) !!}
+                            {!! Form::close() !!}
+                          @endauth
+
                             </div>
                           </div>
                         </div>
@@ -405,7 +428,7 @@ function loadPayment(){
 
 function getdate() {
     var from_date = document.getElementById('from_date').value;
-    var date = new Date(from_date);
+    var date = Date(from_date);
     var newdate = new Date(date);
     var days = document.getElementById('sel_days').value;
     if(days == 0){
@@ -422,8 +445,9 @@ function getdate() {
     m = '0'+m;
     if(dd <= 9)
     dd = '0'+dd;
-    var FormattedDate = y + '-' + m + '-' + dd;
+    var FormattedDate = dd + '-' + m + '-' + y;
     document.getElementById('to_date').value = FormattedDate;
+    $('#total_days').val(days);
 }
 
 function upd_days() {
@@ -434,6 +458,7 @@ function upd_days() {
         var total_rent = sel_days * rent;
         $('#total_rent').val(total_rent);
         $('#total_rent_view').html(total_rent);
+        $('#paymentWidget').attr("data-amount", total_rent);
     }else{
         $('#total_rent').val('');
     }

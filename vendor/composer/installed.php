@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '3617f1dad43cbc49eb5cb9b11c56cdf1bf43a0fb',
+        'reference' => '56be4f048fd6425363db5a3313f6621d5ad72cc9',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -17,6 +17,15 @@
             'install_path' => __DIR__ . '/../asm89/stack-cors',
             'aliases' => array(),
             'reference' => '9cb795bf30988e8c96dd3c40623c48a877bc6714',
+            'dev_requirement' => false,
+        ),
+        'barryvdh/laravel-snappy' => array(
+            'pretty_version' => 'v0.4.8',
+            'version' => '0.4.8.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../barryvdh/laravel-snappy',
+            'aliases' => array(),
+            'reference' => '1903ab84171072b6bff8d98eb58d38b2c9aaf645',
             'dev_requirement' => false,
         ),
         'brick/math' => array(
@@ -289,6 +298,15 @@
             'reference' => '1dc8d9cba3897165e16d12bb13d813afb1eb3fe7',
             'dev_requirement' => false,
         ),
+        'h4cc/wkhtmltopdf-amd64' => array(
+            'pretty_version' => '0.12.4',
+            'version' => '0.12.4.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../h4cc/wkhtmltopdf-amd64',
+            'aliases' => array(),
+            'reference' => '4e2ab2d032a5d7fbe2a741de8b10b8989523c95b',
+            'dev_requirement' => false,
+        ),
         'hamcrest/hamcrest-php' => array(
             'pretty_version' => 'v2.0.1',
             'version' => '2.0.1.0',
@@ -493,6 +511,15 @@
             'reference' => '0925f10b259679b5d8ca58f3a2add9255ffcda45',
             'dev_requirement' => false,
         ),
+        'knplabs/knp-snappy' => array(
+            'pretty_version' => 'v1.2.1',
+            'version' => '1.2.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../knplabs/knp-snappy',
+            'aliases' => array(),
+            'reference' => '7bac60fb729147b7ccd8532c07df3f52a4afa8a4',
+            'dev_requirement' => false,
+        ),
         'kodova/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(
@@ -523,7 +550,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '3617f1dad43cbc49eb5cb9b11c56cdf1bf43a0fb',
+            'reference' => '56be4f048fd6425363db5a3313f6621d5ad72cc9',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(

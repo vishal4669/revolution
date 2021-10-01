@@ -197,7 +197,7 @@ $(document).ready(function() {
 
 function getdate() {
     var from_date = document.getElementById('from_date').value;
-    var date = new Date(from_date);
+    var date = Date(from_date);
     var newdate = new Date(date);
     var sel_months = document.getElementById('sel_months').value;
     if(sel_months == 0){
@@ -213,7 +213,7 @@ function getdate() {
     m = '0'+m;
     if(dd <= 9)
     dd = '0'+dd;
-    var FormattedDate = y + '-' + m + '-' + dd;
+    var FormattedDate = dd + '-' + m + '-' + y;
     document.getElementById('to_date').value = FormattedDate;
     document.getElementById('total_days').value = days;
 }

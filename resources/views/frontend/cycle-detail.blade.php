@@ -72,7 +72,7 @@
                             <ul>
                               <li class="pro-cart-icon">
                                  @if($cycle->is_rented == 0)
-                                <form method="get" action="{{ route('checkout-details', ['id' => $cycle->id, 'prod' => 'cycle']) }}">
+                                <form method="get" action="{{ route('frontend.checkout-details', ['id' => $cycle->id, 'prod' => 'cycle']) }}">
                                   <button title="Click to Rent" class="btn-color"><i class="fa fa-bicycle"></i> Rent Now</button>
                                 </form>
                                 @endif
@@ -155,7 +155,7 @@
                           </div>
                           <div class="main-form mt-30">
                             <h4>Leave a Review</h4>
-                            <form method="post" id="cycleReviewForm" action="{{ route('cycles.addReview', $cycle->id) }}">
+                            <form method="post" id="cycleReviewForm" action="{{ route('frontend.addCycleReview', $cycle->id) }}">
                               @csrf
                               <div class="row mt-30">
                                 <div class="col-6 mb-30">
@@ -164,7 +164,7 @@
                                     <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
                                     <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> 
                                     <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> 
-                                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                    <input type="radio" name="rating" value="1" id="1" checked><label for="1">☆</label>
                                   </div>
                                 </div>
                                 <div class="col-12 mb-30">
@@ -207,12 +207,12 @@
                     <div class="item">
                         <div class="product-item">  
                           <div class="product-image"> 
-                            <a href="{{ route('cycle-detail', $relatedCycle->id) }}"> <img src="{{ $relatedCycle->photo[0]->url }}" alt="{{ $relatedCycle->name }}"> </a>
+                            <a href="{{ route('frontend.cycle-detail', $relatedCycle->id) }}"> <img src="{{ $relatedCycle->photo[0]->url }}" alt="{{ $relatedCycle->name }}"> </a>
                           </div>
                           <div class="product-details">
                             <div class="product-item-details">
                               <div class="product-item-name"> 
-                                <a href="{{ route('cycle-detail', $relatedCycle->id) }}">{{ $relatedCycle->name }}</a> 
+                                <a href="{{ route('frontend.cycle-detail', $relatedCycle->id) }}">{{ $relatedCycle->name }}</a> 
                               </div>
                               <div class="price-box"> 
                                 <span class="price">₹ {{$relatedCycle->rent_month}} / Per Month</span> 
@@ -225,7 +225,7 @@
                               <div class="detail-inner-left">
                                 <ul>
                                   <li class="pro-cart-icon">
-                                    <form method="get" action="{{ route('cycle-detail', $relatedCycle->id) }}">
+                                    <form method="get" action="{{ route('frontend.cycle-detail', $relatedCycle->id) }}">
                                       <button type="submit" title="Click to Rent"></button>
                                     </form>
                                   </li>

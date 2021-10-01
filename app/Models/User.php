@@ -27,7 +27,7 @@ class User extends Authenticatable implements HasMedia
     public $table = 'users';
 
     protected $appends = [
-        'image',
+        'image', 'full_name'
     ];
 
     protected $hidden = [
@@ -121,6 +121,12 @@ class User extends Authenticatable implements HasMedia
         }
 
         return $file;
+    }
+
+    public function getFullNameAttribute(){
+        $fname = $this->attributes['fname'] ? $this->attributes['fname'] : '';
+        $lname = $this->attributes['lname'] ? $this->attributes['lname'] : '';
+        return ucfirst($fname.' '.$lname);
     }
 
     protected function serializeDate(DateTimeInterface $date)

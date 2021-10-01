@@ -9,6 +9,7 @@ use App\Models\PackageTrainerCafe;
 use App\Models\UserHasPackagesCafe;
 use App\Models\TrainerCafeBooking;
 use App\Models\RentingCycle;
+use App\Models\Payment;
 use App\Models\RentingTrainer;
 use App\Models\User;
 use App\Models\Cycle;
@@ -20,6 +21,8 @@ use App\Models\Slot;
 use DB;
 use App\Helpers\Helper;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use PDF;
+use App;
 
 use Session;
 
@@ -138,7 +141,7 @@ class FrontController
             $savedRentalId = $data->id;
         }
 
-        return redirect()->route('order-complete', compact('prod','savedRentalId'));
+        return redirect()->route('frontend.order-complete', compact('prod','savedRentalId'));
 
     }
 
@@ -153,12 +156,30 @@ class FrontController
 
     public function loadInvoice ($prod, $id)
     {
+
         if($prod == "cycle"){
             $rental = RentingCycle::find($id);
         }else{
             $rental = RentingTrainer::find($id);
         }
-        return view('frontend.order-complete', compact('prod', 'rental'));
+
+        if($rental->user_id == auth()->user()->id){
+            $data['prod'] = $prod;
+            $data['rental'] = $rental;
+            //return view('frontend.order-complete', compact('prod', 'rental'));
+            //return view('frontend.invoice', compact('prod', 'rental'));
+            
+            //dd(public_path('invoice\bootstrap.min.css'));
+            $pdf = PDF::loadView('frontend.invoice', $data);
+            return $pdf->stream('RentInv/'.ucfirst($prod).'/'.$rental->id.'.pdf');
+        }else{
+            return view('frontend.401');
+        }
+
+        
+
+        //return view('frontend.myaccount');
+
     }
 
     public function myAccount ()
@@ -229,9 +250,13 @@ class FrontController
 
     public function getPackagesPage(){
         $packagecafes = PackageTrainerCafe::get();
-
-        $route_name =  Route::currentRouteName();
-        return view('frontend.packages', compact('route_name', 'packagecafes')); 
+        if(auth()->check()){
+            $user_package = Payment::where('user_id', auth()->user()->id)->pluck('description')->first();
+            return view('frontend.packages', compact('packagecafes', 'user_package')); 
+        }else{
+            return view('frontend.packages', compact('packagecafes')); 
+        }
+        
     }
 
     public function getContactUsPage(){

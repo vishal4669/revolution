@@ -17,16 +17,13 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
-                'string',
-                'required',
-            ],
             'email' => [
                 'required',
                 'unique:users',
             ],
             'password' => [
                 'required',
+                'confirmed',
             ],
             'roles.*' => [
                 'integer',
@@ -79,11 +76,12 @@ class StoreUserRequest extends FormRequest
             ],
             'pincode' => [
                 'string',
-                'nullable',
+                'required',
             ],
             'username' => [
                 'string',
                 'required',
+                'unique:users',
             ],
         ];
     }

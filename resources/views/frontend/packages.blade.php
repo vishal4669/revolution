@@ -106,22 +106,26 @@
                         <li class="grey">
 
                           @auth
-                            <form action="{{ route('razorpay.payment.store') }}" method="POST" >
-                                    @csrf
-                                    <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                            data-key="{{ env('RAZORPAY_KEY') }}"
-                                            data-amount="{{ ($packagecafe->total_price*100) + ($packagecafe->total_price*100) * ($packagecafe->package_tax/100) }}"
-                                            data-buttontext="Buy Now"
-                                            data-name="RevolutionBikeCafe.com"
-                                            data-description="RentCycles"
-                                            data-image=""
-                                            data-prefill.name="name"
-                                            data-prefill.email="email"
-                                            data-theme.color="#ff7529"
-                                            data-class="btn btn-info">
-                                    </script>
-                                </form>
-                          @else
+                            @if($user_package == "Package_".$packagecafe->id)
+                            Subscribed
+                            @else
+                              <form action="{{ route('razorpay.payment.store') }}" method="POST" >
+                                  @csrf
+                                  <script src="https://checkout.razorpay.com/v1/checkout.js"
+                                          data-key="{{ env('RAZORPAY_KEY') }}"
+                                          data-amount="{{ ($packagecafe->total_price*100) + ($packagecafe->total_price*100) * ($packagecafe->package_tax/100) }}"
+                                          data-buttontext="Buy Now"
+                                          data-name="RevolutionBikeCafe.com"
+                                          data-description="Package_{{ $packagecafe->id }}"
+                                          data-image=""
+                                          data-prefill.name="name"
+                                          data-prefill.email="email"
+                                          data-theme.color="#ff7529"
+                                          data-class="btn btn-info">
+                                  </script>
+                              </form>
+                            @endif
+                      @else
                               {!! Form::open(['method' => 'GET','route' => ['login'],'style'=>'display:inline']) !!}
                             {!! Form::submit('Buy Now', ['class' => 'btn btn-info']) !!}
                             {!! Form::close() !!}

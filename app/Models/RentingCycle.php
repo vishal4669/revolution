@@ -22,8 +22,8 @@ class RentingCycle extends Model
     ];
 
     public const PAYMENT_OPTION_RADIO = [
-        '1' => 'Cash',
-        '2' => 'Online',
+        '1' => 'Cash at Store',
+        '2' => 'Online Banking',
         '3' => 'Card',
         '4' => 'Wallet',
     ];

@@ -1,81 +1,90 @@
-@extends('layouts.app')
-@section('content')
-<div class="login-box">
-    <div class="login-logo">
-        <div class="login-logo">
-            <a href="{{ route('admin.home') }}">
-                {{ trans('panel.site_title') }}
-            </a>
+@include('frontend.layouts.header')
+      
+      <!-- Bread Crumb STRAT -->
+      <div class="banner inner-banner1 ">
+        <div class="container">
+          <section class="banner-detail center-xs">
+            <h1 class="banner-title">Login</h1>
+            <div class="bread-crumb right-side float-none-xs">
+              <ul>
+                <li><a href="index-2.html">Home</a>/</li>
+                <li><span>Login</span></li>
+              </ul>
+            </div>
+          </section>
         </div>
-    </div>
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">
-                {{ trans('global.login') }}
-            </p>
+      </div>
+      <!-- Bread Crumb END --> 
 
-            @if(session()->has('message'))
-                <p class="alert alert-info">
-                    {{ session()->get('message') }}
-                </p>
-            @endif
-
-            <form action="{{ route('login') }}" method="POST">
-                @csrf
-
-                <div class="form-group">
-                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" required autocomplete="email" autofocus placeholder="{{ trans('global.login_email') }}" name="email" value="{{ old('email', null) }}">
-
-                    @if($errors->has('email'))
-                        <div class="invalid-feedback">
-                            {{ $errors->first('email') }}
+      <!-- CONTAIN START -->
+      <section class="checkout-section ptb-70">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="row justify-content-center">
+                <div class="col-xl-6 col-lg-8 col-md-8 ">
+                  <form class="main-form full" method="POST" action="{{ route('login') }}">
+                    <div class="row">
+                      <div class="col-12 mb-20">
+                        <div class="heading-part heading-bg">
+                          <h2 class="heading">Login</h2>
                         </div>
-                    @endif
-                </div>
 
-                <div class="form-group">
-                    <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required placeholder="{{ trans('global.login_password') }}">
+                        @if(session()->has('message'))
+                            <p class="alert alert-info">
+                                {{ session()->get('message') }}
+                            </p>
+                        @endif
 
-                    @if($errors->has('password'))
-                        <div class="invalid-feedback">
-                            {{ $errors->first('password') }}
+                      </div>
+                      @csrf
+                      <div class="col-12">
+                        <div class="input-box">
+                          <label for="login-email">Email address</label>
+                          <input id="login-email" name="email" type="email" value="{{ old('email'), null }}" required placeholder="Email Address">
                         </div>
-                    @endif
-                </div>
-
-
-                <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
-                            <input type="checkbox" name="remember" id="remember">
-                            <label for="remember">{{ trans('global.remember_me') }}</label>
+                      </div>
+                      <div class="col-12">
+                        <div class="input-box">
+                          <label for="login-pass">Password</label>
+                          <input id="login-pass" name="password" type="password" required placeholder="Enter your Password">
+                          @if($errors->has('email'))
+                            <div class="text-danger">
+                                {{ $errors->first('email') }}
+                            </div>
+                          @endif
                         </div>
+                      </div>
+
+                      <div class="col-12">
+                        <!--<div class="check-box left-side"> 
+                          <span>
+                            <input type="checkbox" name="remember_me" id="remember_me" class="checkbox">
+                            <label for="remember_me">Remember Me</label>
+                          </span>
+                        </div>-->
+                        <button name="submit" type="submit" class="btn-color right-side">Log In</button>
+                      </div> 
+                      @if(Route::has('password.request'))                      
+                      <div class="col-12">
+                            <p class="mb-1">
+                                <a href="{{ route('password.request') }}">
+                                    {{ trans('global.forgot_password') }}
+                                </a>
+                            </p>
+                      </div>
+                        @endif
+                      <div class="col-12">
+                        <div class="new-account align-center mt-20"> <span>New to Revolution Bike Store?</span> <a class="link" title="Register with Revolution Bike Store" href="{{ route('register') }}">Create New Account</a> </div>
+                      </div>
                     </div>
-                    <!-- /.col -->
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">
-                            {{ trans('global.login') }}
-                        </button>
-                    </div>
-                    <!-- /.col -->
+                  </form>
                 </div>
-            </form>
-
-
-            @if(Route::has('password.request'))
-                <p class="mb-1">
-                    <a href="{{ route('password.request') }}">
-                        {{ trans('global.forgot_password') }}
-                    </a>
-                </p>
-            @endif
-            <p class="mb-1">
-                <a class="text-center" href="{{ route('register') }}">
-                    {{ trans('global.register') }}
-                </a>
-            </p>
+              </div>
+            </div>
+          </div>
         </div>
-        <!-- /.login-card-body -->
-    </div>
-</div>
-@endsection
+      </section>
+      <!-- CONTAINER END --> 
+      
+  @include('frontend.layouts.footer')    
