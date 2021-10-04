@@ -25,10 +25,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.eventRegistration.fields.name') }}
+                            {{ trans('cruds.eventRegistration.fields.user') }}
                         </th>
                         <td>
-                            {{ $eventRegistration->name }}
+                            {{ $eventRegistration->user->full_name ?? '' }}
                         </td>
                     </tr>
                     <tr>

@@ -210,6 +210,23 @@
         }
     });
 });
+// fetch ticket price
+$('#ticket_id').change(function(){
+    var id = $(this).val();
+    var url = '{{ route("admin.event-registrations.getTicketPrice", ":id") }}';
+    url = url.replace(':id', id);
+
+    $.ajax({
+        url: url,
+        type: 'get',
+        dataType: 'json',
+        success: function(response){
+            if(response != null){
+                 $('#amount_received').val(response);
+            }
+        }
+    });
+});
 </script>
 
 @endsection

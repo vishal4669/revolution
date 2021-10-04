@@ -29,20 +29,20 @@
                         <div class="blog-media mb-20">
                           <img src="{{ $event->event_images[0]['url'] }}" alt="{{ ucfirst($event->name) }}">
                           <div class="blog-effect"></div> 
-                          <a href="single-blog.html" title="Click to view Details" class="read">&nbsp;</a> 
+                          <a href="{{ route('event-info', $event->id) }}" title="Click to view Details" class="read">&nbsp;</a> 
                         </div>
                         <div class="blog-detail">
-                          <span class="post-date">Event Date: {{ $event->event_start_day }}</span>
-                          <span class="post-date">| Event Time: {{ $event->event_start_day }}</span>
+                          <span class="post-date">Event Date: {{ $event->event_start_day }}</span><hr>
+                          <span class="post-date">Last Date to register: {{ $event->last_booking_date }}</span>
                           <div class="blog-title"><a href="single-blog.html">{{ ucfirst($event->name) }}</a></div>
                           <p>{!! Str::of($event->description)->limit(50); !!}</p>
                           <hr>
-                          <div class="post-info">
+                          <!-- <div class="post-info">
                             <ul>
                               <li><span>By</span><a href="javascript:void(0)"> cormon jons</a></li>
                               <li><a href="javascript:void(0)">(5) comments</a></li>
                             </ul>
-                          </div>
+                          </div> -->
                         </div>
                       </div>
                     </div>

@@ -18,6 +18,7 @@ use App\Models\Event;
 use App\Models\Testimonial;
 use App\Models\Brand;
 use App\Models\Slot;
+use App\Models\Ticket;
 use DB;
 use App\Helpers\Helper;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -202,6 +203,20 @@ class FrontController
         $events = Event::all();
 
         return view('frontend.events', compact('events'));
+    }
+
+    public function loadEventInfo($id)
+    {
+        if($id != null){
+            $event_info = Event::where('id', $id)->firstOrFail();
+            $upcoming_events = Event::where('id','<>', $id)->limit(3)->get();
+            $tickets = Ticket::where('event_id', $id)
+                        ->where('stop_booking', 0)
+                        ->get()
+                        ->where('available_tickets', '>', 0);
+        }
+
+        return view('frontend.event-info', compact('event_info', 'upcoming_events', 'tickets'));
     }
 
     public function bookTrainerCafe(){

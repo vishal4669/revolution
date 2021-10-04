@@ -7,16 +7,22 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("event-registrations.update", [$eventRegistration->id]) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.event-registrations.update", [$eventRegistration->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="form-group">
-                <label class="required" for="name">{{ trans('cruds.eventRegistration.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $eventRegistration->name) }}" required>
-                @if($errors->has('name'))
-                    <span class="text-danger">{{ $errors->first('name') }}</span>
+                <label class="required" for="user_id">{{ trans('cruds.eventRegistration.fields.user') }}</label>
+                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
+                    @foreach($users as $user)
+                      @if($user->full_name != " ")
+                        <option value="{{ $user->id }}" {{ (old('user_id') ? old('user_id') : $eventRegistration->user->id ?? '') == $user->id ? 'selected' : '' }}>{{ $user->full_name }} (Mobile: {{ $user->mobile }})</option>
+                      @endif
+                    @endforeach
+                </select>
+                @if($errors->has('user'))
+                    <span class="text-danger">{{ $errors->first('user') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.eventRegistration.fields.name_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.eventRegistration.fields.user_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required" for="event_id">{{ trans('cruds.eventRegistration.fields.event') }}</label>
@@ -162,6 +168,50 @@
       }
     );
   }
+});
+</script>
+<script>
+	$('#event_id').change(function(){
+    var id = $(this).val();
+    var url = '{{ route("admin.event-registrations.getTickets", ":id") }}';
+    url = url.replace(':id', id);
+
+    $.ajax({
+        url: url,
+        type: 'get',
+        dataType: 'json',
+        success: function(response){
+            if(response != null){
+              if(response){
+                  $('#ticket_id').empty();
+                  $('#ticket_id').focus;
+                  $('#ticket_id').append('<option value=""> Select Ticket </option>'); 
+                  $.each(response, function(key, value){
+                    $('select[name="ticket_id"]').append('<option value="'+ value.id +'">' + value.ticket_name +' (Price: '+ value.ticket_price + ') (Available:' + value.available_tickets + ')</option>');
+                });
+              }else{
+                 $('#ticket_id').empty();
+              }
+            }
+        }
+    });
+});
+// fetch ticket price
+$('#ticket_id').change(function(){
+    var id = $(this).val();
+    var url = '{{ route("admin.event-registrations.getTicketPrice", ":id") }}';
+    url = url.replace(':id', id);
+
+    $.ajax({
+        url: url,
+        type: 'get',
+        dataType: 'json',
+        success: function(response){
+            if(response != null){
+                 $('#amount_received').val(response);
+            }
+        }
+    });
 });
 </script>
 

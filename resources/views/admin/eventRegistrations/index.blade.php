@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 @section('content')
+@can('event_registration_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route('admin.event-registrations.create') }}">
@@ -7,6 +8,7 @@
             </a>
         </div>
     </div>
+@endcan
 <div class="card">
     <div class="card-header">
         {{ trans('cruds.eventRegistration.title_singular') }} {{ trans('global.list') }}
@@ -23,7 +25,10 @@
                         {{ trans('cruds.eventRegistration.fields.id') }}
                     </th>
                     <th>
-                        {{ trans('cruds.eventRegistration.fields.name') }}
+                        {{ trans('cruds.eventRegistration.fields.user') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.eventRegistration.fields.user_mobile') }}
                     </th>
                     <th>
                         {{ trans('cruds.eventRegistration.fields.event') }}
@@ -54,10 +59,16 @@
                     <td>
                     </td>
                     <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach($users as $key => $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
                     </td>
                     <td>
                         <select class="search">
@@ -86,13 +97,10 @@
                         </select>
                     </td>
                     <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
                     </td>
@@ -110,6 +118,35 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+@can('event_registration_delete')
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
+  let deleteButton = {
+    text: deleteButtonTrans,
+    url: "{{ route('admin.event-registrations.massDestroy') }}",
+    className: 'btn-danger',
+    action: function (e, dt, node, config) {
+      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
+          return entry.id
+      });
+
+      if (ids.length === 0) {
+        alert('{{ trans('global.datatables.zero_selected') }}')
+
+        return
+      }
+
+      if (confirm('{{ trans('global.areYouSure') }}')) {
+        $.ajax({
+          headers: {'x-csrf-token': _token},
+          method: 'POST',
+          url: config.url,
+          data: { ids: ids, _method: 'DELETE' }})
+          .done(function () { location.reload() })
+      }
+    }
+  }
+  dtButtons.push(deleteButton)
+@endcan
 
   let dtOverrideGlobals = {
     buttons: dtButtons,
@@ -119,17 +156,18 @@
     aaSorting: [],
     ajax: "{{ route('admin.event-registrations.index') }}",
     columns: [
-        { data: 'placeholder', name: 'placeholder' },
-        { data: 'id', name: 'id' },
-        { data: 'name', name: 'name' },
-        { data: 'event_name', name: 'event.name' },
-        { data: 'ticket_ticket_name', name: 'ticket.ticket_name' },
-        { data: 'ticket.ticket_price', name: 'ticket.ticket_price' },
-        { data: 'payment_mode', name: 'payment_mode' },
-        { data: 'amount_received', name: 'amount_received' },
-        { data: 'transaction', name: 'transaction' },
-        { data: 'unique_reg_no', name: 'unique_reg_no' },
-        { data: 'actions', name: '{{ trans('global.actions') }}' }
+      { data: 'placeholder', name: 'placeholder' },
+{ data: 'id', name: 'id' },
+{ data: 'user_name', name: 'user.name' },
+{ data: 'user_mobile', name: 'user.mobile' },
+{ data: 'event_name', name: 'event.name' },
+{ data: 'ticket_ticket_name', name: 'ticket.ticket_name' },
+{ data: 'ticket.ticket_price', name: 'ticket.ticket_price' },
+{ data: 'payment_mode', name: 'payment_mode' },
+{ data: 'amount_received', name: 'amount_received' },
+{ data: 'transaction', name: 'transaction' },
+{ data: 'unique_reg_no', name: 'unique_reg_no' },
+{ data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
     order: [[ 1, 'desc' ]],

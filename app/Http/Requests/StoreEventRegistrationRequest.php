@@ -32,15 +32,15 @@ class StoreEventRegistrationRequest extends FormRequest
             'payment_mode' => [
                 'required',
             ],
-            'transaction' => [
-                'string',
-                'required',
-            ],
-            'unique_reg_no' => [
-                'string',
-                'required',
-                'unique:event_registrations',
-            ],
+            // 'transaction' => [
+            //     'string',
+            //     'required',
+            // ],
+            // 'unique_reg_no' => [
+            //     'string',
+            //     'required',
+            //     'unique:event_registrations',
+            // ],
         ];
     }
 }

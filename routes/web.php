@@ -14,6 +14,7 @@ Route::get('invoice', 'Frontend\FrontController@loadInvoice')->name('invoice');
 Route::get('training', 'Frontend\FrontController@loadTraining')->name('training');
 Route::get('/offroad', 'Frontend\FrontController@getOffroadPage')->name('offroad');
 Route::get('allevents', 'Frontend\FrontController@loadEvents')->name('allevents');
+Route::get('event-info/{id}', 'Frontend\FrontController@loadEventInfo')->name('event-info');
 Route::get('/shop', 'Frontend\FrontController@getShopPage')->name('shop');
 Route::get('/contact', 'Frontend\FrontController@getContactUsPage')->name('contact');
 Route::get('/package', 'Frontend\FrontController@getPackagesPage')->name('package');
@@ -76,6 +77,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('event-registrations/ckmedia', 'EventRegistrationController@storeCKEditorImages')->name('event-registrations.storeCKEditorImages');
     Route::resource('event-registrations', 'EventRegistrationController');
     Route::get('event-registrations/getTickets/{id}', 'EventRegistrationController@getTickets')->name('event-registrations.getTickets');
+    Route::get('event-registrations/getTicketPrice/{id}', 'EventRegistrationController@getTicketPrice')->name('event-registrations.getTicketPrice');
 
     // Trainers
     Route::delete('trainers/destroy', 'App\Http\Controllers\TrainerController@massDestroy')->name('trainers.massDestroy');

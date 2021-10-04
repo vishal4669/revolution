@@ -50,6 +50,12 @@ class EventRegistrationController extends Controller
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
+            $table->addColumn('user_name', function ($row) {
+                return $row->user ? $row->user->full_name : '';
+            });
+            $table->addColumn('user_mobile', function ($row) {
+                return $row->user ? $row->user->mobile : '';
+            });
             $table->addColumn('event_name', function ($row) {
                 return $row->event ? $row->event->name : '';
             });
@@ -72,9 +78,6 @@ class EventRegistrationController extends Controller
             });
             $table->editColumn('unique_reg_no', function ($row) {
                 return $row->unique_reg_no ? $row->unique_reg_no : '';
-            });
-            $table->addColumn('user_name', function ($row) {
-                return $row->user ? $row->user->name : '';
             });
 
             $table->rawColumns(['actions', 'placeholder', 'event', 'ticket', 'user']);
@@ -114,12 +117,11 @@ class EventRegistrationController extends Controller
 
     public function edit(EventRegistration $eventRegistration)
     {
-
         $events = Event::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $tickets = Ticket::pluck('ticket_name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $tickets = Ticket::where('event_id', $eventRegistration->event_id)->pluck('ticket_name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $users = User::get();
 
         $eventRegistration->load('event', 'ticket', 'user');
 
@@ -178,5 +180,11 @@ class EventRegistrationController extends Controller
             ->where("available_tickets", ">", 0);
             return response()->json($tickets);
         }
+    }
+
+    public function getTicketPrice($id)
+    {
+        $ticket_price = Ticket::where('id', $id)->pluck('ticket_price');
+        return $ticket_price;
     }
 }
