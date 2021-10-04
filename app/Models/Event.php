@@ -21,8 +21,8 @@ class Event extends Model implements HasMedia
     ];
 
     public const IS_CANCELLED_RADIO = [
-        '1' => 'Not Cancelled',
-        '2' => 'Cancelled',
+        '0' => 'Not Cancelled',
+        '1' => 'Cancelled',
     ];
 
     public const EVENT_TYPE_RADIO = [

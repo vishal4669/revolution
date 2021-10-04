@@ -7,39 +7,92 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("event-registrations.store") }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.event-registrations.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label class="required" for="name">{{ trans('cruds.eventRegistration.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', '') }}" required>
-                @if($errors->has('name'))
-                    <span class="text-danger">{{ $errors->first('name') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.eventRegistration.fields.name_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="event_id">{{ trans('cruds.eventRegistration.fields.event') }}</label>
-                <select class="form-control select2 {{ $errors->has('event') ? 'is-invalid' : '' }}" name="event_id" id="event_id" required>
-                    @foreach($events as $id => $entry)
-                        <option value="{{ $id }}" {{ old('event_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                <label class="required" for="user_id">Select User</label>
+                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
+                        <option>Select User</option>
+                    @foreach($users as $user)
+                      @if($user->full_name != " ")
+                        <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>{{ $user->full_name }}</option>
+                      @endif
                     @endforeach
                 </select>
-                @if($errors->has('event'))
-                    <span class="text-danger">{{ $errors->first('event') }}</span>
+                @if($errors->has('user'))
+                    <span class="text-danger">{{ $errors->first('user') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.eventRegistration.fields.event_helper') }}</span>
+                <span class="help-block">Select user who wants to register</span>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label class="required" for="event_id">{{ trans('cruds.eventRegistration.fields.event') }}</label>
+                    <select class="form-control select2 {{ $errors->has('event') ? 'is-invalid' : '' }}" name="event_id" id="event_id" required>
+                        @foreach($events as $id => $entry)
+                            <option value="{{ $id }}" {{ old('event_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                        @endforeach
+                    </select>
+                    @if($errors->has('event'))
+                        <span class="text-danger">{{ $errors->first('event') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.eventRegistration.fields.event_helper') }}</span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label class="required" for="ticket_id">{{ trans('cruds.eventRegistration.fields.ticket') }}</label>
+                    <select class="form-control select2 {{ $errors->has('ticket') ? 'is-invalid' : '' }}" name="ticket_id" id="ticket_id" required>
+                        @foreach($tickets as $id => $entry)
+                            <option value="{{ $id }}" {{ old('ticket_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                        @endforeach
+                    </select>
+                    @if($errors->has('ticket'))
+                        <span class="text-danger">{{ $errors->first('ticket') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.eventRegistration.fields.ticket_helper') }}</span>
+                </div>
+              </div>
             </div>
             <div class="form-group">
-                <label class="required" for="ticket_id">{{ trans('cruds.eventRegistration.fields.ticket') }}</label>
-                <select class="form-control select2 {{ $errors->has('ticket') ? 'is-invalid' : '' }}" name="ticket_id" id="ticket_id" required>
-                    @foreach($tickets as $id => $entry)
-                        <option value="{{ $id }}" {{ old('ticket_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('ticket'))
-                    <span class="text-danger">{{ $errors->first('ticket') }}</span>
+                <label for="description">{{ trans('cruds.eventRegistration.fields.description') }}</label>
+                <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{!! old('description') !!}</textarea>
+                @if($errors->has('description'))
+                    <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.eventRegistration.fields.ticket_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.eventRegistration.fields.description_helper') }}</span>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                    <label for="amount_received">{{ trans('cruds.eventRegistration.fields.amount_received') }}</label>
+                    <input class="form-control {{ $errors->has('amount_received') ? 'is-invalid' : '' }}" type="number" name="amount_received" id="amount_received" value="{{ old('amount_received', '') }}" step="0.01">
+                    @if($errors->has('amount_received'))
+                        <span class="text-danger">{{ $errors->first('amount_received') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.eventRegistration.fields.amount_received_helper') }}</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                    <label class="required" for="transaction">{{ trans('cruds.eventRegistration.fields.transaction') }}</label>
+                    <input class="form-control {{ $errors->has('transaction') ? 'is-invalid' : '' }}" type="text" name="transaction" id="transaction" value="{{ old('transaction', '') }}" required readonly>
+                    @if($errors->has('transaction'))
+                        <span class="text-danger">{{ $errors->first('transaction') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.eventRegistration.fields.transaction_helper') }}</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                    <label class="required" for="unique_reg_no">{{ trans('cruds.eventRegistration.fields.unique_reg_no') }}</label>
+                    <input class="form-control {{ $errors->has('unique_reg_no') ? 'is-invalid' : '' }}" type="text" name="unique_reg_no" id="unique_reg_no" value="{{ old('unique_reg_no', '') }}" required readonly>
+                    @if($errors->has('unique_reg_no'))
+                        <span class="text-danger">{{ $errors->first('unique_reg_no') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.eventRegistration.fields.unique_reg_no_helper') }}</span>
+                </div>
+              </div>
             </div>
             <div class="form-group">
                 <label class="required">{{ trans('cruds.eventRegistration.fields.payment_mode') }}</label>
@@ -53,38 +106,6 @@
                     <span class="text-danger">{{ $errors->first('payment_mode') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.eventRegistration.fields.payment_mode_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="description">{{ trans('cruds.eventRegistration.fields.description') }}</label>
-                <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{!! old('description') !!}</textarea>
-                @if($errors->has('description'))
-                    <span class="text-danger">{{ $errors->first('description') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.eventRegistration.fields.description_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="amount_received">{{ trans('cruds.eventRegistration.fields.amount_received') }}</label>
-                <input class="form-control {{ $errors->has('amount_received') ? 'is-invalid' : '' }}" type="number" name="amount_received" id="amount_received" value="{{ old('amount_received', '') }}" step="0.01">
-                @if($errors->has('amount_received'))
-                    <span class="text-danger">{{ $errors->first('amount_received') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.eventRegistration.fields.amount_received_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="transaction">{{ trans('cruds.eventRegistration.fields.transaction') }}</label>
-                <input class="form-control {{ $errors->has('transaction') ? 'is-invalid' : '' }}" type="text" name="transaction" id="transaction" value="{{ old('transaction', '') }}" required>
-                @if($errors->has('transaction'))
-                    <span class="text-danger">{{ $errors->first('transaction') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.eventRegistration.fields.transaction_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="unique_reg_no">{{ trans('cruds.eventRegistration.fields.unique_reg_no') }}</label>
-                <input class="form-control {{ $errors->has('unique_reg_no') ? 'is-invalid' : '' }}" type="text" name="unique_reg_no" id="unique_reg_no" value="{{ old('unique_reg_no', '') }}" required>
-                @if($errors->has('unique_reg_no'))
-                    <span class="text-danger">{{ $errors->first('unique_reg_no') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.eventRegistration.fields.unique_reg_no_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
@@ -161,6 +182,33 @@
       }
     );
   }
+});
+</script>
+<script>
+	$('#event_id').change(function(){
+    var id = $(this).val();
+    var url = '{{ route("admin.event-registrations.getTickets", ":id") }}';
+    url = url.replace(':id', id);
+
+    $.ajax({
+        url: url,
+        type: 'get',
+        dataType: 'json',
+        success: function(response){
+            if(response != null){
+              if(response){
+                  $('#ticket_id').empty();
+                  $('#ticket_id').focus;
+                  $('#ticket_id').append('<option value=""> Select Ticket </option>'); 
+                  $.each(response, function(key, value){
+                    $('select[name="ticket_id"]').append('<option value="'+ value.id +'">' + value.ticket_name +' (Price: '+ value.ticket_price + ') (Available:' + value.available_tickets + ')</option>');
+                });
+              }else{
+                 $('#ticket_id').empty();
+              }
+            }
+        }
+    });
 });
 </script>
 

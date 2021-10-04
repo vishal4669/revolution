@@ -75,6 +75,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('event-registrations/media', 'EventRegistrationController@storeMedia')->name('event-registrations.storeMedia');
     Route::post('event-registrations/ckmedia', 'EventRegistrationController@storeCKEditorImages')->name('event-registrations.storeCKEditorImages');
     Route::resource('event-registrations', 'EventRegistrationController');
+    Route::get('event-registrations/getTickets/{id}', 'EventRegistrationController@getTickets')->name('event-registrations.getTickets');
 
     // Trainers
     Route::delete('trainers/destroy', 'App\Http\Controllers\TrainerController@massDestroy')->name('trainers.massDestroy');

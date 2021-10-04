@@ -7,7 +7,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("events.update", [$event->id]) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.events.update", [$event->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="form-group">
@@ -18,47 +18,53 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.event.fields.name_helper') }}</span>
             </div>
-            <div class="form-group">
-                <label for="event_images">{{ trans('cruds.event.fields.event_images') }}</label>
-                <div class="needsclick dropzone {{ $errors->has('event_images') ? 'is-invalid' : '' }}" id="event_images-dropzone">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label for="event_images">{{ trans('cruds.event.fields.event_images') }}</label>
+                    <div class="needsclick dropzone {{ $errors->has('event_images') ? 'is-invalid' : '' }}" id="event_images-dropzone">
+                    </div>
+                    @if($errors->has('event_images'))
+                        <span class="text-danger">{{ $errors->first('event_images') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.event.fields.event_images_helper') }}</span>
                 </div>
-                @if($errors->has('event_images'))
-                    <span class="text-danger">{{ $errors->first('event_images') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.event.fields.event_images_helper') }}</span>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label for="terms">{{ trans('cruds.event.fields.terms') }}</label>
+                    <textarea class="form-control ckeditor {{ $errors->has('terms') ? 'is-invalid' : '' }}" name="terms" id="terms">{!! old('terms', $event->terms) !!}</textarea>
+                    @if($errors->has('terms'))
+                        <span class="text-danger">{{ $errors->first('terms') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.event.fields.terms_helper') }}</span>
+                </div>               
+              </div>
             </div>
-            <div class="form-group">
-                <label for="description">{{ trans('cruds.event.fields.description') }}</label>
-                <textarea class="form-control ckeditor {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description" id="description">{!! old('description', $event->description) !!}</textarea>
-                @if($errors->has('description'))
-                    <span class="text-danger">{{ $errors->first('description') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.event.fields.description_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="last_booking_date">{{ trans('cruds.event.fields.last_booking_date') }}</label>
-                <input class="form-control date {{ $errors->has('last_booking_date') ? 'is-invalid' : '' }}" type="text" name="last_booking_date" id="last_booking_date" value="{{ old('last_booking_date', $event->last_booking_date) }}" required>
-                @if($errors->has('last_booking_date'))
-                    <span class="text-danger">{{ $errors->first('last_booking_date') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.event.fields.last_booking_date_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="event_start_day">{{ trans('cruds.event.fields.event_start_day') }}</label>
-                <input class="form-control date {{ $errors->has('event_start_day') ? 'is-invalid' : '' }}" type="text" name="event_start_day" id="event_start_day" value="{{ old('event_start_day', $event->event_start_day) }}">
-                @if($errors->has('event_start_day'))
-                    <span class="text-danger">{{ $errors->first('event_start_day') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.event.fields.event_start_day_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="terms">{{ trans('cruds.event.fields.terms') }}</label>
-                <textarea class="form-control ckeditor {{ $errors->has('terms') ? 'is-invalid' : '' }}" name="terms" id="terms">{!! old('terms', $event->terms) !!}</textarea>
-                @if($errors->has('terms'))
-                    <span class="text-danger">{{ $errors->first('terms') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.event.fields.terms_helper') }}</span>
-            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="required" for="last_booking_date">{{ trans('cruds.event.fields.last_booking_date') }}</label>
+                  <input class="form-control date {{ $errors->has('last_booking_date') ? 'is-invalid' : '' }}" type="text" name="last_booking_date" id="last_booking_date" value="{{ old('last_booking_date', $event->last_booking_date) }}" required>
+                  @if($errors->has('last_booking_date'))
+                      <span class="text-danger">{{ $errors->first('last_booking_date') }}</span>
+                  @endif
+                  <span class="help-block">{{ trans('cruds.event.fields.last_booking_date_helper') }}</span>
+                </div>
+              </div>
+              <div class="col-md-6">          
+                <div class="form-group">
+                    <label for="event_start_day">{{ trans('cruds.event.fields.event_start_day') }}</label>
+                    <input class="form-control date {{ $errors->has('event_start_day') ? 'is-invalid' : '' }}" type="text" name="event_start_day" id="event_start_day" value="{{ old('event_start_day', $event->event_start_day) }}">
+                    @if($errors->has('event_start_day'))
+                        <span class="text-danger">{{ $errors->first('event_start_day') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.event.fields.event_start_day_helper') }}</span>
+                </div>
+              </div>
+            </div> 
+            
+             
             <div class="form-group">
                 <label for="location">{{ trans('cruds.event.fields.location') }}</label>
                 <input class="form-control {{ $errors->has('location') ? 'is-invalid' : '' }}" type="text" name="location" id="location" value="{{ old('location', $event->location) }}">

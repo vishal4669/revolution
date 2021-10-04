@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateEventRegistrationRequest;
 use App\Models\Event;
 use App\Models\EventRegistration;
 use App\Models\Ticket;
+use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -22,9 +23,10 @@ class EventRegistrationController extends Controller
 
     public function index(Request $request)
     {
+        abort_if(Gate::denies('event_registration_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = EventRegistration::with(['event', 'ticket'])->select(sprintf('%s.*', (new EventRegistration())->table));
+            $query = EventRegistration::with(['event', 'ticket', 'user'])->select(sprintf('%s.*', (new EventRegistration())->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -36,7 +38,7 @@ class EventRegistrationController extends Controller
                 $deleteGate = 'event_registration_delete';
                 $crudRoutePart = 'event-registrations';
 
-                return view('admin.partials.datatablesActions', compact(
+                return view('partials.datatablesActions', compact(
                 'viewGate',
                 'editGate',
                 'deleteGate',
@@ -47,9 +49,6 @@ class EventRegistrationController extends Controller
 
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
-            });
-            $table->editColumn('name', function ($row) {
-                return $row->name ? $row->name : '';
             });
             $table->addColumn('event_name', function ($row) {
                 return $row->event ? $row->event->name : '';
@@ -74,16 +73,20 @@ class EventRegistrationController extends Controller
             $table->editColumn('unique_reg_no', function ($row) {
                 return $row->unique_reg_no ? $row->unique_reg_no : '';
             });
+            $table->addColumn('user_name', function ($row) {
+                return $row->user ? $row->user->name : '';
+            });
 
-            $table->rawColumns(['actions', 'placeholder', 'event', 'ticket']);
+            $table->rawColumns(['actions', 'placeholder', 'event', 'ticket', 'user']);
 
             return $table->make(true);
         }
 
         $events  = Event::get();
         $tickets = Ticket::get();
+        $users   = User::get();
 
-        return view('admin.eventRegistrations.index', compact('events', 'tickets'));
+        return view('admin.eventRegistrations.index', compact('events', 'tickets', 'users'));
     }
 
     public function create()
@@ -93,7 +96,9 @@ class EventRegistrationController extends Controller
 
         $tickets = Ticket::pluck('ticket_name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.eventRegistrations.create', compact('events', 'tickets'));
+        $users = User::get();
+
+        return view('admin.eventRegistrations.create', compact('users', 'events', 'tickets'));
     }
 
     public function store(StoreEventRegistrationRequest $request)
@@ -114,9 +119,11 @@ class EventRegistrationController extends Controller
 
         $tickets = Ticket::pluck('ticket_name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $eventRegistration->load('event', 'ticket');
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.eventRegistrations.edit', compact('events', 'tickets', 'eventRegistration'));
+        $eventRegistration->load('event', 'ticket', 'user');
+
+        return view('admin.eventRegistrations.edit', compact('events', 'tickets', 'users', 'eventRegistration'));
     }
 
     public function update(UpdateEventRegistrationRequest $request, EventRegistration $eventRegistration)
@@ -129,7 +136,7 @@ class EventRegistrationController extends Controller
     public function show(EventRegistration $eventRegistration)
     {
 
-        $eventRegistration->load('event', 'ticket');
+        $eventRegistration->load('event', 'ticket', 'user');
 
         return view('admin.eventRegistrations.show', compact('eventRegistration'));
     }
@@ -158,5 +165,18 @@ class EventRegistrationController extends Controller
         $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
+    }
+
+    public function getTickets($event_id)
+    {
+        if($event_id != ""){
+            // $available_tickets = Ticket::first();
+            // dd($available_tickets->available_tickets);
+            $tickets = Ticket::where("event_id", $event_id)
+            ->where("stop_booking", "=", 0)
+            ->get()
+            ->where("available_tickets", ">", 0);
+            return response()->json($tickets);
+        }
     }
 }

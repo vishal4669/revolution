@@ -30,7 +30,7 @@ class EventRegistration extends Model implements HasMedia
     ];
 
     protected $fillable = [
-        'name',
+        'user_id',
         'event_id',
         'ticket_id',
         'payment_mode',
@@ -59,6 +59,11 @@ class EventRegistration extends Model implements HasMedia
         return $this->belongsTo(Ticket::class, 'ticket_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('d-m-Y H:i:s');

@@ -7,7 +7,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("tickets.update", [$ticket->id]) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.tickets.update", [$ticket->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="form-group">
@@ -22,13 +22,37 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.ticket.fields.event_helper') }}</span>
             </div>
-            <div class="form-group">
-                <label class="required" for="ticket_name">{{ trans('cruds.ticket.fields.ticket_name') }}</label>
-                <input class="form-control {{ $errors->has('ticket_name') ? 'is-invalid' : '' }}" type="text" name="ticket_name" id="ticket_name" value="{{ old('ticket_name', $ticket->ticket_name) }}" required>
-                @if($errors->has('ticket_name'))
-                    <span class="text-danger">{{ $errors->first('ticket_name') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.ticket.fields.ticket_name_helper') }}</span>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                    <label class="required" for="ticket_name">{{ trans('cruds.ticket.fields.ticket_name') }}</label>
+                    <input class="form-control {{ $errors->has('ticket_name') ? 'is-invalid' : '' }}" type="text" name="ticket_name" id="ticket_name" value="{{ old('ticket_name', $ticket->ticket_name) }}" required>
+                    @if($errors->has('ticket_name'))
+                        <span class="text-danger">{{ $errors->first('ticket_name') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.ticket.fields.ticket_name_helper') }}</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                    <label class="required" for="ticket_price">{{ trans('cruds.ticket.fields.ticket_price') }}</label>
+                    <input class="form-control {{ $errors->has('ticket_price') ? 'is-invalid' : '' }}" type="number" name="ticket_price" id="ticket_price" value="{{ old('ticket_price', $ticket->ticket_price) }}" step="0.01" required>
+                    @if($errors->has('ticket_price'))
+                        <span class="text-danger">{{ $errors->first('ticket_price') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.ticket.fields.ticket_price_helper') }}</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                    <label class="required" for="max_entries">{{ trans('cruds.ticket.fields.max_entries') }}</label>
+                    <input class="form-control {{ $errors->has('max_entries') ? 'is-invalid' : '' }}" type="number" name="max_entries" id="max_entries" value="{{ old('max_entries', $ticket->max_entries) }}" step="1" required>
+                    @if($errors->has('max_entries'))
+                        <span class="text-danger">{{ $errors->first('max_entries') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.ticket.fields.max_entries_helper') }}</span>
+                </div>
+              </div>
             </div>
             <div class="form-group">
                 <label for="description">{{ trans('cruds.ticket.fields.description') }}</label>
@@ -37,22 +61,6 @@
                     <span class="text-danger">{{ $errors->first('description') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.ticket.fields.description_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="ticket_price">{{ trans('cruds.ticket.fields.ticket_price') }}</label>
-                <input class="form-control {{ $errors->has('ticket_price') ? 'is-invalid' : '' }}" type="number" name="ticket_price" id="ticket_price" value="{{ old('ticket_price', $ticket->ticket_price) }}" step="0.01" required>
-                @if($errors->has('ticket_price'))
-                    <span class="text-danger">{{ $errors->first('ticket_price') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.ticket.fields.ticket_price_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="max_entries">{{ trans('cruds.ticket.fields.max_entries') }}</label>
-                <input class="form-control {{ $errors->has('max_entries') ? 'is-invalid' : '' }}" type="number" name="max_entries" id="max_entries" value="{{ old('max_entries', $ticket->max_entries) }}" step="1" required>
-                @if($errors->has('max_entries'))
-                    <span class="text-danger">{{ $errors->first('max_entries') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.ticket.fields.max_entries_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="booked_tickets">{{ trans('cruds.ticket.fields.booked_tickets') }}</label>

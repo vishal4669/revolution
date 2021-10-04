@@ -17,12 +17,6 @@ class UpdateEventRegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
-                'string',
-                'min:3',
-                'max:255',
-                'required',
-            ],
             'event_id' => [
                 'required',
                 'integer',
@@ -41,7 +35,11 @@ class UpdateEventRegistrationRequest extends FormRequest
             'unique_reg_no' => [
                 'string',
                 'required',
-                'unique:event_registrations,unique_reg_no,' . request()->route('admin.event_registration')->id,
+                'unique:event_registrations,unique_reg_no,' . request()->route('event_registration')->id,
+            ],
+            'user_id' => [
+                'required',
+                'integer',
             ],
         ];
     }

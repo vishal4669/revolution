@@ -7,7 +7,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("tickets.store") }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.tickets.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label class="required" for="event_id">{{ trans('cruds.ticket.fields.event') }}</label>

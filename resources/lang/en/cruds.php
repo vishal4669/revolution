@@ -269,7 +269,7 @@ return [
             'deleted_at_helper'      => ' ',
             'description'            => 'Description',
             'description_helper'     => ' ',
-            'amount_received'        => 'Amount Received',
+            'amount_received'        => 'Ticket Price',
             'amount_received_helper' => ' ',
             'transaction'            => 'Transaction ID',
             'transaction_helper'     => ' ',

@@ -26,7 +26,7 @@ class User extends Authenticatable implements HasMedia
 
     public $table = 'users';
 
-    protected $appends = [
+    public $appends = [
         'image', 'full_name'
     ];
 

@@ -14,6 +14,10 @@ class Ticket extends Model implements HasMedia
     use InteractsWithMedia;
     use HasFactory;
 
+    public $appends = [
+        'available_tickets'
+    ];
+
     public const STOP_BOOKING_RADIO = [
         '0' => 'No',
         '1' => 'Yes',
@@ -54,5 +58,15 @@ class Ticket extends Model implements HasMedia
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('d-m-Y H:i:s');
+    }
+
+    public function getAvailableTicketsAttribute()
+    {
+        $booked_tickets = $this->attributes['booked_tickets'];
+        $max_entries = $this->attributes['max_entries'];
+
+        if($booked_tickets < $max_entries){
+            return $max_entries - $booked_tickets;
+        }
     }
 }
