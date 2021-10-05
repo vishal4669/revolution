@@ -7,7 +7,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("renting-trainers.store") }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.renting-trainers.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-md-6">
@@ -28,8 +28,9 @@
                     <div class="form-group">
                         <label class="required" for="user_id">{{ trans('cruds.rentingTrainer.fields.user') }}</label>
                         <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
-                            @foreach($users as $id => $entry)
-                                <option value="{{ $id }}" {{ old('user_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                            <option> Please select user </option>
+                            @foreach($users as $user)
+                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>{{ $user->full_name }}</option>
                             @endforeach
                         </select>
                         @if($errors->has('user'))
@@ -172,7 +173,7 @@
 
 <script type="text/javascript">
     $('#from_date').datetimepicker({
-    format: 'YYYY-MM-DD',
+    format: 'DD-MM-YYYY',
     defaultDate: new Date() ,
     locale: 'en',
     collapse:true,
@@ -234,7 +235,7 @@ function upd_months() {
 
 $('#trainer_id').change(function(){
     var id = $(this).val();
-    var url = '{{ route("renting-trainers.getTrainerDetails",":id") }}';
+    var url = '{{ route("admin.renting-trainers.getTrainerDetails",":id") }}';
     url = url.replace(":id",id);
 
     $.ajax({

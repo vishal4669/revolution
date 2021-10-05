@@ -140,32 +140,41 @@
                   <div class="sidebar-contant">
                     <ul>
                     @auth
-                      @foreach($tickets as $ticket)
-                      <li>
-                        <div> 
-                          <span> 
-                            <label for="register">{{ $ticket->ticket_name }} - Rs.{{ $ticket->ticket_price }}</label>
-                              <form action="{{ route('razorpay.payment.store') }}" method="POST" >
-                                  @csrf
-                                  <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                          data-key="{{ env('RAZORPAY_KEY') }}"
-                                          data-amount="{{ ($ticket->ticket_price*100) }}"
-                                          data-buttontext="Buy Now"
-                                          data-name="RevolutionBikeCafe.com"
-                                          data-description="{{ $event_info->name }}_{{ $ticket->ticket_name }}"
-                                          data-image=""
-                                          data-prefill.name="name"
-                                          data-prefill.email="email"
-                                          data-theme.color="#ff7529"
-                                          data-class="btn btn-info">
-                                  </script>
-                              </form>
-                          </span>
-                        </div>
-                      </li>
-                      @endforeach
+                      @if(count($tickets) == 0)
+                        <li>Tickets not available at this time...</li>
+                      @elseif(count($is_registered) == 1)
+                        <li>You have already registered for this event</li>
+                      @else
+                        @foreach($tickets as $ticket)
+                        <li>
+                          <div> 
+                            <span> 
+                              <label for="register">{{ $ticket->ticket_name }} - Rs.{{ $ticket->ticket_price }}</label>
+                                <form action="{{ route('razorpay.payment.store') }}" method="POST" >
+                                    @csrf
+                                    <script src="https://checkout.razorpay.com/v1/checkout.js"
+                                            data-key="{{ env('RAZORPAY_KEY') }}"
+                                            data-amount="{{ $ticket->ticket_price*100 }}"
+                                            data-buttontext="Buy Now"
+                                            data-name="Revolution Bike Cafe"
+                                            data-description="{{ $ticket->event->name }} - {{ $ticket->ticket_name }}"
+                                            data-notes.registration_type_id="{{ $ticket->event_id }}"
+                                            data-notes.ticket_id="{{ $ticket->id }}"
+                                            data-notes.registration_type="Event"
+                                            data-image="{{url('frontend/images/Logorevolutionbikecafe.png')}}"
+                                            data-prefill.name="name"
+                                            data-prefill.email="email"
+                                            data-theme.color="#ff7529"
+                                            data-class="btn btn-info">
+                                    </script>
+                                </form>
+                            </span>
+                          </div>
+                        </li>
+                        @endforeach
+                      @endif
                     @else
-                      Login/Register to buy tickets
+                      <li>Login/Register to buy tickets</li>
                     @endauth
                     </ul>
 
@@ -187,7 +196,14 @@
                       <li>
                         <div> 
                           <span>
-                            <label for="time">Time: 07:00 PM</span></label>
+                            <label for="time">Reporting Time: {{ $event_info->reporting_time }}</span></label>
+                          </span>
+                        </div>
+                      </li>
+                      <li>
+                        <div> 
+                          <span>
+                            <label for="time">Start Time: {{ $event_info->start_time }}</span></label>
                           </span>
                         </div>
                       </li>
@@ -226,8 +242,8 @@
                       <ul>
                         @foreach($upcoming_events as $upcoming_event)
                           <li>
-                            <div class="pro-media"> <a href="javascript:void(0)"><img alt="{{ $upcoming_event->name }}" src="{{ $upcoming_event->event_images[0]->url }}"></a> </div>
-                            <div class="pro-detail-info"> <a href="javascript:void(0)">{{ $upcoming_event->name }}</a>
+                            <div class="pro-media"> <a href="{{ route('event-info', $upcoming_event->id) }}"><img alt="{{ $upcoming_event->name }}" src="{{ $upcoming_event->event_images[0]->url }}"></a> </div>
+                            <div class="pro-detail-info"> <a href="{{ route('event-info', $upcoming_event->id) }}">{{ $upcoming_event->name }}</a>
                               <div class="post-info">{{ $upcoming_event->event_start_day }}</div>
                             </div>
                           </li>

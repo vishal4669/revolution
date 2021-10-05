@@ -70,7 +70,7 @@
               return new Promise(function(resolve, reject) {
                 // Init request
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', '{{ route('admin.admin.admin.trainer-expenses.storeCKEditorImages') }}', true);
+                xhr.open('POST', '{{ route('admin.trainer-expenses.storeCKEditorImages') }}', true);
                 xhr.setRequestHeader('x-csrf-token', window._token);
                 xhr.setRequestHeader('Accept', 'application/json');
                 xhr.responseType = 'json';

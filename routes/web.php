@@ -13,8 +13,8 @@ Route::get('/trainer-detail/{id}', 'Frontend\FrontController@getTrainerDetails')
 Route::get('invoice', 'Frontend\FrontController@loadInvoice')->name('invoice');
 Route::get('training', 'Frontend\FrontController@loadTraining')->name('training');
 Route::get('/offroad', 'Frontend\FrontController@getOffroadPage')->name('offroad');
-Route::get('allevents', 'Frontend\FrontController@loadEvents')->name('allevents');
-Route::get('event-info/{id}', 'Frontend\FrontController@loadEventInfo')->name('event-info');
+Route::get('allevents', 'Frontend\EventController@loadEvents')->name('allevents');
+Route::get('event-info/{id}', 'Frontend\EventController@loadEventInfo')->name('event-info');
 Route::get('/shop', 'Frontend\FrontController@getShopPage')->name('shop');
 Route::get('/contact', 'Frontend\FrontController@getContactUsPage')->name('contact');
 Route::get('/package', 'Frontend\FrontController@getPackagesPage')->name('package');
@@ -80,15 +80,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('event-registrations/getTicketPrice/{id}', 'EventRegistrationController@getTicketPrice')->name('event-registrations.getTicketPrice');
 
     // Trainers
-    Route::delete('trainers/destroy', 'App\Http\Controllers\TrainerController@massDestroy')->name('trainers.massDestroy');
-    Route::post('trainers/media', 'App\Http\Controllers\TrainerController@storeMedia')->name('trainers.storeMedia');
-    Route::post('trainers/ckmedia', 'App\Http\Controllers\TrainerController@storeCKEditorImages')->name('trainers.storeCKEditorImages');
-    Route::resource('trainers', TrainerController::class);
+    Route::delete('trainers/destroy', 'TrainerController@massDestroy')->name('trainers.massDestroy');
+    Route::post('trainers/media', 'TrainerController@storeMedia')->name('trainers.storeMedia');
+    Route::post('trainers/ckmedia', 'TrainerController@storeCKEditorImages')->name('trainers.storeCKEditorImages');
+    Route::resource('trainers', 'TrainerController');
     Route::post('trainers/addReview/{id}', 'App\Http\Controllers\TrainerController@addReview')->name('trainers.addReview');
 
     // Renting Trainer
     Route::delete('renting-trainers/destroy', 'RentingTrainerController@massDestroy')->name('renting-trainers.massDestroy');
     Route::resource('renting-trainers', 'RentingTrainerController');
+    Route::get('renting-trainers/getTrainerDetails/{id}', 'RentingTrainerController@getTrainerDetails')->name('renting-trainers.getTrainerDetails');
 
     // Trainer Expenses
     Route::delete('trainer-expenses/destroy', 'TrainerExpensesController@massDestroy')->name('trainer-expenses.massDestroy');

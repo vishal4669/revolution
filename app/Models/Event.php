@@ -6,18 +6,20 @@ use \DateTimeInterface;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Event extends Model implements HasMedia
 {
+    use SoftDeletes;
     use InteractsWithMedia;
     use HasFactory;
 
     public const IS_ACTIVE_RADIO = [
+        '0' => 'No',
         '1' => 'Yes',
-        '2' => 'No',
     ];
 
     public const IS_CANCELLED_RADIO = [
@@ -26,9 +28,9 @@ class Event extends Model implements HasMedia
     ];
 
     public const EVENT_TYPE_RADIO = [
-        '1' => 'Outdoor Ride',
-        '2' => 'Indoor Ride (Trainer)',
-        '3' => 'Others',
+        '0' => 'Outdoor Ride',
+        '1' => 'Indoor Ride (Trainer)',
+        '2' => 'Others',
     ];
 
     public $table = 'events';
@@ -53,8 +55,11 @@ class Event extends Model implements HasMedia
         'terms',
         'location',
         'event_type',
-        'is_cancelled',
+        'reporting_time',
+        'start_time',
+        'end_time',
         'is_active',
+        'is_cancelled',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -100,6 +105,6 @@ class Event extends Model implements HasMedia
 
     protected function serializeDate(DateTimeInterface $date)
     {
-        return $date->format('d-m-Y H:i:s');
+        return $date->format('Y-m-d H:i:s');
     }
 }

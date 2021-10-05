@@ -7,32 +7,38 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("renting-trainers.update", [$rentingTrainer->id]) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.renting-trainers.update", [$rentingTrainer->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
-            <div class="form-group">
-                <label class="required" for="trainer_id">{{ trans('cruds.rentingTrainer.fields.trainer') }}</label>
-                <select class="form-control select2 {{ $errors->has('trainer') ? 'is-invalid' : '' }}" name="trainer_id" id="trainer_id" required>
-                    @foreach($trainers as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('trainer_id') ? old('trainer_id') : $rentingTrainer->trainer->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('trainer'))
-                    <span class="text-danger">{{ $errors->first('trainer') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.rentingTrainer.fields.trainer_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="user_id">{{ trans('cruds.rentingTrainer.fields.user') }}</label>
-                <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
-                    @foreach($users as $id => $entry)
-                        <option value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $rentingTrainer->user->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('user'))
-                    <span class="text-danger">{{ $errors->first('user') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.rentingTrainer.fields.user_helper') }}</span>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="required" for="trainer_id">{{ trans('cruds.rentingTrainer.fields.trainer') }}</label>
+                        <select class="form-control select2 {{ $errors->has('trainer') ? 'is-invalid' : '' }}" name="trainer_id" id="trainer_id" required>
+                            @foreach($trainers as $id => $entry)
+                                <option value="{{ $id }}" {{ (old('trainer_id') ? old('trainer_id') : $rentingTrainer->trainer->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('trainer'))
+                            <span class="text-danger">{{ $errors->first('trainer') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.rentingTrainer.fields.trainer_helper') }}</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="required" for="user_id">{{ trans('cruds.rentingTrainer.fields.user') }}</label>
+                        <select class="form-control select2 {{ $errors->has('user') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
+                            @foreach($users as $id => $entry)
+                                <option value="{{ $id }}" {{ (old('user_id') ? old('user_id') : $rentingTrainer->user->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('user'))
+                            <span class="text-danger">{{ $errors->first('user') }}</span>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.rentingTrainer.fields.user_helper') }}</span>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label class="required">{{ trans('cruds.rentingTrainer.fields.booking_type') }}</label>

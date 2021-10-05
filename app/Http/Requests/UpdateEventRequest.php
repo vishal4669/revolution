@@ -23,6 +23,9 @@ class UpdateEventRequest extends FormRequest
                 'max:255',
                 'required',
             ],
+            'event_images' => [
+                'array',
+            ],
             'last_booking_date' => [
                 'required',
                 'date_format:' . config('panel.date_format'),
@@ -37,6 +40,18 @@ class UpdateEventRequest extends FormRequest
             ],
             'event_type' => [
                 'required',
+            ],
+            'reporting_time' => [
+                'required',
+                'date_format:' . config('panel.time_format'),
+            ],
+            'start_time' => [
+                'required',
+                'date_format:' . config('panel.time_format'),
+            ],
+            'end_time' => [
+                'date_format:' . config('panel.time_format'),
+                'nullable',
             ],
         ];
     }

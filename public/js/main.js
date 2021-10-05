@@ -31,7 +31,8 @@ $(document).ready(function () {
   $('.datepicker').datepicker();
 
   $('.timepicker').datetimepicker({
-    format: 'HH:mm:ss',
+    format: 'HH:mm',
+    stepping: 15,
     icons: {
       up: 'fas fa-chevron-up',
       down: 'fas fa-chevron-down',

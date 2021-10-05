@@ -17,11 +17,8 @@
             <table class=" table table-bordered table-striped table-hover datatable datatable-Testimonial">
                 <thead>
                     <tr>
-                        <th width="10">
-
-                        </th>
                         <th>
-                            {{ trans('cruds.testimonial.fields.id') }}
+                            Sr. No.
                         </th>
                         <th>
                             {{ trans('cruds.testimonial.fields.user') }}
@@ -42,15 +39,12 @@
                 </thead>
                 <tbody>
                     @foreach($testimonials as $key => $testimonial)
-                        <tr data-entry-id="{{ $testimonial->id }}">
+                        <tr data-entry-id="{{ $testimonial->id }}"> 
                             <td>
-
+                                {{ $loop->iteration }}
                             </td>
                             <td>
-                                {{ $testimonial->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $testimonial->user->name ?? '' }}
+                                {{ $testimonial->user->full_name ?? '' }}
                             </td>
                             <td>
                                 {{ $testimonial->testimonial ?? '' }}

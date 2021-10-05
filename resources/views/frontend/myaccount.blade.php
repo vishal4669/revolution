@@ -31,8 +31,10 @@
                   <ul class="account-tab-stap">
                     <li id="step1" class="active"> <a href="javascript:void(0)">My Dashboard<i class="fa fa-angle-right"></i> </a> </li>
                     <li id="step2"> <a href="javascript:void(0)">Account Details<i class="fa fa-angle-right"></i> </a> </li>
-                    <li id="step3"> <a href="javascript:void(0)">My Order List<i class="fa fa-angle-right"></i> </a> </li>
-                    <li id="step4"> <a href="javascript:void(0)">Change Password<i class="fa fa-angle-right"></i> </a> </li>
+                    <li id="step3"> <a href="javascript:void(0)">My Packages<i class="fa fa-angle-right"></i> </a> </li>
+                    <li id="step4"> <a href="javascript:void(0)">My Events<i class="fa fa-angle-right"></i> </a> </li>
+                    <li id="step5"> <a href="javascript:void(0)">My Rentals<i class="fa fa-angle-right"></i> </a> </li>
+                    <li id="step6"> <a href="javascript:void(0)">Change Password<i class="fa fa-angle-right"></i> </a> </li>
                   </ul>
                 </div>
               </div>
@@ -52,7 +54,6 @@
                       <div class="heading-part">
                         <h3 class="sub-heading">Hello, {{ $user->full_name }}</h3>
                       </div>
-                      <p>Lorem ipsum dolor sit amet, consec adipiscing elit. Donec eros tellus, nec consec elit. Donec eros tellus laoreet sit amet.<a class="account-link" id="subscribelink" href="javascript:void(0)">Click Here</a></p>
                     </div>
                   </div>
                 </div>
@@ -283,7 +284,7 @@
                   <div class="row">
                     <div class="col-12">
                       <div class="heading-part heading-bg mb-30">
-                        <h2 class="heading m-0">My Orders</h2>
+                        <h2 class="heading m-0">My Packages</h2>
                       </div>
                     </div>
                   </div>
@@ -294,72 +295,57 @@
                           <table class="table">
                             <thead>
                               <tr>
-                                <th colspan="4"> 
-                                  <ul>
-                                    <li><span>Order placed</span> <span>17 December 2016</span></li>
-                                    <li class="price-box"><span>Total</span> <span class="price">$160.00</span></li>
-                                    <li><span>Order No.</span> <span>#011052</span></li>
-                                  </ul>
+                                <th>
+                                  Sr. No.
+                                </th>
+                                <th>
+                                  Package Name
+                                </th>
+                                <th>
+                                  Price
+                                </th>
+                                <th>
+                                  Wallet Hours
+                                </th>
+                                <th>
+                                  Start Date
+                                </th>
+                                <th>
+                                  Expiry Date
                                 </th>
                               </tr>
                             </thead>
                             <tbody>
+                              @if(count($packages) > 0)
+                              @foreach($packages as $package)
+                                <tr>
+                                  <td>
+                                    {{ $loop->iteration }}
+                                  </td>
+                                  <td>
+                                    {{ $package->package->package_name }}
+                                  </td>
+                                  <td>
+                                    <div class="base-price price-box"> 
+                                      <span class="price">Rs.{{ $package->amount_received }}</span> 
+                                    </div>
+                                  </td>
+                                  <td>
+                                    {{ $package->package->total_hours }} hrs
+                                  </td>
+                                  <td>
+                                    {{ date('d-m-Y', strtotime($package->created_at)); }}
+                                  </td>
+                                  <td>
+                                  {{ date('d-m-Y', strtotime($package->created_at->addYear())); }}
+                                  </td>
+                                </tr>
+                              @endforeach
+                              @else
                               <tr>
-                                <td>
-                                  <a href="product-page.html">
-                                    <div class="product-image">
-                                      <img alt="Roadie" src="images/1.jpg">
-                                    </div>
-                                  </a>
-                                </td>
-                                <td>
-                                  <div class="product-title"> 
-                                    <a href="product-page.html">Cross Colours Camo Print Tank half mengo</a> 
-                                  </div>
-                                  <div class="product-info-stock-sku m-0">
-                                    <div>
-                                      <label>Quantity: </label>
-                                      <span class="info-deta">1</span> 
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="base-price price-box"> 
-                                    <span class="price">$520.00</span> 
-                                  </div>
-                                </td>
-                                <td>
-                                  <i title="Remove Item From Cart" data-id="100" class="fa fa-trash cart-remove-item"></i>
-                                </td>
+                                <td colspan="6">You have not subscribed to any packages.</td>
                               </tr>
-                              <tr>
-                                <td>
-                                  <a href="product-page.html">
-                                    <div class="product-image">
-                                      <img alt="Roadie" src="images/2.jpg">
-                                    </div>
-                                  </a>
-                                </td>
-                                <td>
-                                  <div class="product-title"> 
-                                    <a href="product-page.html">Defyant Reversible Dot Shorts</a> 
-                                  </div>
-                                  <div class="product-info-stock-sku m-0">
-                                    <div>
-                                      <label>Quantity: </label>
-                                      <span class="info-deta">1</span> 
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="base-price price-box"> 
-                                    <span class="price">$520.00</span> 
-                                  </div>
-                                </td>
-                                <td>
-                                  <i title="Remove Item From Cart" data-id="100" class="fa fa-trash cart-remove-item"></i>
-                                </td>
-                              </tr>
+                              @endif
                             </tbody>
                           </table>
                         </div>
@@ -367,13 +353,14 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                   <div class="col-12">
                     <div class="print-btn text-center mt-30">
-                      <button onclick="printDiv('form-print')" class="btn btn-color" type="button">Print</button>
+                      <button onclick="printDiv('form-print')" class="btn btn-color" type="button">Print Invoice</button>
                     </div>
                   </div>
-               </div>
+               </div> -->
+
               </div>
               <div id="data-step4" class="account-content" data-temp="tabdata" style="display:none">
                 <div class="row">

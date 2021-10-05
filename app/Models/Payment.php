@@ -9,9 +9,12 @@ use \DateTimeInterface;
 class Payment extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'razorpay_id', 
         'user_id',
+        'registration_type',
+        'registration_type_id',
         'amount',
         'email',
         'contact',

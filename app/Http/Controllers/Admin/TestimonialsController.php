@@ -29,7 +29,7 @@ class TestimonialsController extends Controller
     public function create()
     {
 
-        $users = User::pluck('username', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $users = User::all();
 
         return view('admin.testimonials.create', compact('users'));
     }
@@ -46,7 +46,7 @@ class TestimonialsController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $testimonial->id]);
         }
 
-        return redirect()->route('testimonials.index');
+        return redirect()->route('admin.testimonials.index');
     }
 
     public function edit(Testimonial $testimonial)
@@ -74,7 +74,7 @@ class TestimonialsController extends Controller
             $testimonial->user_photo->delete();
         }
 
-        return redirect()->route('testimonials.index');
+        return redirect()->route('admin.testimonials.index');
     }
 
     public function show(Testimonial $testimonial)

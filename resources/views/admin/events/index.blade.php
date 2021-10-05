@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 @section('content')
+@can('event_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route('admin.events.create') }}">
@@ -7,104 +8,61 @@
             </a>
         </div>
     </div>
+@endcan
 <div class="card">
     <div class="card-header">
         {{ trans('cruds.event.title_singular') }} {{ trans('global.list') }}
     </div>
 
     <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Event">
-                <thead>
-                    <tr>
-                        <th>
-                            Actions
-                        </th>
-                        <th>
-                            Sr.No.
-                        </th>
-                        <th>
-                            {{ trans('cruds.event.fields.name') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.event.fields.event_images') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.event.fields.last_booking_date') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.event.fields.event_start_day') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.event.fields.location') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.event.fields.event_type') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.event.fields.is_cancelled') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.event.fields.is_active') }}
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($events as $key => $event)
-                        <tr data-entry-id="{{ $event->id }}">
-                            <td>
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.events.show', $event->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
+        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Event">
+            <thead>
+                <tr>
+                    <th width="10">
 
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.events.edit', $event->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-
-                                    <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-
-                            </td>
-                            <td>
-                                {{ $loop->iteration }}
-                            </td>
-                            <td>
-                                {{ $event->name ?? '' }}
-                            </td>
-                            <td>
-                                @foreach($event->event_images as $key => $media)
-                                    <a href="{{ $media->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $media->getUrl('thumb') }}">
-                                    </a>
-                                @endforeach
-                            </td>
-                            <td>
-                                {{ $event->last_booking_date ?? '' }}
-                            </td>
-                            <td>
-                                {{ $event->event_start_day ?? '' }}
-                            </td>
-                            <td>
-                                {{ $event->location ?? '' }}
-                            </td>
-                            <td>
-                                {{ App\Models\Event::EVENT_TYPE_RADIO[$event->event_type] ?? '' }}
-                            </td>
-                            <td>
-                                {{ App\Models\Event::IS_CANCELLED_RADIO[$event->is_cancelled] ?? '' }}
-                            </td>
-                            <td>
-                                {{ App\Models\Event::IS_ACTIVE_RADIO[$event->is_active] ?? '' }}
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </th>
+                    <th>
+                        {{ trans('cruds.event.fields.id') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.event.fields.name') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.event.fields.event_images') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.event.fields.last_booking_date') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.event.fields.event_start_day') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.event.fields.location') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.event.fields.event_type') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.event.fields.reporting_time') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.event.fields.start_time') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.event.fields.end_time') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.event.fields.is_active') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.event.fields.is_cancelled') }}
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
@@ -116,19 +74,70 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+@can('event_delete')
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
+  let deleteButton = {
+    text: deleteButtonTrans,
+    url: "{{ route('admin.events.massDestroy') }}",
+    className: 'btn-danger',
+    action: function (e, dt, node, config) {
+      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
+          return entry.id
+      });
 
-  $.extend(true, $.fn.dataTable.defaults, {
+      if (ids.length === 0) {
+        alert('{{ trans('global.datatables.zero_selected') }}')
+
+        return
+      }
+
+      if (confirm('{{ trans('global.areYouSure') }}')) {
+        $.ajax({
+          headers: {'x-csrf-token': _token},
+          method: 'POST',
+          url: config.url,
+          data: { ids: ids, _method: 'DELETE' }})
+          .done(function () { location.reload() })
+      }
+    }
+  }
+  dtButtons.push(deleteButton)
+@endcan
+
+  let dtOverrideGlobals = {
+    buttons: dtButtons,
+    processing: true,
+    serverSide: true,
+    retrieve: true,
+    aaSorting: [],
+    ajax: "{{ route('admin.events.index') }}",
+    columns: [
+      { data: 'placeholder', name: 'placeholder' },
+{ data: 'id', name: 'id' },
+{ data: 'name', name: 'name' },
+{ data: 'event_images', name: 'event_images', sortable: false, searchable: false },
+{ data: 'last_booking_date', name: 'last_booking_date' },
+{ data: 'event_start_day', name: 'event_start_day' },
+{ data: 'location', name: 'location' },
+{ data: 'event_type', name: 'event_type' },
+{ data: 'reporting_time', name: 'reporting_time' },
+{ data: 'start_time', name: 'start_time' },
+{ data: 'end_time', name: 'end_time' },
+{ data: 'is_active', name: 'is_active' },
+{ data: 'is_cancelled', name: 'is_cancelled' },
+{ data: 'actions', name: '{{ trans('global.actions') }}' }
+    ],
     orderCellsTop: true,
-    order: [[ 2, 'asc' ]],
+    order: [[ 1, 'desc' ]],
     pageLength: 10,
-  });
-  let table = $('.datatable-Event:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  };
+  let table = $('.datatable-Event').DataTable(dtOverrideGlobals);
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
-})
+});
 
 </script>
 @endsection

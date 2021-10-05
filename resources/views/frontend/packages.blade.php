@@ -117,6 +117,8 @@
                                           data-buttontext="Buy Now"
                                           data-name="RevolutionBikeCafe.com"
                                           data-description="Package_{{ $packagecafe->id }}"
+                                          data-notes.registration_type_id="{{ $packagecafe->id }}"
+                                          data-notes.registration_type="Package"
                                           data-image=""
                                           data-prefill.name="name"
                                           data-prefill.email="email"

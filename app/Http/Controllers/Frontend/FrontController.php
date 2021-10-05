@@ -11,6 +11,7 @@ use App\Models\TrainerCafeBooking;
 use App\Models\RentingCycle;
 use App\Models\Payment;
 use App\Models\RentingTrainer;
+use App\Models\PackageRegistration;
 use App\Models\User;
 use App\Models\Cycle;
 use App\Models\Trainer;
@@ -186,7 +187,10 @@ class FrontController
     public function myAccount ()
     {
         $user = Auth::user();
-        return view('frontend.myaccount', compact('user'));
+
+        $packages = PackageRegistration::with('package')->where('user_id', auth()->user()->id)->get();
+
+        return view('frontend.myaccount', compact('user', 'packages'));
     }
 
     public function loadContact ()
@@ -196,27 +200,6 @@ class FrontController
 
     public function loadTraining(){
         return view('frontend.training');
-    }
-
-    public function loadEvents()
-    {
-        $events = Event::all();
-
-        return view('frontend.events', compact('events'));
-    }
-
-    public function loadEventInfo($id)
-    {
-        if($id != null){
-            $event_info = Event::where('id', $id)->firstOrFail();
-            $upcoming_events = Event::where('id','<>', $id)->limit(3)->get();
-            $tickets = Ticket::where('event_id', $id)
-                        ->where('stop_booking', 0)
-                        ->get()
-                        ->where('available_tickets', '>', 0);
-        }
-
-        return view('frontend.event-info', compact('event_info', 'upcoming_events', 'tickets'));
     }
 
     public function bookTrainerCafe(){

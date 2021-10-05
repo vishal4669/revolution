@@ -30,7 +30,7 @@ class RentingTrainerController extends Controller
                 $viewGate = 'renting_trainer_show';
                 $editGate = 'renting_trainer_edit';
                 $deleteGate = 'renting_trainer_delete';
-                $crudRoutePart = 'renting-trainers';
+                $crudRoutePart = 'admin.renting-trainers';
 
                 return view('admin.partials.datatablesActions', compact(
                 'viewGate',
@@ -94,7 +94,7 @@ class RentingTrainerController extends Controller
 
         $trainers = Trainer::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $users = User::pluck('username', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $users = User::all();
 
         return view('admin.rentingTrainers.create', compact('trainers', 'users'));
     }

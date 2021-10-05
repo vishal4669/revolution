@@ -93,10 +93,26 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.event.fields.is_cancelled') }}
+                            {{ trans('cruds.event.fields.reporting_time') }}
                         </th>
                         <td>
-                            {{ App\Models\Event::IS_CANCELLED_RADIO[$event->is_cancelled] ?? '' }}
+                            {{ $event->reporting_time }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.event.fields.start_time') }}
+                        </th>
+                        <td>
+                            {{ $event->start_time }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.event.fields.end_time') }}
+                        </th>
+                        <td>
+                            {{ $event->end_time }}
                         </td>
                     </tr>
                     <tr>
@@ -105,6 +121,14 @@
                         </th>
                         <td>
                             {{ App\Models\Event::IS_ACTIVE_RADIO[$event->is_active] ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.event.fields.is_cancelled') }}
+                        </th>
+                        <td>
+                            {{ App\Models\Event::IS_CANCELLED_RADIO[$event->is_cancelled] ?? '' }}
                         </td>
                     </tr>
                 </tbody>

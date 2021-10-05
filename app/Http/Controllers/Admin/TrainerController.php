@@ -32,7 +32,7 @@ class TrainerController extends Controller
                 $viewGate = 'trainer_show';
                 $editGate = 'trainer_edit';
                 $deleteGate = 'trainer_delete';
-                $crudRoutePart = 'trainers';
+                $crudRoutePart = 'admin.trainers';
 
                 return view('admin.partials.datatablesActions', compact(
                 'viewGate',
@@ -98,6 +98,7 @@ class TrainerController extends Controller
 
     public function store(StoreTrainerRequest $request)
     {
+        dd("hi");
         $trainer = Trainer::create($request->all());
 
         foreach ($request->input('photo', []) as $file) {

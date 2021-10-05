@@ -63,6 +63,39 @@
                 </div>
               </div>
             </div> 
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                    <label class="required" for="reporting_time">{{ trans('cruds.event.fields.reporting_time') }}</label>
+                    <input class="form-control timepicker {{ $errors->has('reporting_time') ? 'is-invalid' : '' }}" type="text" name="reporting_time" id="reporting_time" value="{{ old('reporting_time', $event->reporting_time) }}" required>
+                    @if($errors->has('reporting_time'))
+                        <span class="text-danger">{{ $errors->first('reporting_time') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.event.fields.reporting_time_helper') }}</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                    <label class="required" for="start_time">{{ trans('cruds.event.fields.start_time') }}</label>
+                    <input class="form-control timepicker {{ $errors->has('start_time') ? 'is-invalid' : '' }}" type="text" name="start_time" id="start_time" value="{{ old('start_time', $event->start_time) }}" required>
+                    @if($errors->has('start_time'))
+                        <span class="text-danger">{{ $errors->first('start_time') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.event.fields.start_time_helper') }}</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                    <label for="end_time">{{ trans('cruds.event.fields.end_time') }}</label>
+                    <input class="form-control timepicker {{ $errors->has('end_time') ? 'is-invalid' : '' }}" type="text" name="end_time" id="end_time" value="{{ old('end_time', $event->end_time) }}">
+                    @if($errors->has('end_time'))
+                        <span class="text-danger">{{ $errors->first('end_time') }}</span>
+                    @endif
+                    <span class="help-block">{{ trans('cruds.event.fields.end_time_helper') }}</span>
+                </div>
+              </div>
+            </div>
             
              
             <div class="form-group">

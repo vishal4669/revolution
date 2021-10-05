@@ -33,7 +33,7 @@ class TrainerExpensesController extends Controller
                 $viewGate = 'trainer_expense_show';
                 $editGate = 'trainer_expense_edit';
                 $deleteGate = 'trainer_expense_delete';
-                $crudRoutePart = 'trainer-expenses';
+                $crudRoutePart = 'admin.trainer-expenses';
 
                 return view('admin.partials.datatablesActions', compact(
                 'viewGate',

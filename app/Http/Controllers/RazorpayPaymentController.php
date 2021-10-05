@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 use App\Models\Payment;
+use App\Models\Ticket;
+use App\Models\EventRegistration;
 use Session;
 use Exception;
+use App\Helpers\PaymentHelper;
   
 class RazorpayPaymentController extends Controller
 {
@@ -29,6 +32,7 @@ class RazorpayPaymentController extends Controller
     {
 
         //dd($request->all());
+
         $input = $request->all();
   
         $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
@@ -37,18 +41,9 @@ class RazorpayPaymentController extends Controller
   
         if(count($input)  && !empty($input['razorpay_payment_id'])) {
             try {
-                $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount']));
-                $razorpay = new Payment();
-                $razorpay->razorpay_id = $payment->id;
-                $razorpay->user_id = auth()->user()->id;
-                $razorpay->amount = $payment->amount;
-                $razorpay->email = $payment->email;
-                $razorpay->contact = $payment->contact;
-                $razorpay->status = $payment->status;
-                $razorpay->description = $payment->description;
-                $razorpay->method = $payment->method;
-                $razorpay->created_at = $payment->created_at;
-                $razorpay->save();
+                $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount'=>$payment['amount']));              
+                
+                PaymentHelper::save_payment($payment);                
   
             } catch (Exception $e) {
                 return  $e->getMessage();
@@ -57,7 +52,7 @@ class RazorpayPaymentController extends Controller
             }
         }
           
-        Session::put('success', 'Payment successful');
+        Session::flash('success', 'Payment successful');
         return redirect()->back();
     }
 }

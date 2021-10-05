@@ -17,7 +17,7 @@ class EventRegistration extends Model implements HasMedia
     public const PAYMENT_MODE_RADIO = [
         '1' => 'Cash',
         '2' => 'Online',
-        '3' => 'Credit Card',
+        '3' => 'Card',
         '4' => 'Wallet',
     ];
 
