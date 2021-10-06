@@ -202,50 +202,6 @@ class FrontController
         return view('frontend.training');
     }
 
-    public function bookTrainerCafe(){
-        $user = Auth::user();
-        $username = $user->full_name;
-        $wallet_hrs = $user->wallet_hrs;
-
-        $wallet_seconds = $wallet_hrs * 60;
-
-        $wallet_hrs = Helper::convert_seconds_to_time($wallet_seconds);
-
-        $userPackages = UserHasPackagesCafe::join('package_trainer_cafes', 'package_trainer_cafes.id', '=', 'user_has_packages_cafe.package_trainer_cafes_id')->where('users_id', $user->id)
-                        ->select(['package_trainer_cafes.package_name','user_has_packages_cafe.total_price', 'user_has_packages_cafe.validity as validity_total' , DB::raw('SUM(user_has_packages_cafe.total_price) as total_price_total'), DB::raw('MAX(user_has_packages_cafe.expired_on) as expired_latest')])
-                        ->where('expired_on', '>', now())
-                        ->groupBy('package_trainer_cafes_id')
-                        ->get();
-
-        $userBookings = TrainerCafeBooking::with('trainer')
-                            ->where('users_id', $user->id)
-                            ->orderBy('id', 'desc')
-                            ->get();                        
-
-        $route_name =  Route::currentRouteName();
-
-        $frm_slots = Slot::pluck('slot_start_time', 'slot_start_time');
-        $frm_slots->prepend('Please Select From Time', '');
-
-        $to_slots = Slot::pluck('slot_end_time', 'slot_end_time');
-        $to_slots->prepend('Please Select To Time', '');
-
-        $booking_types = [
-                         '' => 'Select Booking Type',
-                         '1' => 'Trainer',
-                         '2' => 'Cycle'
-                        ];
-
-        $payment_types = [
-                         '' => 'Select Payment Type',
-                         '2' => 'Offline',
-                         '4' => 'Online'
-                        ];
-               
-
-        return view('frontend.book-trainer', compact('route_name', 'username', 'userPackages','userBookings', 'wallet_hrs', 'frm_slots','to_slots', 'booking_types', 'payment_types')); 
-    }
-
     public function getPackagesPage(){
         $packagecafes = PackageTrainerCafe::get();
         if(auth()->check()){

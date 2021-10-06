@@ -20,67 +20,79 @@
           <div class="row">
             <div class="col-12">
               <div class="heading-part align-center mb-30">
-                <h2 class="main_title  heading"><span>Book a Slot</span></h2>
+                <h2 class="main_title  heading"><span>Trainer Booking for Cafe</span></h2>
               </div>
             </div>
           </div>
        
-            <!-- Main content -->
-          <section class="content">
-            <div class="box box-default">
-              @if ($message = Session::get('success'))
-              <div class="alert alert-success">
-                <p>{{ $message }}</p>
-              </div>
-              @endif
-
-              <div class="box-body">
-
-                {!! Form::open(array('route' => 'bookslotpost','method'=>'POST', 'enctype' => 'multipart/form-data', 'name' => 'trainerbookingcafe', 'class' => ' full')) !!}
-
-                <div class="row">
-                    
-
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <strong class="col-md-12">Date:</strong>
-                        {!! Form::text('booking_date', null, array('placeholder' => 'Booking Date','class' => 'form-control', 'id' => 'booking_date')) !!}&nbsp;&nbsp;
-                        
-                    </div>
+           <!-- CONTAIN START -->
+      <section class="checkout-section ">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-8 col-md-8 ">
+                  <div class="row">
                   </div>
+                  <form class="main-form full" action="{{ route('frontend.book-slot') }}" method="POST">
+                    @csrf
+                    <div class="personal-details mb-30">
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="input-box">
+                            <div class="row">
+                              <label for="f-name" class="col-lg-3 control-label">Booking Date</label>
+                              <div class="col-lg-9">
+                                <input type="text" class="form-control" autocomplete="off" id="booking_date" name="booking_date" required placeholder="Booking Date">
+                              </div>
+                            </div>
+                          </div>
 
-                    
-                  <div class="col-md-12">
-                    
-                     <div class="row">
+                          <div class="col-12 mb-20 align-center">
+                            <div class="heading-part heading-bg">
+                              <h2 class="heading">Available Slots</h2>
+                            </div>
+                        </div>  
 
-                        <span id="calendarData" style="display: none;"></span>
-                      
-                         <!--<h4>Please select trainer and date from above calender to view available slots</h4> -->
-                          <!--<h4>Please select trainer and date from above calender to view available slots</h4> -->
-                       <div id="timerinputs_from" class="form-group col-md-4 timerinputs_from">
-                        <strong>From Time:</strong>
-                          {!! Form::select('booking_start_time',  $frm_slots, null, ['class' => 'form-control', 'id' => 'booking_start_time', 'onchange' => 'updateTrainersList()']) !!}
-                       </div>
+                          <div class="input-box">
+                            <div class="row">
+                              <div class="col-lg-12 align-center">
+                                  <div class="mb-2">
+                                    @php ($i = 0)
+                                      @foreach($slots as $slot)
+                                        @if($i%4 == 0)
+                                          </div>
+                                          <div class="mb-2">
+                                        @endif
+                                          <button onclick="set_slot(this)" name="{{ $slot->slot_start_time }}-{{ $slot->slot_end_time }}" id="{{ $slot->id }}" type="button" class="btn btn-outline-info timeslot_label">{{ $slot->slot_start_time }}-{{ $slot->slot_end_time }}</button>
+                                        @php ($i++)                              
+                                      @endforeach
+                                </div>
+                              </div>
+                            </div>
+                          </div>
 
-                       <div id="timerinputs_to" class="form-group col-md-4 timerinputs_to">
-                         <strong>To Time:</strong>
-                          {!! Form::select('booking_end_time', $to_slots, null, ['class' => 'form-control', 'id' => 'booking_end_time', 'onchange' => 'updateTrainersList()']) !!}                     
+                        </div>
+                      </div>
+                    </div>
+                    <div class="Submit-btn">
+                      <div class="row">
+                        <div class="col-12">
                          
-                       </div> 
-                       
-                     </div>
-                  </div>
-
-                    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                          <div class="new-account align-center">
+                            <button name="submit" id="submit" onclick="book_slot();" type="submit" class="btn-success align-center">Submit</button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-
+                  </form>
                 </div>
-                {!! Form::close() !!}
               </div>
             </div>
-          </section>
+          </div>
+        </div>
+      </section>
+      <!-- CONTAINER END --> 
        
         </div>
       </section>
@@ -89,13 +101,20 @@
 @include('frontend.layouts.footer')
 
 <script type="text/javascript">
+  function set_slot(time_val){
+    $( ".timeslot_label" ).removeClass(" active");
+    $( "#"+time_val.id ).addClass(" active");
+    $("#submit") .val(time_val.id);
+
+  }
     
     $(document).ready(function(){  
 
         $('#booking_date').datepicker({
-            format: "yyyy-mm-dd",
-            startDate: new Date(),
-            autoClose:true,
+            format: "dd-mm-yyyy",
+            startDate : new Date(),
+            todayHighlight: 'TRUE',
+            autoclose: true,
             orientation: "bottom"
         });      
 

@@ -18,7 +18,7 @@ Route::get('event-info/{id}', 'Frontend\EventController@loadEventInfo')->name('e
 Route::get('/shop', 'Frontend\FrontController@getShopPage')->name('shop');
 Route::get('/contact', 'Frontend\FrontController@getContactUsPage')->name('contact');
 Route::get('/package', 'Frontend\FrontController@getPackagesPage')->name('package');
-Route::get('book-trainer', 'Frontend\FrontController@bookTrainerCafe')->name('bookTrainerCafe');
+
 
 //RazorPay
 Route::get('razorpay-payment', 'RazorpayPaymentController@index');
@@ -159,6 +159,10 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
     //Add Review
     Route::post('cycles/addReview/{id}', 'ReviewController@addCycleReview')->name('addCycleReview');
     Route::post('trainers/addReview/{id}', 'ReviewController@addTrainerReview')->name('addTrainerReview');
+
+    //Book Trainer
+    Route::get('book-trainer', 'TrainerBooking@bookTrainerCafe')->name('bookTrainerCafe');
+    Route::post('book-slot', 'TrainerBooking@bookSlot')->name('book-slot');
     
 
     Route::get('frontend/profile', 'ProfileController@index')->name('profile.index');

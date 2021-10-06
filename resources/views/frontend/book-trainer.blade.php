@@ -62,7 +62,7 @@
                         @endif
                       
                       <div class="heading-part">
-                        <h3 class="sub-heading">Hello, {{$username}}</h3>
+                        <h3 class="sub-heading">Hello, Set Name Here</h3>
                       </div>
                       <p>Remaining Hours : {{$wallet_hrs}}</p>
                     </div>
@@ -100,9 +100,9 @@
                               @endphp
                               @foreach($userPackages as $package)
                                 <tr>
-                                  <td>{{$count}}</td>
+                                  <td>{{$loop->iteration}}</td>
                                   <td>{{$package->package_name}}</td>
-                                  <td>{{$package->total_price_total}}</td>
+                                  <td>{{$package->total_price}}</td>
                                   <td>{{$package->validity_total}}</td>
                                   <td>{{$package->expired_latest}}</td>                     
                                 </tr> 
@@ -135,7 +135,7 @@
                           </div>
                           @endif
 
-                         {!! Form::open(array('route' => 'bookslotpost','method'=>'POST', 'enctype' => 'multipart/form-data', 'name' => 'trainerbookingcafe', 'class' => ' full')) !!}
+                         {!! Form::open(array('route' => 'frontend.book-slot','method'=>'POST', 'enctype' => 'multipart/form-data', 'name' => 'trainerbookingcafe', 'class' => ' full')) !!}
 
                             <div class="row">
                                 
@@ -182,181 +182,6 @@
                     </div>
                 </div>
                
-              </div>
-
-
-              <div id="data-step4" class="account-content active" data-temp="tabdata">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="heading-part heading-bg mb-30">
-                      <h2 class="heading m-0">Rental Booking</h2>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        @if ($message = Session::get('success'))
-                          <div class="alert alert-success">
-                            <p>{{ $message }}</p>
-                          </div>
-                          @endif
-
-                         {!! Form::open(array('route' => 'rentalbookingpost','method'=>'POST', 'enctype' => 'multipart/form-data', 'name' => 'rentalbooking', 'class' => ' full')) !!}
-
-                            <div class="row">   
-                              
-                               <div class="col-md-12">                                
-                                 <div class="row">                                  
-                                   <div class="form-group col-md-6">
-                                      <strong class="col-md-12">From Date:</strong>
-                                      {!! Form::text('from_date', null, array('placeholder' => 'From Date','class' => 'form-control', 'id' => 'from_date')) !!}
-                                   </div>
-
-                                   <div class="form-group col-md-6">
-                                      <strong class="col-md-12">To Date:</strong>
-                                      {!! Form::text('to_date', null, array('placeholder' => 'To Date','class' => 'form-control', 'id' => 'to_date')) !!}
-                                    </div>                                    
-                                 </div>
-                              </div>
-                              
-
-                              <div class="col-md-12">                                
-                                 <div class="row">                                  
-                                   <div class="form-group col-md-6">
-                                      <strong class="col-md-12">Type Of Booking:</strong>
-                                      {!! Form::select('booking_type', $booking_types, array('placeholder' => 'Booking Type','class' => 'form-control', 'id' => 'booking_type')) !!}&nbsp;&nbsp;
-                                   </div>
-
-                                   <div class="form-group col-md-6">
-                                      <strong class="col-md-12">Payment Option:</strong>
-                                      {!! Form::select('payment_type', $payment_types, array('placeholder' => 'Payment Type','class' => 'form-control', 'id' => 'payment_type')) !!}
-                                     
-                                   </div>                                    
-                                 </div>
-                              </div>
-
-                               <div class="col-md-12">                                
-                                 <div class="row">    
-                                  
-                                   <div class="form-group col-md-6">
-                                      <strong class="col-md-12">Deposit Amount:</strong>
-                                      {!! Form::text('total_cost', 0, array('placeholder' => 'Deposit Amount','class' => 'form-control','readonly' => 'true', 'id' => 'total_cost')) !!}
-                                   </div>  
-
-                                   {!! Form::hidden('total_number_of_days', null, array('id' => 'total_number_of_days')) !!}                                
-                                   
-                                 </div>
-                              </div>
-
-                              <div class="col-md-12">                                
-                                 <div class="row">                                  
-                                   <div class="form-group col-md-6">
-                                      <strong class="col-md-12">Booking Amount:</strong>
-                                      {!! Form::text('booking_amount', '100', array('placeholder' => 'Booking Amount','class' => 'form-control', 'readonly' => 'true', 'id' => 'booking_amount')) !!}
-                                   </div>
-
-                                    <div class="form-group col-md-6">
-                                      <strong class="col-md-12">Payment Details:</strong>
-                                      {!! Form::textarea('payment_details',null, array('class'=>'form-control', 'rows' => 10, 'cols' => 50)) !!}
-                                   </div>                                   
-                                 </div>
-                              </div>
-
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-
-                            </div>
-                            {!! Form::close() !!}  
-
-
-                    </div>
-                </div>
-               
-              </div>
-
-              <div id="data-step5" class="account-content" data-temp="tabdata" style="display:none">
-                <div class="admission-form-wrapper">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="heading-part heading-bg mb-30">
-                        <h2 class="heading m-0">My Bookings</h2>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="cart-item-table commun-table">
-                        <div class="table-responsive">
-                          <table class="table">
-                            <thead>
-                              <tr>
-                                <th width="10%">Sr No.</th>
-                                <th width="15%">Trainer</th>
-                                <th width="40%">Date & Time</th>
-                                <th width="25%">Performance</th>
-                                <th width="10%">Status</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              @php
-                                $count = 1;
-                              @endphp
-                              @foreach($userBookings as $booking)
-                                <tr>
-                                  <td>{{$count}}</td>
-                                  <td>{{(isset($booking->trainer->trainer_name)) ? $booking->trainer->trainer_name : 'Not Assigned'}}</td>
-                                  <td>{{date('d-M-Y',strtotime($booking->booking_date))}}<br>{{date('H:i A',strtotime($booking->booking_start_time))}} - {{date('H:i A',strtotime($booking->booking_end_time))}}</td>
-                                   <td>{{substr($booking->performance, 0, 20)}}</td>       
-                                  <td><strong>{{$booking->booking_status}}</strong></td>                   
-                                </tr> 
-                                @php
-                                  $count++;
-                                @endphp 
-                              @endforeach                            
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-              </div>
-
-              <div id="data-step5" class="account-content" data-temp="tabdata" style="display:none">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="heading-part heading-bg mb-30">
-                      <h2 class="heading m-0">Change Password</h2>
-                    </div>
-                  </div>
-                </div>
-                <form class="main-form full">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="input-box">
-                        <label for="old-pass">Old-Password</label>
-                        <input type="password" placeholder="Old Password" required id="old-pass">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="input-box">
-                        <label for="login-pass">Password</label>
-                        <input type="password" placeholder="Enter your Password" required id="login-pass">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="input-box">
-                        <label for="re-enter-pass">Re-enter Password</label>
-                        <input type="password" placeholder="Re-enter your Password" required id="re-enter-pass">
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <button class="btn-color" type="submit" name="submit">Change Password</button>
-                    </div>
-                  </div>
-                </form>
               </div>
             </div>
           </div>

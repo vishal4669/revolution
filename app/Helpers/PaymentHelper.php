@@ -10,6 +10,7 @@ use App\Models\EventRegistration;
 use App\Models\PackageRegistration;
 use Exception;
 use DB;
+use Log;
   
 class PaymentHelper 
 {
@@ -17,6 +18,8 @@ class PaymentHelper
     {
         try{
             DB::beginTransaction();
+
+            Log::info("Initiate Transaction");
             if($payment->notes){
                 if($payment->notes->registration_type == "Event"){
                     $ticket_id = $payment->notes->ticket_id;
@@ -30,6 +33,9 @@ class PaymentHelper
                     $update_ticket_count = Ticket::find($ticket_id);
                     $update_ticket_count->booked_tickets = $booked_tickets;
                     $update_ticket_count->save();
+
+
+                    Log::info("Event Registration");
     
                     $data = new EventRegistration();
                     $data->payment_mode = $payment->method == 'card' ? 3 : 2;
@@ -41,26 +47,32 @@ class PaymentHelper
                     $data->save();
     
                     PaymentHelper::add_payment($payment);
+
+                    Log::info("Event registered with details ".json_encode($data));
                 }
                 if($payment->notes->registration_type == "Package"){
                     $data = new PackageRegistration();
                     $data->payment_mode = $payment->method == 'card' ? 3 : 2;
+                    $data->package_trainer_cafe_id = $payment->notes->registration_type_id;
                     $data->amount_received = ($payment->amount)/100;
                     $data->transaction = $payment->id;
                     $data->user_id = auth()->user()->id;
                     $data->save();
+
+                    Log::info("Package Added with details ".json_encode($data));
                     
                     PaymentHelper::add_payment($payment);
                 }
             }
                 
         } catch(Exception $e) {
+
+            Log::info('Exception : '.$e->getMessage());
+
             return  $e->getMessage();
             DB::rollBack();
         }
         DB::commit();
-        
-        
     }
 
     static function add_payment($payment)
@@ -78,5 +90,8 @@ class PaymentHelper
         $razorpay->method = $payment->method;
         $razorpay->created_at = $payment->created_at;
         $razorpay->save();
+
+        Log::info("Payment Added with details ".json_encode($razorpay));
+
     }
 }

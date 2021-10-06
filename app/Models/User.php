@@ -133,4 +133,9 @@ class User extends Authenticatable implements HasMedia
     {
         return $date->format('Y-m-d H:i:s');
     }
+
+    public function registered_package()
+    {
+        return $this->hasOne(PackageRegistration::class)->select('package_trainer_cafe_id');
+    }
 }

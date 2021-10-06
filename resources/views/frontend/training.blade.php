@@ -16,7 +16,7 @@
                           <div class="sub-title">Achieve your goals and train with your friends.
                                                   Our structured training and data analysis will take your
                                                   cycling and running fitness to the next level.</div>
-                          <a class="btn btn-color mt-30" href="{{ route('bookTrainerCafe') }}">Book your slot</a>
+                          <a class="btn btn-color mt-30" href="{{ route('frontend.bookTrainerCafe') }}">Book your slot</a>
                         </div>
                       </div>
                       <div class="col-xl-6 col-lg-6 col-5 col-xl-60per"></div>
