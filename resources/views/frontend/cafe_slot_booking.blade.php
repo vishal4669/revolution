@@ -29,9 +29,9 @@
       <section class="checkout-section ">
         <div class="container">
           <div class="row">
-            <div class="col-12">
+            <div class="col-8">
               <div class="row justify-content-center">
-                <div class="col-xl-8 col-lg-8 col-md-8 ">
+                <div class="col-xl-9 col-lg-8 col-md-8 ">
                   <div class="row">
                   </div>
                   <form class="main-form full" action="{{ route('frontend.book-slot') }}" method="POST">
@@ -42,7 +42,7 @@
                           <div class="input-box">
                             <div class="row">
                               <label for="f-name" class="col-lg-3 control-label">Booking Date</label>
-                              <div class="col-lg-9">
+                              <div class="col-lg-8">
                                 <input type="text" class="form-control" autocomplete="off" id="booking_date" name="booking_date" required placeholder="Booking Date">
                               </div>
                             </div>
@@ -89,6 +89,111 @@
                 </div>
               </div>
             </div>
+            <div class="col-4">
+            <div class="sidebar-block">
+                <div class="sidebar-box listing-box mb-40"> <span class="opener plus"></span>
+                    <div class="sidebar-title">
+                      <h3><span>Your Packages</span></h3>
+                    </div>
+                    <div class="sidebar-contant">
+                      <ul>
+                        @if($userPackages != "")                        
+                        <table class="table table-bordered">
+                          <thead>
+                            <th>
+                              Package Name
+                            </th>
+                            <th>
+                              Available Hours
+                            </th>
+                            <th>
+                              Expiry Date
+                            </th>                            
+                          </thead>
+                          <tbody>
+                          @foreach($userPackages as $userPackage)
+                            <tr>
+                              <td>{{ $userPackage->package_name }}</td>
+                              <td>{{ $userPackage->total_hours }}</td>
+                              <td>{{ date('d-m-Y', strtotime($userPackage->created_at)) }}</td>
+                            </tr>
+                          @endforeach                              
+                          </tbody>
+                        </table>
+                        @else
+                        <li>You have not subscribed to any package.</li>
+                        @endif
+                      </ul>
+
+                    </div>
+                  </div>
+
+                  @if($userPackages == "")
+                  <div class="sidebar-box listing-box mb-40"> <span class="opener plus"></span>
+                    <div class="sidebar-title">
+                      <h3><span>Rate per booking</span></h3>
+                    </div>
+                    <div class="sidebar-contant">
+                      <ul>
+                        <li>
+                          <div> 
+                            <span>
+                              <label for="location">Hourly Booking Rates</span></label>
+                            </span>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  @endif
+
+                  @if(count($booked_slots) > 0)
+                  <div class="sidebar-box listing-box mb-40"> <span class="opener plus"></span>
+                    <div class="sidebar-title">
+                      <h3><span>Upcoming Bookings</span></h3>
+                    </div>
+                    <div class="sidebar-contant">
+                      <ul>
+                        @if($userPackages != "")
+                        <table class="table table-bordered">
+                          <thead>
+                            <th>
+                              Date
+                            </th>
+                            <th>
+                              Hrs Used
+                            </th>
+                          </thead>
+                          <tbody>
+                            @foreach($booked_slots as $booked_slot)
+                            <tr>
+                              <td>
+                                {{ $booked_slot->date }}
+                              </td>
+                              <td>
+                                {{ $booked_slot->hrs_used }}
+                              </td>
+                            </tr>
+                            @endforeach
+                          </tbody>
+                        </table>  
+                        <th></th>
+                        @else
+                          <li>
+                            <div> 
+                              <span>
+                                <label>No last bookings found.</span></label>
+                              </span>
+                            </div>
+                          </li>
+                        @endif
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                @endif
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -115,59 +220,21 @@
             startDate : new Date(),
             todayHighlight: 'TRUE',
             autoclose: true,
-            orientation: "bottom"
+            orientation: "bottom",
+            onSelect:function(dateText,instance){
+            console.log(dateText); //Latest selected date will give the alert.
+            $.post("test.php", {
+            date:dateText // now you will get the selected date to `date` in your post
+            },
+            function(data){$('#testdiv').html('');$('#testdiv').html(data);
+            });
+        }
         });      
 
-        // Initialize form validation on the registration form.
-         
-          $("form[name='trainerbookingcafe']").validate({
-            // Specify validation rules
-            rules: {
-              booking_date:"required",
-              from_time:"required",
-              to_time:"required"
-              
-            },
-            // Specify validation error messages
-            messages: {
-              from_time:"Please select from time",
-              to_time:"Please select to time",
-              booking_date:"Please select booking date"
-            },
-            // Make sure the form is submitted to the destination defined
-            // in the "action" attribute of the form when valid
-            submitHandler: function(form) {
-              form.submit();
-            }
-          });
+       
 
         
     });    
 
-    function checkDates() {
-
-          if (($('#from_time').val() == '') || ($('#to_time').val() == '')) return;
-
-          $.ajax({
-            headers: {
-              
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url:"/checktime",
-            method:"post",
-            type:"json",
-            data:{'from_time':$('#from_time').val(), 'to_time':$('#to_time').val()},
-            success:function (response) {
-                  var responseData = $.parseJSON(response);
-                  if(responseData.status==0){
-                    $('#to_time').val('');
-                    alert('From time should be greater then to time.');
-                    return false;
-                  }
-           
-            }
-          });
-
-        }
 
 </script>

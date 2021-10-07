@@ -13,6 +13,7 @@ use DB;
 use App\Helpers\Helper;
 use PDF;
 use App;
+use Carbon\Carbon;
 
 use Session;
 
@@ -46,7 +47,11 @@ class TrainerBooking
 
         $wallet_hrs = Helper::convert_seconds_to_time($wallet_seconds);
 
-        $userPackages = PackageTrainerCafe::where('id', $user->registered_package->package_trainer_cafe_id)->get();
+        if($user->registered_package){
+            $userPackages = PackageTrainerCafe::where('id', $user->registered_package->package_trainer_cafe_id)->get();
+        }else{
+            $userPackages = null;
+        }
         
 
         $userBookings = TrainerCafeBooking::with('trainer')
@@ -58,7 +63,7 @@ class TrainerBooking
 
         $slots = Slot::all();
         
-        //$booked_slots = SlotBooking::where('user_id', $user->id)->get();
+        $booked_slots = SlotBooking::where('user_id', $user->id)->whereDate('date', '>=', Carbon::now())->get();
 
         $booking_types = [
                          '' => 'Select Booking Type',
@@ -73,7 +78,7 @@ class TrainerBooking
                         ];
                
 
-        return view('frontend.cafe_slot_booking', compact('userPackages', 'wallet_hrs', 'slots', 'booking_types', 'payment_types')); 
+        return view('frontend.cafe_slot_booking', compact('booked_slots', 'userPackages', 'wallet_hrs', 'slots', 'booking_types', 'payment_types')); 
     }
     
 
