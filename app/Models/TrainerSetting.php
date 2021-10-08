@@ -13,8 +13,13 @@ class TrainerSetting extends Model
     use HasFactory;
 
     public const IS_CAFE_TRAINER_RADIO = [
-        '1' => 'No',
-        '2' => 'Yes',
+        '0' => 'No',
+        '1' => 'Yes',
+    ];
+
+    public const BOOKING_ACTIVE_RADIO = [
+        '0' => 'No',
+        '1' => 'Yes',
     ];
 
     public $table = 'trainer_settings';
@@ -31,9 +36,9 @@ class TrainerSetting extends Model
         'rent_per_day',
         'rent_per_week',
         'rent_per_fortnight',
-        'slot_booking_limit',
         'booking_amount',
         'is_cafe_trainer',
+        'booking_active',
         'created_at',
         'updated_at',
         'deleted_at',

@@ -7,7 +7,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("renting-cycles.store") }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.renting-cycles.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-md-6">
@@ -245,7 +245,7 @@ function upd_months() {
 
 $('#cycle_id').change(function(){
     var id = $(this).val();
-    var url = '{{ route("renting-cycles.getCycleDetails",":id") }}';
+    var url = '{{ route("admin.renting-cycles.getCycleDetails",":id") }}';
     url = url.replace(":id",id);
 
     $.ajax({

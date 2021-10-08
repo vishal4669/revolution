@@ -98,7 +98,6 @@ class TrainerController extends Controller
 
     public function store(StoreTrainerRequest $request)
     {
-        dd("hi");
         $trainer = Trainer::create($request->all());
 
         foreach ($request->input('photo', []) as $file) {

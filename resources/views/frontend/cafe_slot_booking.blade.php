@@ -168,7 +168,7 @@
                             @foreach($booked_slots as $booked_slot)
                             <tr>
                               <td>
-                                {{ $booked_slot->date }}
+                                {{  date('d-m-Y', strtotime($booked_slot->date)) }}
                               </td>
                               <td>
                                 {{ $booked_slot->hrs_used }}

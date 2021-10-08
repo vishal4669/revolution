@@ -47,6 +47,9 @@
                         <th>
                             {{ trans('cruds.trainerSetting.fields.is_cafe_trainer') }}
                         </th>
+                        <th>
+                            Booking Status
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,6 +94,9 @@
                             </td>
                             <td>
                                 {{ App\Models\TrainerSetting::IS_CAFE_TRAINER_RADIO[$trainerSetting->is_cafe_trainer] ?? '' }}
+                            </td>
+                            <td>
+                                {{ App\Models\TrainerSetting::BOOKING_ACTIVE_RADIO[$trainerSetting->booking_active] ?? '' }}
                             </td>
                         </tr>
                     @endforeach

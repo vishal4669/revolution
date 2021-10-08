@@ -21,7 +21,7 @@
           <p>{{ $message }}</p>
         </div>
         @endif
-        {!! Form::open(array('route' => 'settings.store','method'=>'POST')) !!}
+        {!! Form::open(array('route' => 'admin.settings.store','method'=>'POST')) !!}
 
 
         <div class="row">

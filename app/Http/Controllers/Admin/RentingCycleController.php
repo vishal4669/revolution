@@ -30,7 +30,7 @@ class RentingCycleController extends Controller
                 $viewGate = 'renting_cycle_show';
                 $editGate = 'renting_cycle_edit';
                 $deleteGate = 'renting_cycle_delete';
-                $crudRoutePart = 'renting-cycles';
+                $crudRoutePart = 'admin.renting-cycles';
 
                 return view('admin.partials.datatablesActions', compact(
                 'viewGate',

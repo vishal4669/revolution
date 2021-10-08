@@ -7,7 +7,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("trainer-settings.update", [$trainerSetting->id]) }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.trainer-settings.update", [$trainerSetting->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="form-group">
@@ -98,6 +98,20 @@
                     <span class="text-danger">{{ $errors->first('is_cafe_trainer') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.trainerSetting.fields.is_cafe_trainer_helper') }}</span>
+            </div>
+            
+            <div class="form-group">
+                <label>Booking Active</label>
+                @foreach(App\Models\TrainerSetting::BOOKING_ACTIVE_RADIO as $key => $label)
+                    <div class="form-check {{ $errors->has('booking_active') ? 'is-invalid' : '' }}">
+                        <input class="form-check-input" type="radio" id="booking_active_{{ $key }}" name="booking_active" value="{{ $key }}" {{ old('booking_active', $trainerSetting->booking_active) === (string) $key ? 'checked' : '' }}>
+                        <label class="form-check-label" for="booking_active_{{ $key }}">{{ $label }}</label>
+                    </div>
+                @endforeach
+                @if($errors->has('booking_active'))
+                    <span class="text-danger">{{ $errors->first('booking_active') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.trainerSetting.fields.booking_active_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

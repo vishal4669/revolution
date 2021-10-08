@@ -23,6 +23,8 @@ class TrainerSettingController extends Controller
 
     public function create()
     {
+        $trainerSettings = TrainerSetting::pluck('id')->toArray();
+        dd($trainerSettings);
         $trainers = Trainer::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.trainerSettings.create', compact('trainers'));

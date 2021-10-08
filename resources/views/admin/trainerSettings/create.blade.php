@@ -7,7 +7,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("trainer-settings.store") }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.trainer-settings.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label class="required" for="trainer_id">{{ trans('cruds.trainerSetting.fields.trainer') }}</label>
@@ -66,16 +66,6 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="slot_booking_limit">{{ trans('cruds.trainerSetting.fields.slot_booking_limit') }}</label>
-                        <input class="form-control {{ $errors->has('slot_booking_limit') ? 'is-invalid' : '' }}" type="number" name="slot_booking_limit" id="slot_booking_limit" value="{{ old('slot_booking_limit', '0') }}" step="1">
-                        @if($errors->has('slot_booking_limit'))
-                            <span class="text-danger">{{ $errors->first('slot_booking_limit') }}</span>
-                        @endif
-                        <span class="help-block">{{ trans('cruds.trainerSetting.fields.slot_booking_limit_helper') }}</span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
                         <label for="booking_amount">{{ trans('cruds.trainerSetting.fields.booking_amount') }}</label>
                         <input class="form-control {{ $errors->has('booking_amount') ? 'is-invalid' : '' }}" type="number" name="booking_amount" id="booking_amount" value="{{ old('booking_amount', '0') }}" step="0.01">
                         @if($errors->has('booking_amount'))
@@ -99,6 +89,21 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.trainerSetting.fields.is_cafe_trainer_helper') }}</span>
             </div>
+
+            <div class="form-group">
+                <label>{{ trans('cruds.trainerSetting.fields.booking_active') }}</label>
+                @foreach(App\Models\TrainerSetting::BOOKING_ACTIVE_RADIO as $key => $label)
+                    <div class="form-check {{ $errors->has('booking_active') ? 'is-invalid' : '' }}">
+                        <input class="form-check-input" type="radio" id="booking_active_{{ $key }}" name="booking_active" value="{{ $key }}" {{ old('booking_active', '1') === (string) $key ? 'checked' : '' }}>
+                        <label class="form-check-label" for="booking_active_{{ $key }}">{{ $label }}</label>
+                    </div>
+                @endforeach
+                @if($errors->has('booking_active'))
+                    <span class="text-danger">{{ $errors->first('booking_active') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.trainerSetting.fields.booking_active_helper') }}</span>
+            </div>
+
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}

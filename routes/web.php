@@ -51,6 +51,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Renting Cycle
     Route::delete('renting-cycles/destroy', 'RentingCycleController@massDestroy')->name('renting-cycles.massDestroy');
+    Route::get('renting-cycles/getCycleDetails/{id}', 'RentingCycleController@getCycleDetails')->name('renting-cycles.getCycleDetails');
     Route::resource('renting-cycles', 'RentingCycleController');
 
     // Cycle Expenses
@@ -116,6 +117,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Cycle Setting
     Route::delete('cycle-settings/destroy', 'CycleSettingController@massDestroy')->name('cycle-settings.massDestroy');
     Route::resource('cycle-settings', 'CycleSettingController');
+    
+    Route::resource('settings', SettingController::class);
 
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 });

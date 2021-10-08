@@ -455,6 +455,8 @@ return [
             'deleted_at_helper'         => ' ',
             'is_cafe_trainer'           => 'Is Cafe Trainer?',
             'is_cafe_trainer_helper'    => ' ',
+            'booking_active'           => 'Is Booking active?',
+            'booking_active_helper'    => ' ',
         ],
     ],
     'cycleSetting' => [

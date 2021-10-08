@@ -26,7 +26,7 @@ class SettingController extends Controller
 
     public function create()
     {
-        return view('settings.create');
+        return view('admin.settings.create');
     }
 
     public function store(Request $request)
