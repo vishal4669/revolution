@@ -90,7 +90,7 @@
                     <li>
                       <div class="info">
                         Upcoming Event:
-                        <span class="coupon"> <i class="fa fa-event"></i> Sunday Ride : Date - 20-12-21</span>
+                        <span class="coupon"> <i class="fa fa-event"></i>{{ $latestEvent->name }} : Date - {{ date('d-m-Y', strtotime($latestEvent->event_start_day)) }}</span>
                       </div>
                     </li>
                   </ul>

@@ -92,6 +92,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('renting-trainers', 'RentingTrainerController');
     Route::get('renting-trainers/getTrainerDetails/{id}', 'RentingTrainerController@getTrainerDetails')->name('renting-trainers.getTrainerDetails');
 
+    //Package Cafe
+    Route::resource('packagecafes', 'TrainerPackageCafeController');
+
     // Trainer Expenses
     Route::delete('trainer-expenses/destroy', 'TrainerExpensesController@massDestroy')->name('trainer-expenses.massDestroy');
     Route::post('trainer-expenses/media', 'TrainerExpensesController@storeMedia')->name('trainer-expenses.storeMedia');
@@ -117,8 +120,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Cycle Setting
     Route::delete('cycle-settings/destroy', 'CycleSettingController@massDestroy')->name('cycle-settings.massDestroy');
     Route::resource('cycle-settings', 'CycleSettingController');
+
+    //Reports
+    Route::post('reports/due-cycles', 'ReportsController@dueCycles')->name('reports.due-cycles');
+    Route::get('reports/selectParams', 'ReportsController@selectParams')->name('reports.selectParams');
     
-    Route::resource('settings', SettingController::class);
+    Route::resource('settings', 'SettingController');
 
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 });

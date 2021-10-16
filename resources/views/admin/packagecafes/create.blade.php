@@ -6,12 +6,9 @@
             <div class="col-md-10">
                 Create Trainer Package
             </div>
-            <div class="col-md-2 pull-right">
-                <a class="btn btn-primary" href="{{ route('admin.packagecafes.index') }}"> Back</a>
-            </div>
         </div>
     </div>
-    {!! Form::open(array('route' => 'packagecafes.store','method'=>'POST', 'enctype' => 'multipart/form-data',
+    {!! Form::open(array('route' => 'admin.packagecafes.store','method'=>'POST', 'enctype' => 'multipart/form-data',
     'name' => 'trainerpackagecafe')) !!}
     <div class="card-body">
         <div class="row">

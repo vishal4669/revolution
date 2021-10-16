@@ -13,7 +13,7 @@
                         <div class="banner-detail-inner"> 
                           <span class="slogan">Best Collection of Bikes</span>
                           <h1 class="banner-title">Revolution Bike Store</h1>
-                          <div class="sub-title">Wide range of all types of cycles and accessories. Visit shop to buy now.</div>
+                          <div class="sub-title"> range of all types of cycles and accessories. Visit shop to buy now.</div>
                         </div>
                       </div>
                       <div class="col-xl-6 col-lg-6 col-5 col-xl-60per"></div>

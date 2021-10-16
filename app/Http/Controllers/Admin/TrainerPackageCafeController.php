@@ -15,11 +15,10 @@ class TrainerPackageCafeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $route_name =  Route::currentRouteName();
         $packagecafes = PackageTrainerCafe::all();
-        return view('admin.packagecafes.index', compact('packagecafes','route_name'));
+        return view('admin.packagecafes.index', compact('packagecafes'));
     }
 
     /**
@@ -30,9 +29,7 @@ class TrainerPackageCafeController extends Controller
 
     public function create()
     {
-        $route_name =  Route::currentRouteName();
-
-		return view('admin.packagecafes.create', compact('route_name'));
+		return view('admin.packagecafes.create');
     }
 
     /**
@@ -55,13 +52,6 @@ class TrainerPackageCafeController extends Controller
             'terms_n_conditions' => 'required',
             'total_price' => 'required'
         ]);
-
-        if(isset($input['total_hours']) && $input['total_hours']!=0){
-            $hours = $input['total_hours'];
-
-            $minutes = $hours * 60;
-            $input['total_hours'] = $minutes;
-        }
         
         $user = PackageTrainerCafe::create($input);
         return redirect()

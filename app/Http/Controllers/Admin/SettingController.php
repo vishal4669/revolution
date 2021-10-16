@@ -21,7 +21,7 @@ class SettingController extends Controller
     {
         //$route_name =  Route::currentRouteName();
         //$settings = Setting::first();
-        return view('settings.index');
+        return view('admin.settings.index');
     }
 
     public function create()

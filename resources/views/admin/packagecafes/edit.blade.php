@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-    {!! Form::model($packagecafe, ['method' => 'PATCH','route' => ['packagecafes.update', $packagecafe->id]]) !!}
+    {!! Form::model($packagecafe, ['method' => 'PATCH','route' => ['admin.packagecafes.update', $packagecafe->id]]) !!}
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">

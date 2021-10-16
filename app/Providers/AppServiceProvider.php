@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Providers;
+use App\Models\Event;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $latestEvent = Event::get()->last();
+        
+        \View::share('latestEvent', $latestEvent);
     }
 }

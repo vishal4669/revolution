@@ -17,6 +17,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
+        "jimmyjs/laravel-report-generator": "^2.1",
         "laravel/dusk": "^6.11",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",

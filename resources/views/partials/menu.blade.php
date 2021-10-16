@@ -224,6 +224,45 @@
                         </ul>
                     </li>
                 @endcan
+                @can('trainer_module_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.packagecafes.index") }}" class="nav-link {{ request()->is("admin/packagecafes") || request()->is("admin/packagecafes/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon far fa-image">
+
+                            </i>
+                            <p>
+                                Trainer Packages (Cafe)
+                            </p>
+                        </a>
+                    </li>
+                @endcan
+                @can('reports_access')
+                    <li class="nav-item has-treeview {{ request()->is("admin/trainers*") ? "menu-open" : "" }} {{ request()->is("admin/renting-trainers*") ? "menu-open" : "" }} {{ request()->is("admin/trainer-expenses*") ? "menu-open" : "" }}">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="fa-fw nav-icon fas fa-bicycle">
+
+                            </i>
+                            <p>
+                                Reports
+                                <i class="right fa fa-fw fa-angle-left nav-icon"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('trainer_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.reports.selectParams") }}" class="nav-link {{ request()->is("admin/reports") || request()->is("admin/reports/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-bicycle">
+
+                                        </i>
+                                        <p>
+                                            Cycles Due
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
                 @can('brand_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.brands.index") }}" class="nav-link {{ request()->is("admin/brands") || request()->is("admin/brands/*") ? "active" : "" }}">
@@ -268,6 +307,18 @@
                             </i>
                             <p>
                                 {{ trans('cruds.cycleSetting.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
+                @can('trainer_module_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.settings.create") }}" class="nav-link {{ request()->is("admin/settings") || request()->is("admin/settings/*") ? "active" : "" }}">
+                            <i class="fa-fw nav-icon far fa-image">
+
+                            </i>
+                            <p>
+                                Slot Settings
                             </p>
                         </a>
                     </li>
