@@ -100,52 +100,18 @@ class FrontController
                 $product = Trainer::find($id);
             }
     
-            $prodType = $prod;            
-    
-            return view('frontend.checkout', compact('product', 'prodType'));
+            $prodType = $prod;
+            if($product->is_rented == 0){
+                return view('frontend.checkout', compact('product', 'prodType'));
+            }else{
+                return redirect()->route('rent-'.$prodType.'s');
+            }
         }
 
             return view('home');
         
     }
 
-    public function completeCheckout(Request $request)
-    {
-        //dd($request->all());
-        $user = Auth::user();
-        $user_id = $user->id;
-
-        $rentalData = array();
-        $rentalData["user_id"] = $user_id;
-        $rentalData["booking_type"] = 1;
-        $rentalData["from_date"] = $request->from_date;
-        $rentalData["to_date"] = $request->to_date;
-        $rentalData["total_days"] = $request->sel_days;
-        $rentalData["price_per_day"] = $request->price_per_day;
-        $rentalData["total_rent"] = $request->total_rent;
-        $prod = $request->prod_type;
-
-        if($request->prod_type == "cycle"){
-            $rentalData["cycle_id"] = $request->prod_id;
-            $data = RentingCycle::create($rentalData);
-            //update cycle status to rented.
-            $cycle = Cycle::find($request->prod_id);
-            $cycle->is_rented = 1;
-            $cycle->save();
-            $savedRentalId = $data->id;
-        }else{
-            $rentalData["trainer_id"] = $request->prod_id;
-            $data = RentingTrainer::create($rentalData);
-            //update trainer status to rented.
-            $trainer = Trainer::find($request->prod_id);
-            $trainer->is_rented = 1;
-            $trainer->save();
-            $savedRentalId = $data->id;
-        }
-
-        return redirect()->route('frontend.order-complete', compact('prod','savedRentalId'));
-
-    }
 
     public function getTrainerDetails ($id='')
     {
@@ -154,34 +120,6 @@ class FrontController
         $relatedTrainers = Trainer::where('id', '!=', $id)->where('type', $trainer->type)->get();
 
         return view('frontend.trainer-detail', compact('trainer', 'relatedTrainers'));
-    }
-
-    public function loadInvoice ($prod, $id)
-    {
-
-        if($prod == "cycle"){
-            $rental = RentingCycle::find($id);
-        }else{
-            $rental = RentingTrainer::find($id);
-        }
-
-        if($rental->user_id == auth()->user()->id){
-            $data['prod'] = $prod;
-            $data['rental'] = $rental;
-            //return view('frontend.order-complete', compact('prod', 'rental'));
-            //return view('frontend.invoice', compact('prod', 'rental'));
-            
-            //dd(public_path('invoice\bootstrap.min.css'));
-            $pdf = PDF::loadView('frontend.invoice', $data);
-            return $pdf->stream('RentInv/'.ucfirst($prod).'/'.$rental->id.'.pdf');
-        }else{
-            return view('frontend.401');
-        }
-
-        
-
-        //return view('frontend.myaccount');
-
     }
 
     public function myAccount ()

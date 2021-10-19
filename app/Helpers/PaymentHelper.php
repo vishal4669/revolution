@@ -20,6 +20,7 @@ class PaymentHelper
             DB::beginTransaction();
 
             Log::info("Initiate Transaction");
+
             if($payment->notes){
                 if($payment->notes->registration_type == "Event"){
                     $ticket_id = $payment->notes->ticket_id;
@@ -50,6 +51,7 @@ class PaymentHelper
 
                     Log::info("Event registered with details ".json_encode($data));
                 }
+
                 if($payment->notes->registration_type == "Package"){
                     $data = new PackageRegistration();
                     $data->payment_mode = $payment->method == 'card' ? 3 : 2;
@@ -62,6 +64,13 @@ class PaymentHelper
                     Log::info("Package Added with details ".json_encode($data));
                     
                     PaymentHelper::add_payment($payment);
+                }
+
+                if($payment->notes->registration_type == "Renting"){
+
+                    PaymentHelper::add_payment($payment);
+
+                    Log::info("Renting details registered with details ".json_encode($payment));
                 }
             }
                 
@@ -77,12 +86,17 @@ class PaymentHelper
 
     static function add_payment($payment)
     {
+        if($payment->notes->registration_type == "Renting"){
+            $registration_type = $payment->notes->registration_type.$payment->notes->product;
+        }else{
+            $registration_type = $payment->notes->registration_type;
+        }
         $razorpay = new Payment();
         $razorpay->razorpay_id = $payment->id;
         $razorpay->user_id = auth()->user()->id;
-        $razorpay->registration_type = $payment->notes->registration_type;
+        $razorpay->registration_type = $registration_type;
         $razorpay->registration_type_id = $payment->notes->registration_type_id;
-        $razorpay->amount = $payment->amount;
+        $razorpay->amount = ($payment->amount)/100;
         $razorpay->email = $payment->email;
         $razorpay->contact = $payment->contact;
         $razorpay->status = $payment->status;

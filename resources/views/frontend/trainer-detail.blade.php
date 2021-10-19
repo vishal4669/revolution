@@ -72,7 +72,7 @@
                             <ul>
                               <li class="pro-cart-icon">
                                 @if($trainer->is_rented == 0)
-                                <form method="get" action="{{ route('checkout-details', ['id' => $trainer->id, 'prod' => 'trainer']) }}">
+                                <form method="get" action="{{ route('frontend.checkout-details', ['id' => $trainer->id, 'prod' => 'trainer']) }}">
                                   <button title="Click to Rent" class="btn-color"><i class="fa fa-bicycle"></i> Rent Now</button>
                                 </form>
                                 @endif
@@ -155,7 +155,7 @@
                           </div>
                           <div class="main-form mt-30">
                             <h4>Leave a Review</h4>
-                            <form method="post" action="{{ route('trainers.addReview', $trainer->id) }}">
+                            <form method="post" action="{{ route('frontend.addTrainerReview', $trainer->id) }}">
                               @csrf
                               <div class="row mt-30">
                                 <div class="col-6 mb-30">

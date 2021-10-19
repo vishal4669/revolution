@@ -1,4 +1,5 @@
 @include('frontend.layouts.header')
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 <!-- Bread Crumb STRAT -->
       <div class="banner inner-banner1 ">
           <div class="container">
@@ -67,7 +68,6 @@
                           <hr>
                       </div>
                       <form id="main-form" method="post" action="{{ route('frontend.complete-checkout') }}" class="main-form full">
-                        @csrf
                         <input type="hidden" name="prod_id" id="prod_id" value="{{ $product->id }}">
                         <input type="hidden" name="prod_type" id="prod_type" value="{{ $prodType }}">
                         <div class="checkout-content" id="details">
@@ -82,7 +82,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="input-box">
-                                                    <select id="sel_days" onchange="upd_days()" name="sel_days">
+                                                    <select id="sel_days" name="sel_days" onchange="upd_days()" name="sel_days">
                                                         <option value='1'>1 Day</option>
                                                         <option value='7'>7 Days</option>
                                                         <option value='15'>15 Days</option>
@@ -322,17 +322,16 @@
                                 <div class="payment-option-box-inner gray-bg">
                                   <div class="payment-top-box">
                                     <div class="radio-box left-side"> <span>
-                                      <input type="radio" id="paypal" value="paypal" name="payment_type">
+                                      <input type="radio" id="razorpay" value="razorpay" name="payment_type" checked="true">
                                       </span>
-                                      <label for="paypal">PayPal</label>
+                                      <label for="paypal">RazorPay</label>
                                     </div>
                                     <div class="paypal-box">
                                       <div class="paypal-top"> <img src="{{ asset('frontend/images/paypal-img.png') }}" alt="Revolution Bike Store"> </div>
                                       <div class="paypal-img"> <img src="{{ asset('frontend/images/payment-method.png') }}" alt="Revolution Bike Store"> </div>
                                     </div>
                                   </div>
-                                  <p>If you Don't have CCAvenue Account, it doesn,t matter. You can also pay via CCAvenue with you credit card or bank debit card</p>
-                                  <p>Payment can be submitted in any currency.</p>
+                                  <p>Payment can be submitted in INR currency only.</p>
                                 </div>
                               </div>
                               <div class="payment-option-box mb-30">
@@ -347,38 +346,11 @@
                                   <p>Vestibulum semper accumsan nisi, at blandit tortor maxi'mus in phasellus malesuada sodales odio, at dapibus libero malesuada quis.</p>
                                 </div>
                               </div>
-                              <div class="right-side float-none-xs"> <button type="submit" form="main-form" class="btn btn-color">Place Order</button></div>
-                              @auth
-                              <form action="{{ route('razorpay.payment.store') }}" method="POST" >
-                                  @csrf
-                                  <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                          data-key="{{ env('RAZORPAY_KEY') }}"
-                                          data-amount = 150000
-                                          data-buttontext="Pay Now"
-                                          data-name="RevolutionBikeCafe.com"
-                                          data-description="Package"
-                                          data-image=""
-                                          data-prefill.name="name"
-                                          data-prefill.email="email"
-                                          data-theme.color="#ff7529"
-                                          data-class="btn btn-info"
-                                          id="paymentWidget">
-                                  </script>
-                              </form>
-                           @else
-                              {!! Form::open(['method' => 'GET','route' => ['login'],'style'=>'display:inline']) !!}
-                            {!! Form::submit('Buy Now', ['class' => 'btn btn-info']) !!}
-                            {!! Form::close() !!}
-                          @endauth
-
+                              <div class="right-side float-none-xs"> <button type="button" class="btn btn-color btn-submit">Checkout</button></div>
                             </div>
                           </div>
                         </div>
-                     
-              <!-- Payment Content END -->
-
-
-
+                      <!-- Payment Content END -->
                   </div>
               </div>
           </div>
@@ -465,5 +437,38 @@ function upd_days() {
     
 
 }
+
+$.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+   
+    $(".btn-submit").click(function(e){
+        var payment_type = "";
+        e.preventDefault();
+        if($('#razorpay').is(':checked')) { payment_type = 'razorpay'; }
+        if($('#cash').is(':checked')) { payment_type = 'cash'; }
+        var prod_id = $("input[name=prod_id]").val();
+        var prod_type = $("input[name=prod_type]").val();
+        var sel_days = $('#sel_days').find(":selected").val();
+        var from_date = $("input[name=from_date]").val();
+        var to_date = $("input[name=to_date]").val();
+   
+        $.ajax({
+           type:'POST',
+           url:"{{ route('frontend.complete-checkout') }}",
+           data:{prod_id:prod_id, prod_type:prod_type, sel_days:sel_days, from_date:from_date, to_date:to_date, payment_type:payment_type},
+           success:function(data){
+             if(data == "rented"){
+               alert("This product has already been rented!");
+             }else{
+               window.location.href = data;
+             }
+              
+           }
+        });
+  
+    });
 
 </script>

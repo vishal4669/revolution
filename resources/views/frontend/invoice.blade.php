@@ -112,7 +112,7 @@ h5 {
                                  </ul>
                              </td>
                              <td class="right">Rs. {{ $rental->price_per_day }}</td>
-                             <td class="center">UNPAID</td>
+                             <td class="center">{{ $rental->payment_option}} {{ ($rental->payment_option == "razorpay") ? 'PAID' : 'UNPAID' }}</td>
                              <td class="right">Rs. {{ $rental->total_rent }}</td>
                          </tr>
                      </tbody>

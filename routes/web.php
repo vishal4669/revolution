@@ -163,8 +163,8 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
     // Checkout
     Route::get('checkout', 'FrontController@checkoutRentals')->name('checkout');
     Route::get('/checkout/{id}/{prod}', 'FrontController@checkoutRentals')->name('checkout-details');
-    Route::get('order-complete/{prod}/{savedRentalId}', 'FrontController@loadInvoice')->name('order-complete');
-    Route::post('checkout', 'FrontController@completeCheckout')->name('complete-checkout');
+    Route::get('order-complete/{prod}/{savedRentalId}', 'RentingController@loadInvoice')->name('order-complete');
+    Route::post('checkout', 'RentingController@completeCheckout')->name('complete-checkout');
 
     //Add Review
     Route::post('cycles/addReview/{id}', 'ReviewController@addCycleReview')->name('addCycleReview');

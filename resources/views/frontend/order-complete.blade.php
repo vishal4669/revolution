@@ -81,7 +81,7 @@
                                 <td>
                                   <a href="product-page.html">
                                     <div class="product-image">
-                                      <img alt="{{ App\Models\Cycle::find($rental->cycle_id)->name }}" src="{{ ($prod == 'cycle') ? App\Models\Cycle::find($rental->cycle_id)->photo[0]->url : App\Models\Trainer::find($rental->trainer_id)->photo[0]->url }}">
+                                      <img alt="{{ ($prod == 'cycle') ? App\Models\Cycle::find($rental->cycle_id)->name : App\Models\Trainer::find($rental->trainer_id)->name }}" src="{{ ($prod == 'cycle') ? App\Models\Cycle::find($rental->cycle_id)->photo[0]->url : App\Models\Trainer::find($rental->trainer_id)->photo[0]->url }}">
                                     </div>
                                   </a>
                                 </td>
@@ -136,7 +136,7 @@
                               </tr>
                               <tr>
                                 <td><b>Payment :</b></td>
-                                <td>Paid</td>
+                                <td>{{ ucfirst($rental->payment_option)}} - {{ ($rental->payment_option == "razorpay") ? 'Paid' : 'Unpaid' }}</td>
                               </tr>
                               <tr>
                                 <td><b>Contract No. :</b></td>
@@ -151,7 +151,7 @@
                           <h3 class="sub-heading">Order Confirmation</h3>
                         </div>
                         <hr>
-                        <p class="mt-20">Rental {{ ucfirst($prod) }} Should be returned before the Due Date failing which </p>
+                        <p class="mt-20">Rental {{ ucfirst($prod) }} Should be returned on or before the Due Date. </p>
                       </div>
                     </div>
                     <div class="row">

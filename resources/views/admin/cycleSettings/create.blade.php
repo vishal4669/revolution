@@ -7,7 +7,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" action="{{ route("cycle-settings.store") }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route("admin.cycle-settings.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label class="required" for="cycle_id">{{ trans('cruds.cycleSetting.fields.cycle') }}</label>
