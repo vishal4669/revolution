@@ -46,7 +46,12 @@ class EventRegistrationController extends Controller
                 'row'
             ));
             });
-
+            $table->addColumn('DT_RowClass', function () {
+                return "dataRow";
+            });
+            $table->addColumn('DT_RowId', function ($row) {
+                return $row->id ? $row->id : '';
+            });
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
@@ -67,17 +72,23 @@ class EventRegistrationController extends Controller
             $table->editColumn('ticket.ticket_price', function ($row) {
                 return $row->ticket ? (is_string($row->ticket) ? $row->ticket : $row->ticket->ticket_price) : '';
             });
+
+            $table->editColumn('no_of_tickets', function ($row) {
+                return $row->no_of_tickets ? $row->no_of_tickets : '';
+            });
+
             $table->editColumn('payment_mode', function ($row) {
                 return $row->payment_mode ? EventRegistration::PAYMENT_MODE_RADIO[$row->payment_mode] : '';
             });
+
             $table->editColumn('amount_received', function ($row) {
                 return $row->amount_received ? $row->amount_received : '';
             });
             $table->editColumn('transaction', function ($row) {
                 return $row->transaction ? $row->transaction : '';
             });
-            $table->editColumn('unique_reg_no', function ($row) {
-                return $row->unique_reg_no ? $row->unique_reg_no : '';
+            $table->addColumn('status', function ($row) {
+                return $row->payment_mode == 3 ? "PAID" : 'PENDING';
             });
 
             $table->rawColumns(['actions', 'placeholder', 'event', 'ticket', 'user']);

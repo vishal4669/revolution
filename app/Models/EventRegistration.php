@@ -34,7 +34,7 @@ class EventRegistration extends Model implements HasMedia
         'event_id',
         'ticket_id',
         'payment_mode',
-        'description',
+        'no_of_tickets',
         'amount_received',
         'transaction',
         'unique_reg_no',

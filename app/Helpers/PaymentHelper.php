@@ -24,12 +24,13 @@ class PaymentHelper
             if($payment->notes){
                 if($payment->notes->registration_type == "Event"){
                     $ticket_id = $payment->notes->ticket_id;
+                    $quantity = $payment->notes->quantity;
                     $event_id = $payment->notes->registration_type_id;
                     $tickets = Ticket::where('id', $ticket_id)
                     ->where('event_id', $event_id)
                     ->select('booked_tickets')
                     ->firstOrFail();
-                    $booked_tickets = $tickets->booked_tickets + 1;
+                    $booked_tickets = $tickets->booked_tickets + $quantity;
     
                     $update_ticket_count = Ticket::find($ticket_id);
                     $update_ticket_count->booked_tickets = $booked_tickets;
@@ -42,6 +43,7 @@ class PaymentHelper
                     $data->payment_mode = $payment->method == 'card' ? 3 : 2;
                     $data->amount_received = ($payment->amount)/100;
                     $data->transaction = $payment->id;
+                    $data->no_of_tickets = $payment->notes->quantity;
                     $data->event_id = $event_id;
                     $data->ticket_id = $ticket_id;
                     $data->user_id = auth()->user()->id;

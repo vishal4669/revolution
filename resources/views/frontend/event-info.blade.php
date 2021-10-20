@@ -142,39 +142,47 @@
                       @auth
                         @if(count($tickets) == 0)
                           <li>Tickets not available at this time...</li>
-                        @elseif(count($is_registered) == 1)
-                          <li>You have already registered for this event</li>
                         @else
-                          @foreach($tickets as $ticket)
+                        <form method="post" action="{{ route('frontend.tickets-payment') }}">
+                          @csrf
                           <li>
-                            <div> 
-                              <span> 
-                                <label for="register">{{ $ticket->ticket_name }} - Rs.{{ $ticket->ticket_price }}</label>
-                                  <form action="{{ route('razorpay.payment.store') }}" method="POST" >
-                                      @csrf
-                                      <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                              data-key="{{ env('RAZORPAY_KEY') }}"
-                                              data-amount="{{ $ticket->ticket_price*100 }}"
-                                              data-buttontext="Buy Now"
-                                              data-name="Revolution Bike Cafe"
-                                              data-description="{{ $ticket->event->name }} - {{ $ticket->ticket_name }}"
-                                              data-notes.registration_type_id="{{ $ticket->event_id }}"
-                                              data-notes.ticket_id="{{ $ticket->id }}"
-                                              data-notes.registration_type="Event"
-                                              data-image="{{url('frontend/images/Logorevolutionbikecafe.png')}}"
-                                              data-prefill.name="name"
-                                              data-prefill.email="email"
-                                              data-theme.color="#ff7529"
-                                              data-class="btn btn-info">
-                                      </script>
-                                  </form>
-                              </span>
+                            <div class="input-box select-dropdown">
+                              <fieldset>
+                                <select id="ticket_id" name="ticket_id" class="option-drop" required>
+                                  <option selected="" value="">Select Ticket Type</option>
+                                    @foreach($tickets as $ticket)
+                                      <option value="{{ $ticket->id }}">{{ $ticket->ticket_name }} - {{ $ticket->ticket_price }}</option>
+                                    @endforeach
+                                </select>
+                              </fieldset>
                             </div>
                           </li>
-                          @endforeach
+                          <br>
+                          <li>
+                            <div class="input-box select-dropdown">
+                              <fieldset>
+                                <select id="quantity" name="quantity" class="option-drop" required>
+                                  <option selected="" value="">Select Quantity</option>
+                                  <option value="1"> 1 </option>
+                                  <option value="2"> 2 </option>
+                                  <option value="3"> 3 </option>
+                                  <option value="4"> 4 </option>
+                                  <option value="5"> 5 </option>
+                                </select>
+                              </fieldset>
+                            </div>
+                          </li>
+                          <br>
+                          <li>
+                            <button title="Click to Rent" class="btn-grey btn-block"><i class="fa fa-ticket"></i> Buy Tickets</button>
+                          </li>                          
+                          </form>
                         @endif
                       @else
-                        <li>Login/Register to buy tickets</li>
+                        <li class="text-center">Login/Register to buy tickets</li>
+                        <li class="text-center">
+                        <button class="btn btn-warning" ><a href="{{ route('login') }}"> Login </a></button>
+                        <button class="btn btn-warning" ><a href="{{ route('register') }}"> Register </a></button></li>
                       @endauth
                       </ul>
 

@@ -328,10 +328,10 @@
                     </div>
                     <div class="Submit-btn">
                       <div class="row">
-                        <div class="col-12">                       
-                          <button type="submit" class="btn-color right-side">Submit</button>
+                        <div class="col-12 text-center">                       
+                          <button type="submit" class="btn-lg btn-color">Submit</button>
                         </div>
-                        <div class="col-12">
+                        <div class="col-12 mt-20">
                           <hr>
                           <div class="new-account align-center mt-20"> <span>Already have an account with us</span> <a class="link" title="Login to your account" href="{{route('login')}}">Login Here</a> </div>
                         </div>

@@ -38,6 +38,9 @@
                     </th>
                     <th>
                         {{ trans('cruds.ticket.fields.ticket_price') }}
+                    </th>                    
+                    <th>
+                        Quantity
                     </th>
                     <th>
                         {{ trans('cruds.eventRegistration.fields.payment_mode') }}
@@ -49,7 +52,7 @@
                         {{ trans('cruds.eventRegistration.fields.transaction') }}
                     </th>
                     <th>
-                        {{ trans('cruds.eventRegistration.fields.unique_reg_no') }}
+                        Status
                     </th>
                     <th>
                         &nbsp;
@@ -85,6 +88,8 @@
                                 <option value="{{ $item->ticket_name }}">{{ $item->ticket_name }}</option>
                             @endforeach
                         </select>
+                    </td>
+                    <td>
                     </td>
                     <td>
                     </td>
@@ -156,17 +161,27 @@
     aaSorting: [],
     ajax: "{{ route('admin.event-registrations.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' },
+{ data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'user_name', name: 'user.name' },
 { data: 'user_mobile', name: 'user.mobile' },
 { data: 'event_name', name: 'event.name' },
 { data: 'ticket_ticket_name', name: 'ticket.ticket_name' },
 { data: 'ticket.ticket_price', name: 'ticket.ticket_price' },
+{ data: 'no_of_tickets', name: 'no_of_tickets' },
 { data: 'payment_mode', name: 'payment_mode' },
 { data: 'amount_received', name: 'amount_received' },
 { data: 'transaction', name: 'transaction' },
-{ data: 'unique_reg_no', name: 'unique_reg_no' },
+{ data : 'status', name: 'status', 
+          render : function(data, type, row) {
+              if(data == "PAID"){
+                return '<button onclick="paymentReceived(this.id);" id='+row.id+' class="btn btn-sm btn-success">'+data+'</button>'
+              }else{
+                return '<button onclick="paymentReceived(this.id);" id='+row.id+' class="btn btn-sm btn-warning">'+data+'</button>'
+              }
+              
+          }    
+       },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
@@ -202,5 +217,16 @@ table.on('column-visibility.dt', function(e, settings, column, state) {
   })
 });
 
+</script>
+<script type="text/javascript">
+   $(".dataRow").click(function(){
+        const dataId = jQuery(this).closest('tr').attr('id');
+        alert(dataId);
+    });
+
+    function paymentReceived(clicked_id){
+        alert(clicked_id);
+        //get request to change the status and reload datatable
+    }
 </script>
 @endsection

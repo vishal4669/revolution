@@ -111,13 +111,14 @@
                                 <a href="{{ route('trainer-detail', $trainer->id) }}">{{$trainer->name}}</a> 
                                 </div>
                                 <div class="rating-summary-block">
-                                  <div class="rating-result" title="53%"> <span style="width:53%"></span> </div>
+                                  @if($trainer->is_rented == 0)
+                                  Available
+                                @else
+                                  Not Available
+                                @endif
                                 </div>
                                 <div class="price-box"> 
-                                        <span class="price">₹ {{$trainer->rent_month}} / Per Month</span> 
-                                      </div>
-                                <div class="price-box"> 
-                                  <span class="price">₹ {{$trainer->rent_hour}} / Per Hour</span> 
+                                  <span class="price">₹ {{$trainer->rent_month}} / Per Month</span> 
                                 </div>
                                 <div class="product-des">
                                   {!! $trainer->description !!}

@@ -70,6 +70,10 @@
                       <form id="main-form" method="post" action="{{ route('frontend.complete-checkout') }}" class="main-form full">
                         <input type="hidden" name="prod_id" id="prod_id" value="{{ $product->id }}">
                         <input type="hidden" name="prod_type" id="prod_type" value="{{ $prodType }}">
+                        <input type="hidden" name="rent_per_day" id="rent_per_day" value="{{ $rents['rent_per_day'] }}">
+                        <input type="hidden" name="rent_per_week" id="rent_per_week" value="{{ $rents['rent_per_week'] }}">
+                        <input type="hidden" name="rent_per_fortnight" id="rent_per_fortnight" value="{{ $rents['rent_per_fortnight'] }}">
+                        <input type="hidden" name="rent_per_month" id="rent_per_month" value="{{ $product->rent_month }}">
                         <div class="checkout-content" id="details">
                             <div class="row justify-content-center">
                                 <div class="col-xl-6 col-lg-8 col-md-8">
@@ -97,7 +101,7 @@
                                             <div class="col-md-4">
                                                 <div class="input-box">
                                                 <input class="date {{ $errors->has('from_date') ? 'is-invalid' : '' }}" type="text"
-                                                  name="from_date" id="from_date" value="{{ old('from_date') ? old('from_date') : date('d-m-Y') }}">
+                                                  name="from_date" id="from_date" onchange="upd_days();" value="{{ old('from_date') ? old('from_date') : date('d-m-Y') }}">
                                                   <span>Start Date</span>
                                                 </div>                                              
                                             </div>
@@ -118,7 +122,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="input-box">
-                                                    <input type="text" id="price_per_day" name="price_per_day" value="{{ old('price_per_day', ($product->rent_month/30)) }}" readonly placeholder="Rent per day">
+                                                    <input type="text" id="price_per_day" name="price_per_day" value="{{ old('price_per_day', ($rents['rent_per_day'])) }}" readonly placeholder="Rent per day">
                                                     <span>Daily Rent</span>
                                                 </div>
                                             </div>
@@ -425,14 +429,31 @@ function getdate() {
 function upd_days() {
     getdate();
     var sel_days = $('#sel_days').val();
-    var rent = $('#price_per_day').val();
-    if(rent != ''){
-        var total_rent = sel_days * rent;
+    var rent = Math.round($('#rent_per_month').val());
+    if(sel_days == 1){
+      var total_rent = $('#rent_per_day').val();
+      $('#price_per_day').val(total_rent);
+      $('#total_rent').val(total_rent);
+      $('#total_rent_view').html(total_rent);
+    }else if(sel_days == 7){
+      var total_rent = $('#rent_per_week').val();
+      $('#price_per_day').val(total_rent);
+      $('#total_rent').val(total_rent);
+      $('#total_rent_view').html(total_rent);
+    }else if(sel_days == 15){
+      var total_rent = $('#rent_per_fortnight').val();
+      $('#price_per_day').val(total_rent);
+      $('#total_rent').val(total_rent);
+      $('#total_rent_view').html(total_rent);
+    }else{
+      if(rent != ''){
+        var total_rent = Math.round(sel_days * (rent/30));
+        $('#price_per_day').val(Math.round(total_rent/30));
         $('#total_rent').val(total_rent);
         $('#total_rent_view').html(total_rent);
-        $('#paymentWidget').attr("data-amount", total_rent);
-    }else{
-        $('#total_rent').val('');
+      }else{
+          $('#total_rent').val('');
+      }
     }
     
 

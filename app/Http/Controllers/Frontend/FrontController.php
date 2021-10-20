@@ -96,13 +96,15 @@ class FrontController
         if(!empty($prod) && !empty($id)){
             if($prod == 'cycle'){
                 $product = Cycle::find($id);
+                $rents = App\Models\CycleSetting::where('cycle_id', $id)->select('rent_per_day', 'rent_per_week', 'rent_per_fortnight')->first()->toArray();
             }else{
                 $product = Trainer::find($id);
+                $rents = App\Models\TrainerSetting::where('trainer_id', $id)->select('rent_per_day', 'rent_per_week', 'rent_per_fortnight')->first()->toArray();
             }
     
             $prodType = $prod;
             if($product->is_rented == 0){
-                return view('frontend.checkout', compact('product', 'prodType'));
+                return view('frontend.checkout', compact('product', 'prodType', 'rents'));
             }else{
                 return redirect()->route('rent-'.$prodType.'s');
             }

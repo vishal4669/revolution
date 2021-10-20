@@ -48,19 +48,36 @@
                     </div>
                   @endforeach
                 </div>
-                <div class="row">
-                  <div class="col-12">
-                    <div class="pagination-bar">
-                      <ul>
-                        <li><a href="javascript:void(0)"><i class="fa fa-angle-left"></i></a></li>
-                        <li class="active"><a href="javascript:void(0)">1</a></li>
-                        <li><a href="javascript:void(0)">2</a></li>
-                        <li><a href="javascript:void(0)">3</a></li>
-                        <li><a href="javascript:void(0)"><i class="fa fa-angle-right"></i></a></li>
-                      </ul>
+                @if($events->hasPages())
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="pagination-bar">
+                        <ul>
+                          @if($events->onFirstPage() == true)
+                          <li><a href="javascript:void(0)"><i class="fa fa-angle-left"></i></a></li>
+                          @else
+                          <li><a href="{{ $events->previousPageUrl() }}"><i class="fa fa-angle-left"></i></a></li>
+                          @endif
+
+                          
+                          @if($events->currentPage() - 1 != 0)
+                            <li><a href="{{ $events->previousPageUrl() }}">{{ $events->currentPage() - 1 }}</a></li>
+                          @endif
+                          <li class="active"><a href="javascript:void(0)">{{ $events->currentPage() }}</a></li>
+                          @if($events->currentPage() + 1 <= $events->lastPage())
+                          <li><a href="{{ $events->nextPageUrl() }}">{{ $events->currentPage() + 1 }}</a></li>
+                          @endif
+
+                          @if($events->currentPage() == $events->lastPage())
+                          <li><a href="javascript:void(0)"><i class="fa fa-angle-right"></i></a></li>
+                          @else
+                          <li><a href="{{ $events->nextPageUrl() }}"><i class="fa fa-angle-right"></i></a></li>
+                          @endif
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                </div>
+                @endif
               </div>
             </div>
           </div>

@@ -119,10 +119,7 @@
                                 @endif
                                 </div>
                                 <div class="price-box"> 
-                                        <span class="price">₹ {{$cycle->rent_month}} / Per Month</span> 
-                                      </div>
-                                <div class="price-box"> 
-                                  <span class="price">₹ {{$cycle->rent_hour}} / Per Hour</span> 
+                                  <span class="price">₹ {{$cycle->rent_month}} / Per Month</span> 
                                 </div>
                                 <div class="product-des">
                                   {!! $cycle->description !!}
