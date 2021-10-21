@@ -117,7 +117,7 @@ class RentingController
             $fields['customer']["name"] = $user->fname.' '.$user->lname;
             $fields['customer']["contact"] = $user->mobile;
             $fields['customer']["email"] = $user->email;
-            $fields['callback_url'] = route('frontend.order-complete', ['prod' => $data['prod_type'], 'savedRentalId' => $savedRentalId ]);
+            $fields['callback_url'] = url('order-complete/'.$data['prod_type'].'/'.$savedRentalId);
             $fields['notes']["registration_type_id"] = $savedRentalId;
             $fields['notes']["registration_type"] = "Renting";
             $fields['notes']["product"] = ucfirst($data['prod_type']);

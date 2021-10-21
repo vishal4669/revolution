@@ -16,6 +16,10 @@ class RentingTrainer extends Model
         '1' => 'Yes',
     ];
 
+    public $appends = [
+        'status'
+    ];
+
     public const BOOKING_TYPE_RADIO = [
         '0' => 'Monthly',
         '1' => 'Hourly',
@@ -59,6 +63,15 @@ class RentingTrainer extends Model
     public function trainer()
     {
         return $this->belongsTo(Trainer::class, 'trainer_id');
+    }
+
+    public function getStatusAttribute()
+    {
+        if($this->attributes['to_date'] >= date('d-m-Y', strtotime(Carbon::now()))){
+            return "Active";
+        }else{
+            return "Expired";
+        }
     }
 
     public function user()

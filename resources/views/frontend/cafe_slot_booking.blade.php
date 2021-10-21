@@ -1,4 +1,5 @@
-@include('frontend.layouts.header')      
+@include('frontend.layouts.header')     
+<meta name="csrf-token" content="{{ csrf_token() }}" /> 
       <!-- Bread Crumb STRAT -->
       <div class="banner inner-banner1 ">
         <div class="container">
@@ -48,13 +49,13 @@
                             </div>
                           </div>
 
-                          <div class="col-12 mb-20 align-center">
+                          <div class="col-12 mb-20 align-center" style="display:none;">
                             <div class="heading-part heading-bg">
                               <h2 class="heading">Available Slots</h2>
                             </div>
-                        </div>  
+                          </div>  
 
-                          <div class="input-box">
+                          <div class="input-box" style="display:none;">
                             <div class="row">
                               <div class="col-lg-12 align-center">
                                   <div class="mb-2">
@@ -75,7 +76,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="Submit-btn">
+                    <div class="Submit-btn" style="display:none;">
                       <div class="row">
                         <div class="col-12">
                          
@@ -215,21 +216,37 @@
     
     $(document).ready(function(){  
 
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
         $('#booking_date').datepicker({
             format: "dd-mm-yyyy",
             startDate : new Date(),
             todayHighlight: 'TRUE',
             autoclose: true,
             orientation: "bottom",
-            onSelect:function(dateText,instance){
-            console.log(dateText); //Latest selected date will give the alert.
-            $.post("test.php", {
-            date:dateText // now you will get the selected date to `date` in your post
-            },
-            function(data){$('#testdiv').html('');$('#testdiv').html(data);
-            });
-        }
-        });      
+        }).on('changeDate', function(e) {   
+            var date = new Date(e.date),
+            mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+            day = ("0" + date.getDate()).slice(-2);
+            var formatted_date =  [day, mnth, date.getFullYear()].join("-");
+        $.ajax({
+              type: "POST",
+              url: "{{ route('frontend.active-slots') }}",
+              data: {
+                 'date': formatted_date,
+              },
+              success: function(result) {
+                  console.log(result);
+              },
+              error: function (error) {
+                console.log(error);
+              }
+        });
+      })
 
        
 

@@ -2,10 +2,12 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Http\DateTime;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Models\Slot;
+use App\Models\WeeklySlot;
 use Route;
 use Carbon\Carbon;
 
@@ -17,11 +19,19 @@ class SettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        //$route_name =  Route::currentRouteName();
-        //$settings = Setting::first();
-        return view('admin.settings.index');
+        $weekly_slots = WeeklySlot::get();
+
+        return view('admin.settings.index', compact('weekly_slots'));
+    }
+
+    public function changeStatus(Request $request)
+    {
+       $slot_id = $request->id;
+       $weekly_slot = WeeklySlot::findOrFail($slot_id);
+       $weekly_slot->is_active = $weekly_slot->is_active == 0 ? 1 : 0;
+       $weekly_slot->save();
     }
 
     public function create()
@@ -32,6 +42,11 @@ class SettingController extends Controller
     public function store(Request $request)
     {
         if($request->setting_type == "slots"){
+
+            Schema::disableForeignKeyConstraints();
+            WeeklySlot::truncate();
+            Slot::truncate();
+            Schema::enableForeignKeyConstraints();
             
             $setting1 = new Setting();
             $setting1->setting_key = "slot_start_time";
@@ -64,6 +79,17 @@ class SettingController extends Controller
                 $slot->save();
 
                 $slot_start_time = $end_time;
+            }
+            $added_slots = Slot::pluck('id');
+
+            for($i=1; $i <=7; $i++){
+                foreach($added_slots as $slot){
+                    $weekly_slot = new WeeklySlot();
+                    $weekly_slot->slot_id = $slot;
+                    $weekly_slot->day_of_week = $i;
+                    $weekly_slot->is_active = 1;
+                    $weekly_slot->save();
+                }
             }
 
             return redirect()->back();

@@ -22,6 +22,7 @@
     <link href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" />
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bower_components/admin-lte/plugins/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css') }}" rel="stylesheet" />
     
 <style type="text/css">
 .modal-backdrop.fade {
@@ -126,6 +127,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+    <!-- Bootstrap Switch -->
+    <script src="{{ asset('bower_components/admin-lte/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script> 
     <script>
         $(function() {
   let copyButtonTrans = '{{ trans('global.datatables.copy') }}'

@@ -103,4 +103,16 @@ class TrainerBooking
         return redirect()->back();
     }
 
+    public function loadActiveSlots(Request $request)
+    {        
+        if($request->date != ""){
+            $date = $request->date;
+            if($date == date('d-m-Y', strtotime(Carbon::now()))){
+                return $day_of_week = Carbon::now()->dayOfWeek;
+            }else{
+                return "No";
+            }
+        }
+    }
+
 }

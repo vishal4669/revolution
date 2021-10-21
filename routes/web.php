@@ -126,6 +126,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('reports/selectParams', 'ReportsController@selectParams')->name('reports.selectParams');
     
     Route::resource('settings', 'SettingController');
+    Route::post('slots', 'SettingController@changeStatus')->name('slots.changeStatus');
 
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 });
@@ -176,6 +177,7 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
 
     //Book Trainer
     Route::get('book-trainer', 'TrainerBooking@bookTrainerCafe')->name('bookTrainerCafe');
+    Route::post('book-trainer/active-slots', 'TrainerBooking@loadActiveSlots')->name('active-slots');
     Route::post('book-slot', 'TrainerBooking@bookSlot')->name('book-slot');
     
 

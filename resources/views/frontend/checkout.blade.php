@@ -326,7 +326,7 @@
                                 <div class="payment-option-box-inner gray-bg">
                                   <div class="payment-top-box">
                                     <div class="radio-box left-side"> <span>
-                                      <input type="radio" id="razorpay" value="razorpay" name="payment_type" checked="true">
+                                      <input type="radio" id="razorpay" value="3" name="payment_type" checked="true">
                                       </span>
                                       <label for="paypal">RazorPay</label>
                                     </div>

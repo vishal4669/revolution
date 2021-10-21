@@ -32,9 +32,10 @@
                     <li id="step1" class="active"> <a href="javascript:void(0)">My Dashboard<i class="fa fa-angle-right"></i> </a> </li>
                     <li id="step2"> <a href="javascript:void(0)">Account Details<i class="fa fa-angle-right"></i> </a> </li>
                     <li id="step3"> <a href="javascript:void(0)">My Packages<i class="fa fa-angle-right"></i> </a> </li>
-                    <li id="step4"> <a href="javascript:void(0)">My Events<i class="fa fa-angle-right"></i> </a> </li>
-                    <li id="step5"> <a href="javascript:void(0)">My Rentals<i class="fa fa-angle-right"></i> </a> </li>
-                    <li id="step6"> <a href="javascript:void(0)">Change Password<i class="fa fa-angle-right"></i> </a> </li>
+                    <li id="step4"> <a href="javascript:void(0)">My Cycle Rentals<i class="fa fa-angle-right"></i> </a> </li>
+                    <li id="step5"> <a href="javascript:void(0)">My Trainer Rentals<i class="fa fa-angle-right"></i> </a> </li>
+                    <li id="step6"> <a href="javascript:void(0)">My Event Registrations<i class="fa fa-angle-right"></i> </a> </li>
+                    <li id="step7"> <a href="javascript:void(0)">Change Password<i class="fa fa-angle-right"></i> </a> </li>
                   </ul>
                 </div>
               </div>
@@ -362,7 +363,284 @@
                </div> -->
 
               </div>
+
               <div id="data-step4" class="account-content" data-temp="tabdata" style="display:none">
+                <div id="form-print" class="admission-form-wrapper">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="heading-part heading-bg mb-30">
+                        <h2 class="heading m-0">Cycles Rentals</h2>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="cart-item-table commun-table">
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th>
+                                  Sr. No.
+                                </th>
+                                <th>
+                                  Cycle
+                                </th>
+                                <th>
+                                  From Date
+                                </th>
+                                <th>
+                                  To Date
+                                </th>
+                                <th>
+                                  Total Rent
+                                </th>
+                                <th>
+                                  Status
+                                </th>
+                                <th>
+                                  Action
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @if(count($cycleRentals) > 0)
+                              @foreach($cycleRentals as $cycleRental)
+                                <tr>
+                                  <td>
+                                    {{ $loop->iteration }}
+                                  </td>
+                                  <td>
+                                    {{ $cycleRental->cycle->name }}
+                                  </td>
+                                  <td>
+                                    {{ date('d-m-Y', strtotime($cycleRental->from_date)); }}
+                                  </td>
+                                  <td>
+                                    {{ date('d-m-Y', strtotime($cycleRental->to_date)); }}
+                                  </td>
+                                  <td>
+                                    <div class="base-price price-box"> 
+                                      <span class="price">Rs.{{ $cycleRental->total_rent }}</span> 
+                                    </div>
+                                  </td>
+                                  <td>
+                                    {{ $cycleRental->status }}
+                                  </td>
+                                  <td>
+                                    <button class="btn btn-primary btn-sm">Extend</button>
+                                  </td>
+                                </tr>
+                              @endforeach
+                              @else
+                              <tr>
+                                <td colspan="7">You have not rented any cycles.</td>
+                              </tr>
+                              @endif
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="row">
+                  <div class="col-12">
+                    <div class="print-btn text-center mt-30">
+                      <button onclick="printDiv('form-print')" class="btn btn-color" type="button">Print Invoice</button>
+                    </div>
+                  </div>
+               </div> -->
+
+              </div>
+
+              <div id="data-step5" class="account-content" data-temp="tabdata" style="display:none">
+                <div id="form-print" class="admission-form-wrapper">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="heading-part heading-bg mb-30">
+                        <h2 class="heading m-0">Trainer Rentals</h2>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="cart-item-table commun-table">
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th>
+                                  Sr. No.
+                                </th>
+                                <th>
+                                  Cycle
+                                </th>
+                                <th>
+                                  From Date
+                                </th>
+                                <th>
+                                  To Date
+                                </th>
+                                <th>
+                                  Total Rent
+                                </th>
+                                <th>
+                                  Status
+                                </th>
+                                <th>
+                                  Action
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @if(count($trainerRentals) > 0)
+                              @foreach($trainerRentals as $trainerRental)
+                                <tr>
+                                  <td>
+                                    {{ $loop->iteration }}
+                                  </td>
+                                  <td>
+                                    {{ $trainerRental->trainer->name }}
+                                  </td>
+                                  <td>
+                                    {{ date('d-m-Y', strtotime($trainerRental->from_date)); }}
+                                  </td>
+                                  <td>
+                                    {{ date('d-m-Y', strtotime($trainerRental->to_date)); }}
+                                  </td>
+                                  <td>
+                                    <div class="base-price price-box"> 
+                                      <span class="price">Rs.{{ $trainerRental->total_rent }}</span> 
+                                    </div>
+                                  </td>
+                                  <td>
+                                    {{ $trainerRental->status }}
+                                  </td>
+                                  <td>
+                                    <button class="btn btn-primary btn-sm">Extend</button>
+                                  </td>
+                                </tr>
+                              @endforeach
+                              @else
+                              <tr>
+                                <td colspan="7">You have not rented any trainers.</td>
+                              </tr>
+                              @endif
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="row">
+                  <div class="col-12">
+                    <div class="print-btn text-center mt-30">
+                      <button onclick="printDiv('form-print')" class="btn btn-color" type="button">Print Invoice</button>
+                    </div>
+                  </div>
+               </div> -->
+
+              </div>
+
+              <div id="data-step6" class="account-content" data-temp="tabdata" style="display:none">
+                <div id="form-print" class="admission-form-wrapper">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="heading-part heading-bg mb-30">
+                        <h2 class="heading m-0">Booked Tickets</h2>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="cart-item-table commun-table">
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th>
+                                  Sr. No.
+                                </th>
+                                <th>
+                                  Event
+                                </th>
+                                <th>
+                                  Ticket Type
+                                </th>
+                                <th>
+                                  Quantity
+                                </th>
+                                <th>
+                                  Transaction ID
+                                </th>
+                                <th>
+                                  Amount Paid
+                                </th>
+                                <th>
+                                  Event Date
+                                </th>
+                                <th>
+                                  Reporting Time
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @if(count($eventRegistrations) > 0)
+                              @foreach($eventRegistrations as $eventRegistration)
+                                <tr>
+                                  <td>
+                                    {{ $loop->iteration }}
+                                  </td>
+                                  <td>
+                                    {{ $eventRegistration->event->name }}
+                                  </td>
+                                  <td>
+                                    {{ $eventRegistration->ticket->ticket_name }} 
+                                  </td>
+                                  <td>
+                                    {{ $eventRegistration->no_of_tickets }}
+                                  </td>                                  
+                                  <td>
+                                    {{ $eventRegistration->transaction }}
+                                  </td>
+                                  <td>
+                                    <div class="base-price price-box"> 
+                                      <span class="price">Rs.{{ $eventRegistration->amount_received }}</span> 
+                                    </div>
+                                  </td>
+                                  <td>
+                                    {{ $eventRegistration->event->event_start_day }}
+                                  </td>
+                                  <td>
+                                   {{ $eventRegistration->event->reporting_time }}
+                                  </td>
+                                </tr>
+                              @endforeach
+                              @else
+                              <tr>
+                                <td colspan="7">You have not rented any trainers.</td>
+                              </tr>
+                              @endif
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="row">
+                  <div class="col-12">
+                    <div class="print-btn text-center mt-30">
+                      <button onclick="printDiv('form-print')" class="btn btn-color" type="button">Print Invoice</button>
+                    </div>
+                  </div>
+               </div> -->
+
+              </div>
+
+              <div id="data-step7" class="account-content" data-temp="tabdata" style="display:none">
                 <div class="row">
                   <div class="col-12">
                     <div class="heading-part heading-bg mb-30">

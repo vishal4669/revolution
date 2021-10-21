@@ -16,6 +16,10 @@ class RentingCycle extends Model
         '1' => 'Yes',
     ];
 
+    public $appends = [
+        'status'
+    ];
+
     public const BOOKING_TYPE_RADIO = [
         '1' => 'Website',
         '2' => 'Store',
@@ -59,6 +63,15 @@ class RentingCycle extends Model
     public function cycle()
     {
         return $this->belongsTo(Cycle::class, 'cycle_id');
+    }
+
+    public function getStatusAttribute()
+    {
+        if($this->attributes['to_date'] >= date('d-m-Y', strtotime(Carbon::now()))){
+            return "Active";
+        }else{
+            return "Expired";
+        }
     }
 
     public function user()

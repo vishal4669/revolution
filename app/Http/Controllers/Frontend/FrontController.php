@@ -128,9 +128,15 @@ class FrontController
     {
         $user = Auth::user();
 
-        $packages = PackageRegistration::with('package')->where('user_id', auth()->user()->id)->get();
+        $packages = PackageRegistration::with('package')->where('user_id', $user->id)->get();
 
-        return view('frontend.myaccount', compact('user', 'packages'));
+        $cycleRentals = RentingCycle::where('user_id', $user->id)->get();
+
+        $trainerRentals = RentingTrainer::where('user_id', $user->id)->get();
+        
+        $eventRegistrations = App\Models\EventRegistration::where('user_id', $user->id)->get();
+
+        return view('frontend.myaccount', compact('user', 'packages', 'cycleRentals', 'trainerRentals', 'eventRegistrations'));
     }
 
     public function loadContact ()
