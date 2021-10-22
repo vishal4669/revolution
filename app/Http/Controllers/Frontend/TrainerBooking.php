@@ -41,16 +41,14 @@ class TrainerBooking
 
     public function bookTrainerCafe(){
         $user = auth()->user();
-        $wallet_hrs = $user->wallet_hrs;
-
-        $wallet_seconds = $wallet_hrs * 60;
-
-        $wallet_hrs = Helper::convert_seconds_to_time($wallet_seconds);
+        
 
         if($user->registered_package){
-            $userPackages = PackageTrainerCafe::where('id', $user->registered_package->package_trainer_cafe_id)->get();
+            $userPackage = App\Models\PackageWallet::with('package')
+            ->where('package_trainer_cafe_id', $user->registered_package->package_trainer_cafe_id)
+            ->firstOrFail();
         }else{
-            $userPackages = null;
+            $userPackage = null;
         }
         
 
@@ -63,7 +61,13 @@ class TrainerBooking
 
         $slots = Slot::all();
         
-        $booked_slots = SlotBooking::where('user_id', $user->id)->whereDate('date', '>=', Carbon::now())->get();
+        $booked_slots = SlotBooking::where('user_id', $user->id)
+        ->whereDate('date', '>=', Carbon::now())
+        ->orderBy('date', 'asc')
+        ->get();
+
+        // print_r($booked_slots);
+        // die;
 
         $booking_types = [
                          '' => 'Select Booking Type',
@@ -78,17 +82,23 @@ class TrainerBooking
                         ];
                
 
-        return view('frontend.cafe_slot_booking', compact('booked_slots', 'userPackages', 'wallet_hrs', 'slots', 'booking_types', 'payment_types')); 
+        return view('frontend.cafe_slot_booking', compact('booked_slots', 'userPackage', 'slots', 'booking_types', 'payment_types')); 
     }
     
 
     public function bookSlot(Request $request){
-        $slot_id = $request->submit;
+        //dd($request->all());
+        $weekly_slot_id = $request->submit;
+
+        $slots = App\Models\WeeklySlot::where('id', $weekly_slot_id)->pluck('slot_id');
+
+        $slot_id = $slots[0];
+
         $booking_date = $request->booking_date;
 
         $userPackages = PackageTrainerCafe::where('id', auth()->user()->registered_package->package_trainer_cafe_id)->firstOrFail();
 
-        $slot_time = Slot::where('id',$slot_id)->firstOrFail();
+        $slot_time = Slot::where('id', $slot_id)->firstOrFail();
 
         $booking = new SlotBooking;
         $booking -> user_id = auth()->user()->id;
@@ -104,13 +114,25 @@ class TrainerBooking
     }
 
     public function loadActiveSlots(Request $request)
-    {        
+    {
         if($request->date != ""){
             $date = $request->date;
             if($date == date('d-m-Y', strtotime(Carbon::now()))){
-                return $day_of_week = Carbon::now()->dayOfWeek;
+                $day_of_week = Carbon::now()->dayOfWeek;
+                $daywise_slots = App\Models\WeeklySlot::with('daily_slot')
+                ->where('day_of_week', $day_of_week)
+                ->where('is_active', 1)
+                ->get()
+                ->toArray();
+                return $daywise_slots;                
             }else{
-                return "No";
+                $day_of_week = Carbon::createFromFormat('d-m-Y', $request->date)->dayOfWeek;
+                $daywise_slots = App\Models\WeeklySlot::with('slot')
+                ->where('day_of_week', $day_of_week)
+                ->where('is_active', 1)
+                ->get()
+                ->toArray();
+                return $daywise_slots;
             }
         }
     }

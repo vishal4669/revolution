@@ -136,6 +136,9 @@ class User extends Authenticatable implements HasMedia
 
     public function registered_package()
     {
-        return $this->hasOne(PackageRegistration::class)->select('package_trainer_cafe_id');
+        return $this->hasOne(PackageWallet::class)
+        ->where('is_active', 1)
+        ->where('expiry', '>', Carbon::now())
+        ->select('package_trainer_cafe_id');
     }
 }

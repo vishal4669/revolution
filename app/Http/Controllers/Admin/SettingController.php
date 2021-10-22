@@ -21,7 +21,7 @@ class SettingController extends Controller
      */
     public function index()
     {
-        $weekly_slots = WeeklySlot::get();
+        $weekly_slots = WeeklySlot::with('slot')->get();
 
         return view('admin.settings.index', compact('weekly_slots'));
     }
@@ -82,7 +82,7 @@ class SettingController extends Controller
             }
             $added_slots = Slot::pluck('id');
 
-            for($i=1; $i <=7; $i++){
+            for($i=0; $i <=6; $i++){
                 foreach($added_slots as $slot){
                     $weekly_slot = new WeeklySlot();
                     $weekly_slot->slot_id = $slot;

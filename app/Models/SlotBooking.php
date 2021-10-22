@@ -31,9 +31,16 @@ class SlotBooking extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function slot()
+    {
+        return $this->belongsTo(Slot::class);
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('d-m-Y H:i:s');
     }
+
+    
 
 }

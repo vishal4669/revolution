@@ -49,26 +49,18 @@
                             </div>
                           </div>
 
-                          <div class="col-12 mb-20 align-center" style="display:none;">
+                          <div class="col-12 mb-20 align-center" id="available_slots_div" style="display:none;">
                             <div class="heading-part heading-bg">
                               <h2 class="heading">Available Slots</h2>
                             </div>
                           </div>  
 
-                          <div class="input-box" style="display:none;">
+                          <div class="input-box">
                             <div class="row">
                               <div class="col-lg-12 align-center">
-                                  <div class="mb-2">
-                                    @php ($i = 0)
-                                      @foreach($slots as $slot)
-                                        @if($i%4 == 0)
-                                          </div>
-                                          <div class="mb-2">
-                                        @endif
-                                          <button onclick="set_slot(this)" name="{{ $slot->slot_start_time }}-{{ $slot->slot_end_time }}" id="{{ $slot->id }}" type="button" class="btn btn-outline-info timeslot_label">{{ $slot->slot_start_time }}-{{ $slot->slot_end_time }}</button>
-                                        @php ($i++)                              
-                                      @endforeach
-                                </div>
+                                
+                                  <div id="display_available_slots"></div>
+                                
                               </div>
                             </div>
                           </div>
@@ -76,7 +68,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="Submit-btn" style="display:none;">
+                    <div class="Submit-btn" id="submit-button" style="display:none;">
                       <div class="row">
                         <div class="col-12">
                          
@@ -98,7 +90,7 @@
                     </div>
                     <div class="sidebar-contant">
                       <ul>
-                        @if($userPackages != "")                        
+                        @if($userPackage != "")                        
                         <table class="table table-bordered">
                           <thead>
                             <th>
@@ -112,13 +104,11 @@
                             </th>                            
                           </thead>
                           <tbody>
-                          @foreach($userPackages as $userPackage)
                             <tr>
-                              <td>{{ $userPackage->package_name }}</td>
-                              <td>{{ $userPackage->total_hours }}</td>
-                              <td>{{ date('d-m-Y', strtotime($userPackage->created_at)) }}</td>
-                            </tr>
-                          @endforeach                              
+                              <td>{{ $userPackage->package->package_name }}</td>
+                              <td>{{ $userPackage->wallet_hrs - $userPackage->used_hours }}</td>
+                              <td>{{ date('d-m-Y', strtotime($userPackage->expiry)) }}</td>
+                            </tr>                        
                           </tbody>
                         </table>
                         @else
@@ -129,7 +119,7 @@
                     </div>
                   </div>
 
-                  @if($userPackages == "")
+                  @if($userPackage == "")
                   <div class="sidebar-box listing-box mb-40"> <span class="opener plus"></span>
                     <div class="sidebar-title">
                       <h3><span>Rate per booking</span></h3>
@@ -155,11 +145,14 @@
                     </div>
                     <div class="sidebar-contant">
                       <ul>
-                        @if($userPackages != "")
+                        @if($userPackage != "")
                         <table class="table table-bordered">
                           <thead>
                             <th>
                               Date
+                            </th>
+                            <th>
+                              Time
                             </th>
                             <th>
                               Hrs Used
@@ -170,6 +163,9 @@
                             <tr>
                               <td>
                                 {{  date('d-m-Y', strtotime($booked_slot->date)) }}
+                              </td>
+                              <td>
+                                {{  $booked_slot->start_time }} -  {{  $booked_slot->end_time }}
                               </td>
                               <td>
                                 {{ $booked_slot->hrs_used }}
@@ -226,6 +222,7 @@
             format: "dd-mm-yyyy",
             startDate : new Date(),
             todayHighlight: 'TRUE',
+            maxDate: 7,
             autoclose: true,
             orientation: "bottom",
         }).on('changeDate', function(e) {   
@@ -240,7 +237,29 @@
                  'date': formatted_date,
               },
               success: function(result) {
-                  console.log(result);
+                  var btn_html = '';
+                  var slot_start_time = '';
+                  var slot_end_time = '';
+                  var slot_id = '';
+                  $('#display_available_slots').html("");
+                  $(result).each(function(index, value) {
+                    var slot_id = value.id;                   
+                    if(value.daily_slot != null){
+                      var slot_start_time = value.daily_slot.slot_start_time;
+                      var slot_end_time = value.daily_slot.slot_end_time;
+                    
+                      btn_html = btn_html + '<button onclick="set_slot(this)" name="'+slot_start_time+'-'+slot_end_time+'" id="'+slot_id+'" type="button" class="btn btn-outline-info slots_string timeslot_label">'+slot_start_time+'-'+slot_end_time+'</button>';
+                    }
+                    if(value.slot != null){
+                      var slot_start_time = value.slot.slot_start_time;
+                      var slot_end_time = value.slot.slot_end_time;
+                    
+                      btn_html = btn_html + '<button onclick="set_slot(this)" name="'+slot_start_time+'-'+slot_end_time+'" id="'+slot_id+'" type="button" class="btn btn-outline-info slots_string timeslot_label">'+slot_start_time+'-'+slot_end_time+'</button>';
+                    }
+                  });
+                  $('#display_available_slots').html(btn_html);
+                  $('#available_slots_div').show();
+                  $('#submit-button').show();
               },
               error: function (error) {
                 console.log(error);

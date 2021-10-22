@@ -106,7 +106,7 @@
                         <li class="grey">
 
                           @auth
-                            @if($user_package == "Package_".$packagecafe->id)
+                            @if(isset($user_package) && !empty($user_package))
                             Subscribed
                             @else
                               <form action="{{ route('razorpay.payment.store') }}" method="POST" >

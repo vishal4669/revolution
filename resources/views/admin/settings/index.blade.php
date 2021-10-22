@@ -175,7 +175,7 @@
                       </thead>
                       <tbody>
                         @foreach($weekly_slots as $slot)
-                          @if($slot->day_of_week == 7)                          
+                          @if($slot->day_of_week == 0)                          
                             <tr>
                               <td>{{ $slot->slot->slot_start_time }} - {{ $slot->slot->slot_end_time }}</td>
                               <td>

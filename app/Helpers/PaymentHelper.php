@@ -8,7 +8,9 @@ use App\Models\Payment;
 use App\Models\Ticket;
 use App\Models\EventRegistration;
 use App\Models\PackageRegistration;
+use App\Models\PackageWallet;
 use Exception;
+use Carbon\Carbon;
 use DB;
 use Log;
   
@@ -62,8 +64,21 @@ class PaymentHelper
                     $data->transaction = $payment->id;
                     $data->user_id = auth()->user()->id;
                     $data->save();
+                    Log::info("Package registration added with details ".json_encode($data));
+                    //Package wallet entry
 
-                    Log::info("Package Added with details ".json_encode($data));
+                    $wallet_hrs = $data->package->total_hours;
+                    $expiry = Carbon::now()->addMonths($data->package->validity);
+
+                    $package = new PackageWallet();
+                    $package->user_id = auth()->user()->id;
+                    $package->package_trainer_cafe_id = $payment->notes->registration_type_id;
+                    $package->wallet_hrs = $wallet_hrs;
+                    $package->expiry = $expiry;
+                    $package->is_active = 1;
+                    $package->save();
+
+                    Log::info("Package wallet created with details ".json_encode($package));
                     
                     PaymentHelper::add_payment($payment);
                 }

@@ -6052,6 +6052,11 @@ ul.tagcloud li a:hover {
     opacity: 0.4
 }
 
+.slots_string {
+    margin-left: 5px;
+    margin-bottom: 5px;
+	width:20%;
+}
 /* Scroll-top Arrow CSS End */
 
 

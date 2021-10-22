@@ -20,6 +20,7 @@ use App\Models\Testimonial;
 use App\Models\Brand;
 use App\Models\Slot;
 use App\Models\Ticket;
+use Carbon\Carbon;
 use DB;
 use App\Helpers\Helper;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -151,7 +152,9 @@ class FrontController
     public function getPackagesPage(){
         $packagecafes = PackageTrainerCafe::get();
         if(auth()->check()){
-            $user_package = Payment::where('user_id', auth()->user()->id)->pluck('description')->first();
+            $user_package = App\Models\PackageWallet::where('user_id', auth()->user()->id)
+            ->where('expiry', '>=', Carbon::now())
+            ->pluck('package_trainer_cafe_id')->first();
             return view('frontend.packages', compact('packagecafes', 'user_package')); 
         }else{
             return view('frontend.packages', compact('packagecafes')); 
@@ -162,35 +165,6 @@ class FrontController
     public function getContactUsPage(){
         $route_name =  Route::currentRouteName();
         return view('frontend.contact', compact('route_name')); 
-    }
-
-    public function bookPackage(Request $request){
-        $user = Auth::user();
-        $user_id = $user->id;
-
-        $package_data = PackageTrainerCafe::find($request->id);
-
-        $created_on = date('d-m-Y');
-        $expired_on = date('d-m-Y', strtotime($created_on. ' + '.$package_data->validity.' days'));
-
-        $packageData = array();
-        $packageData["users_id"] = $user_id;
-        $packageData["package_trainer_cafes_id"] = $request->id;
-        $packageData["validity"] = $package_data->validity;
-        $packageData["total_price"] = $package_data->total_price;
-        $packageData["expired_on"] = $expired_on;
-        UserHasPackagesCafe::create($packageData);
-        
-        $user = User::find($user_id);
-
-        $userData = array();
-        $userData['wallet_hrs'] = $user->wallet_hrs + $package_data->total_hours;        
-        $user->update($userData);
-
-        return redirect()
-            ->route('package')
-            ->with('success', 'Package booked successfully');
-
     }
 
 }

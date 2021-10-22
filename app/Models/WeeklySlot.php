@@ -7,10 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class WeeklySlot extends Model
 {
     public $timestamps = false;
-
-	public $appends = [
-		'slots',
-	];
     
 	protected $fillable = [
 		'day_of_week',
@@ -20,7 +16,12 @@ class WeeklySlot extends Model
 
 	public function slot()
 	{
-		return $this->belongsTo(Slot::class);
+		return $this->belongsTo(Slot::class, 'slot_id');
+	}
+
+	public function daily_slot()
+	{
+		return $this->belongsTo(Slot::class, 'slot_id')->where('slot_start_time', '>', date('H:i', strtotime(Carbon::now()->addHour())));
 	}
 
 }
