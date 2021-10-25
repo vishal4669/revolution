@@ -67,7 +67,8 @@ class RentingTrainer extends Model
 
     public function getStatusAttribute()
     {
-        if($this->attributes['to_date'] >= date('d-m-Y', strtotime(Carbon::now()))){
+        if($this->attributes['to_date'] >= Carbon::now())
+        {
             return "Active";
         }else{
             return "Expired";

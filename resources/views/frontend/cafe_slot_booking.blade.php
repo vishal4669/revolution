@@ -23,6 +23,7 @@
               <div class="heading-part align-center mb-30">
                 <h2 class="main_title  heading"><span>Trainer Booking for Cafe</span></h2>
               </div>
+              @include('frontend.layouts.flash')
             </div>
           </div>
        

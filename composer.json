@@ -23,6 +23,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
         "laravelcollective/html": "^6.2",
+        "laraveldaily/laravel-charts": "^0.1.27",
         "razorpay/razorpay": "^2.7",
         "spatie/laravel-medialibrary": "^8.7",
         "yajra/laravel-datatables-oracle": "^9.11"

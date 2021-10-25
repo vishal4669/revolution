@@ -213,6 +213,7 @@ class ComposerStaticInit2c4c7c0fb11096a5dbdeba567744c4cd
             'Laravel\\Tinker\\' => 15,
             'Laravel\\Sail\\' => 13,
             'Laravel\\Dusk\\' => 13,
+            'LaravelDaily\\LaravelCharts\\' => 27,
         ),
         'K' => 
         array (
@@ -577,6 +578,10 @@ class ComposerStaticInit2c4c7c0fb11096a5dbdeba567744c4cd
         array (
             0 => __DIR__ . '/..' . '/laravel/dusk/src',
         ),
+        'LaravelDaily\\LaravelCharts\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laraveldaily/laravel-charts/src',
+        ),
         'Knp\\Snappy\\' => 
         array (
             0 => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy',
@@ -794,6 +799,7 @@ class ComposerStaticInit2c4c7c0fb11096a5dbdeba567744c4cd
         'App\\Http\\Controllers\\Admin\\PermissionsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/PermissionsController.php',
         'App\\Http\\Controllers\\Admin\\RentingCycleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/RentingCycleController.php',
         'App\\Http\\Controllers\\Admin\\RentingTrainerController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/RentingTrainerController.php',
+        'App\\Http\\Controllers\\Admin\\ReportsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/ReportsController.php',
         'App\\Http\\Controllers\\Admin\\RolesController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/RolesController.php',
         'App\\Http\\Controllers\\Admin\\SettingController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/SettingController.php',
         'App\\Http\\Controllers\\Admin\\SlotController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/SlotController.php',
@@ -819,6 +825,7 @@ class ComposerStaticInit2c4c7c0fb11096a5dbdeba567744c4cd
         'App\\Http\\Controllers\\Frontend\\EventController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/EventController.php',
         'App\\Http\\Controllers\\Frontend\\FrontController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/FrontController.php',
         'App\\Http\\Controllers\\Frontend\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/HomeController.php',
+        'App\\Http\\Controllers\\Frontend\\RentingController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/RentingController.php',
         'App\\Http\\Controllers\\Frontend\\ReviewController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/ReviewController.php',
         'App\\Http\\Controllers\\Frontend\\TrainerBooking' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/TrainerBooking.php',
         'App\\Http\\Controllers\\Frontend\\UsersController' => __DIR__ . '/../..' . '/app/Http/Controllers/Frontend/UsersController.php',
@@ -902,6 +909,7 @@ class ComposerStaticInit2c4c7c0fb11096a5dbdeba567744c4cd
         'App\\Models\\PackageRegistration' => __DIR__ . '/../..' . '/app/Models/PackageRegistration.php',
         'App\\Models\\PackageTrainerCafe' => __DIR__ . '/../..' . '/app/Models/PackageTrainerCafe.php',
         'App\\Models\\PackageTrainerRental' => __DIR__ . '/../..' . '/app/Models/PackageTrainerRental.php',
+        'App\\Models\\PackageWallet' => __DIR__ . '/../..' . '/app/Models/PackageWallet.php',
         'App\\Models\\Payment' => __DIR__ . '/../..' . '/app/Models/Payment.php',
         'App\\Models\\Permission' => __DIR__ . '/../..' . '/app/Models/Permission.php',
         'App\\Models\\PersonalAccessToken' => __DIR__ . '/../..' . '/app/Models/PersonalAccessToken.php',
@@ -920,6 +928,7 @@ class ComposerStaticInit2c4c7c0fb11096a5dbdeba567744c4cd
         'App\\Models\\TrainerRentalBooking' => __DIR__ . '/../..' . '/app/Models/TrainerRentalBooking.php',
         'App\\Models\\TrainerSetting' => __DIR__ . '/../..' . '/app/Models/TrainerSetting.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Models\\WeeklySlot' => __DIR__ . '/../..' . '/app/Models/WeeklySlot.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
@@ -3897,6 +3906,8 @@ class ComposerStaticInit2c4c7c0fb11096a5dbdeba567744c4cd
         'Knp\\Snappy\\GeneratorInterface' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/GeneratorInterface.php',
         'Knp\\Snappy\\Image' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/Image.php',
         'Knp\\Snappy\\Pdf' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/Pdf.php',
+        'LaravelDaily\\LaravelCharts\\Classes\\LaravelChart' => __DIR__ . '/..' . '/laraveldaily/laravel-charts/src/Classes/LaravelChart.php',
+        'LaravelDaily\\LaravelCharts\\LaravelChartsServiceProvider' => __DIR__ . '/..' . '/laraveldaily/laravel-charts/src/LaravelChartsServiceProvider.php',
         'Laravel\\Dusk\\Browser' => __DIR__ . '/..' . '/laravel/dusk/src/Browser.php',
         'Laravel\\Dusk\\Chrome\\ChromeProcess' => __DIR__ . '/..' . '/laravel/dusk/src/Chrome/ChromeProcess.php',
         'Laravel\\Dusk\\Chrome\\SupportsChrome' => __DIR__ . '/..' . '/laravel/dusk/src/Chrome/SupportsChrome.php',

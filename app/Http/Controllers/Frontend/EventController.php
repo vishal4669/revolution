@@ -129,11 +129,13 @@ class EventController
 
             PaymentHelper::save_payment($payment);
 
-            return redirect()->route('allevents');
+            $myaccount = '<a href='.route("frontend.myaccount").'>My Account</a>';
+
+            return redirect()->route('allevents')->with('success', 'Payment Successfull! You have successfully registered for the event with transaction id '.$request->razorpay_payment_id.'. You can check the details of registration in '.$myaccount.' page.');
 
         }else{
 
-            return redirect()->back();
+            return redirect()->back()->with('error', 'Something went wrong with the payment!');
 
         }
     }

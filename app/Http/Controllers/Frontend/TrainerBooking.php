@@ -110,7 +110,7 @@ class TrainerBooking
         $booking -> booked_via = "Website";
         $booking -> save();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Slot booked successfully!');
     }
 
     public function loadActiveSlots(Request $request)

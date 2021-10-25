@@ -78,7 +78,9 @@
                             <tbody>
                               <tr>
                                 <td><ul>
-                                    <li class="inner-heading"> <b>{{ $user->full_name }}</b> </li>
+                                    <li class="inner-heading"> 
+                                      <b>{{ $user->full_name }}</b> 
+                                    </li>
                                     <li>
                                       <p>{{ $user->add1 }}</p>
                                     </li>
@@ -99,7 +101,7 @@
                 </div>
               </div>
               <div id="data-step2" class="account-content" data-temp="tabdata" style="display:none">
-              <form class="main-form full" name="registerfrm"  method="POST" action="3">
+              <form class="main-form full" name="registerfrm" method="POST">
                     <div class="personal-details mb-30">
                       <div class="row">                        
                         <div class="col-12">
@@ -309,6 +311,9 @@
                                   Wallet Hours
                                 </th>
                                 <th>
+                                  Available Hours
+                                </th>
+                                <th>
                                   Start Date
                                 </th>
                                 <th>
@@ -335,10 +340,13 @@
                                     {{ $package->package->total_hours }} hrs
                                   </td>
                                   <td>
+                                    {{ $package->package->total_hours - $package->package_wallet->used_hours }} hrs
+                                  </td>
+                                  <td>
                                     {{ date('d-m-Y', strtotime($package->created_at)); }}
                                   </td>
                                   <td>
-                                  {{ date('d-m-Y', strtotime($package->created_at->addYear())); }}
+                                  {{ date('d-m-Y', strtotime($package->package_wallet->expiry)); }}
                                   </td>
                                 </tr>
                               @endforeach

@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '3e47036a241fcfb8d395650cfcbcb6330f29f39a',
+        'reference' => '16bde1a7638f9bbb5a7a54bdf8dab17e13d709fe',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -568,7 +568,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '3e47036a241fcfb8d395650cfcbcb6330f29f39a',
+            'reference' => '16bde1a7638f9bbb5a7a54bdf8dab17e13d709fe',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
@@ -605,6 +605,15 @@
             'install_path' => __DIR__ . '/../laravelcollective/html',
             'aliases' => array(),
             'reference' => 'ae15b9c4bf918ec3a78f092b8555551dd693fde3',
+            'dev_requirement' => false,
+        ),
+        'laraveldaily/laravel-charts' => array(
+            'pretty_version' => '0.1.27',
+            'version' => '0.1.27.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../laraveldaily/laravel-charts',
+            'aliases' => array(),
+            'reference' => '54b000c79e21f3147386edafa872810ed6b943c6',
             'dev_requirement' => false,
         ),
         'league/commonmark' => array(

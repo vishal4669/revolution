@@ -81,6 +81,8 @@ class PaymentHelper
                     Log::info("Package wallet created with details ".json_encode($package));
                     
                     PaymentHelper::add_payment($payment);
+
+                    //return \Redirect::to('frontend.package')->with('success', 'Payment successfull! Registration for package successfull. Transaction id '.$payment->id.'.');
                 }
 
                 if($payment->notes->registration_type == "Renting"){

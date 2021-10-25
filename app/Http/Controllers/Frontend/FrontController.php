@@ -129,7 +129,7 @@ class FrontController
     {
         $user = Auth::user();
 
-        $packages = PackageRegistration::with('package')->where('user_id', $user->id)->get();
+        $packages = PackageRegistration::with('package', 'package_wallet')->where('user_id', $user->id)->get();
 
         $cycleRentals = RentingCycle::where('user_id', $user->id)->get();
 

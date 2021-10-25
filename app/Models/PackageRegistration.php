@@ -35,4 +35,9 @@ class PackageRegistration extends Model
     {
         return $this->belongsTo(PackageTrainerCafe::class, 'package_trainer_cafe_id', 'id');
     }
+
+    public function package_wallet()
+    {
+        return $this->hasOne(PackageWallet::class, 'package_trainer_cafe_id', 'package_trainer_cafe_id');
+    }
 }

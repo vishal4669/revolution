@@ -86,12 +86,7 @@
                       <div class="heading-part heading-bg">
                         <h2 class="heading">Packages</h2>
                       </div>
-
-                      @if ($message = Session::get('success'))
-                      <div class="alert alert-success">
-                        <p>{{ $message }}</p>
-                      </div>
-                      @endif
+                      @include('frontend.layouts.flash')
                     </div>
                   </div>
                   @foreach ($packagecafes as $packagecafe)

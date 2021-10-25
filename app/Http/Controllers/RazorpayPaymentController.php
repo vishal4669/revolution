@@ -52,7 +52,7 @@ class RazorpayPaymentController extends Controller
             }
         }
           
-        Session::flash('success', 'Payment successful');
+        Session::flash('success', 'Payment successful with transaction id - '.$payment->id.'.');
         return redirect()->back();
     }
 }
