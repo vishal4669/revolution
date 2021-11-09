@@ -163,8 +163,7 @@ class FrontController
     }
 
     public function getContactUsPage(){
-        $route_name =  Route::currentRouteName();
-        return view('frontend.contact', compact('route_name')); 
+        return view('frontend.contact'); 
     }
 
 }

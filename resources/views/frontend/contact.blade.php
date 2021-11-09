@@ -33,7 +33,7 @@
             </div>
           </div>
           <div class="main-form">
-            <form action="{{ route('contact-message') }}" method="POST" name="contactform">
+            <form action="{{ route('frontend.contact-message') }}" method="POST" name="contactform">
               @csrf
               <div class="row">
                 <div class="col-md-4 mb-30">

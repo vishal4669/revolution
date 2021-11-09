@@ -16,7 +16,7 @@ Route::get('/offroad', 'Frontend\FrontController@getOffroadPage')->name('offroad
 Route::get('allevents', 'Frontend\EventController@loadEvents')->name('allevents');
 Route::get('event-info/{id}', 'Frontend\EventController@loadEventInfo')->name('event-info');
 Route::get('/shop', 'Frontend\FrontController@getShopPage')->name('shop');
-Route::get('/contact', 'Frontend\FrontController@getContactUsPage')->name('contact');
+Route::get('contact', 'Frontend\FrontController@getContactUsPage')->name('contact');
 Route::get('/package', 'Frontend\FrontController@getPackagesPage')->name('package');
 
 
@@ -179,7 +179,9 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
     Route::get('book-trainer', 'TrainerBooking@bookTrainerCafe')->name('bookTrainerCafe');
     Route::post('book-trainer/active-slots', 'TrainerBooking@loadActiveSlots')->name('active-slots');
     Route::post('book-slot', 'TrainerBooking@bookSlot')->name('book-slot');
-    
+
+    Route::resource('contact-messages', 'ContactMessagesController');
+    Route::post('contact-message', 'ContactMessagesController@store')->name('contact-message');    
 
     Route::get('frontend/profile', 'ProfileController@index')->name('profile.index');
     Route::post('frontend/profile', 'ProfileController@update')->name('profile.update');
