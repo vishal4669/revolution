@@ -323,6 +323,33 @@
                         </a>
                     </li>
                 @endcan
+                @can('trainer_cafe_access')
+                    <li class="nav-item has-treeview {{ request()->is("admin/slot-bookings*") ? "menu-open" : "" }}">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="fa-fw nav-icon fas fa-coffee">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.trainerCafe.title') }}
+                                <i class="right fa fa-fw fa-angle-left nav-icon"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @can('slot_booking_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.slot-bookings.index") }}" class="nav-link {{ request()->is("admin/slot-bookings") || request()->is("admin/slot-bookings/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon fas fa-clock">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.slotBooking.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
                 <li class="nav-item">
                     <a href="{{ route("admin.systemCalendar") }}" class="nav-link {{ request()->is("admin/system-calendar") || request()->is("admin/system-calendar/*") ? "active" : "" }}">
                         <i class="fas fa-fw fa-calendar nav-icon">

@@ -11,6 +11,7 @@ class HomeController
 {
     public function index()
     {
+
         $cycles = Cycle::limit(5)->get();
         $trainers = Trainer::limit(5)->get();
         $brands = Brand::get();

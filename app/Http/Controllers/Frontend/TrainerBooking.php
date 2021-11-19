@@ -108,6 +108,9 @@ class TrainerBooking
         $booking -> start_time = $slot_time->slot_start_time;
         $booking -> end_time = $slot_time->slot_end_time;
         $booking -> booked_via = "Website";
+        $booking -> is_cancelled = 0;
+        $booking -> cancelled_by = null;
+        $booking -> remarks = null;
         $booking -> save();
 
         return redirect()->back()->with('success', 'Slot booked successfully!');

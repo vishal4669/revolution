@@ -49,22 +49,11 @@ class FrontController
     public function index()
     {
         $route_name =  Route::currentRouteName();
-
         
         return redirect()
             ->route('index');
 
       //  return view('frontend.index',compact('route_name'));
-    }
-
-    public function homePage()
-    {
-        $cycles = Cycle::limit(5)->get();
-        $trainers = Trainer::limit(5)->get();
-        $brands = Brand::get();
-        $testimonials = Testimonial::where('is_visible', '1')->get();
-
-        return view('frontend.home',compact('cycles','trainers','brands', 'testimonials'));
     }
 
     public function RentCycles()

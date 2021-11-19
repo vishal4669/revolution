@@ -95,6 +95,17 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     //Package Cafe
     Route::resource('packagecafes', 'TrainerPackageCafeController');
 
+    //Trainer Renting
+    Route::resource('trainerbookingcafes', 'TrainerBookingCafeController');
+    Route::get('/bookings/getBookings/','TrainerBookingCafeController@getBookings')->name('bookings.getBookings');
+
+    Route::post('/bookings/confirmbooking','App\Http\Controllers\TrainerBookingCafeController@confirmBooking')->name('bookings.confirmbooking');
+    Route::post('/bookings/cancelbookingcafes','App\Http\Controllers\TrainerBookingCafeController@cancelBooking')->name('bookings.cancelBooking');
+    Route::post('/bookings/summary','App\Http\Controllers\TrainerBookingCafeController@summary')->name('bookings.summary');
+    
+    // add performance for the booking
+    Route::post('/bookings/addperformance','App\Http\Controllers\TrainerBookingCafeController@addperformance')->name('bookings.addperformance');
+
     // Trainer Expenses
     Route::delete('trainer-expenses/destroy', 'TrainerExpensesController@massDestroy')->name('trainer-expenses.massDestroy');
     Route::post('trainer-expenses/media', 'TrainerExpensesController@storeMedia')->name('trainer-expenses.storeMedia');
@@ -120,6 +131,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Cycle Setting
     Route::delete('cycle-settings/destroy', 'CycleSettingController@massDestroy')->name('cycle-settings.massDestroy');
     Route::resource('cycle-settings', 'CycleSettingController');
+
+    // Slot Booking
+    Route::delete('slot-bookings/destroy', 'SlotBookingController@massDestroy')->name('slot-bookings.massDestroy');
+    Route::resource('slot-bookings', 'SlotBookingController');
+    Route::post('slot-bookings', 'SlotBookingController@index');
 
     //Reports
     Route::post('reports/due-cycles', 'ReportsController@dueCycles')->name('reports.due-cycles');

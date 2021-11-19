@@ -189,9 +189,26 @@
         startDate: new Date(),
         autoclose:true
       });  
+      
+      </script>
 
       
-    </script>
+      <script>
+
+$('a[data-toggle="tab"]').on("click", function (e) {
+    var id = $(e.target).attr("href");
+    localStorage.setItem('selectedTab', id)
+});
+
+var selectedTab = localStorage.getItem('selectedTab');
+if (selectedTab != null) {
+  $(".account-content").fadeOut();
+      //addClass active
+      $('.account-tab-stap li').removeClass('active');
+      $('#'+selectedTab.substr(6,9)).addClass('active');
+      $(selectedTab).fadeIn();
+}
+        </script> 
 
    <!-- <script>
       /* ------------ Newslater-popup JS Start ------------- */

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\TrainerCafeBooking;
-use App\Models\MstTrainer;
+use App\Models\Trainer;
 use App\Models\User;
-use App\Models\Slot;
+use App\Models\SlotBooking;
 use Route;
 use DateTime;
 use App\Models\BlockedSlotDate;
@@ -28,7 +28,7 @@ class TrainerBookingCafeController extends Controller
     public function index(Request $request)
     {
 
-        $trainers = MstTrainer::pluck('trainer_name', 'id');
+        $trainers = Trainer::pluck('name', 'id');
         $trainers->prepend('Please Select Trainer', '');
 
         $users = User::where('id','!=',2)->pluck('username', 'id');
@@ -324,11 +324,11 @@ class TrainerBookingCafeController extends Controller
         $searchValue = $search_arr['value']; // Search value
 
         // Total records
-        $totalRecords = TrainerCafeBooking::select('count(*) as allcount')->count();
+        $totalRecords = SlotBooking::select('count(*) as allcount')->count();
 
-        $totalRecordswithFilter = TrainerCafeBooking::select('count(*) as allcount');
+        $totalRecordswithFilter = SlotBooking::select('count(*) as allcount');
         if($users_id && $users_id!=''){
-            $totalRecordswithFilter->where('users_id', $users_id);
+            $totalRecordswithFilter->where('user_id', $users_id);
         }
         if($mst_trainer_id && $mst_trainer_id!=''){
             $totalRecordswithFilter->where('mst_trainer_id', $mst_trainer_id);
@@ -339,12 +339,10 @@ class TrainerBookingCafeController extends Controller
         $totalRecordswithFilter = $totalRecordswithFilter->count();
 
         // Fetch records
-        $records = TrainerCafeBooking::orderBy('id',$columnSortOrder);
-        $records->with('trainer');
-        $records->with('user');
+        $records = SlotBooking::orderBy('id',$columnSortOrder);
 
         if($users_id && $users_id!=''){
-            $records->where('users_id', $users_id);
+            $records->where('user_id', $users_id);
         }
         if($mst_trainer_id && $mst_trainer_id!=''){
             $records->where('mst_trainer_id', $mst_trainer_id);
@@ -424,8 +422,8 @@ class TrainerBookingCafeController extends Controller
 
             $data_arr[] = array(
               "no" => $count,
-              "user" => $trainerbookingcafe->user->name,
-              "trainer" => (!empty($trainerbookingcafe->trainer) && isset($trainerbookingcafe->trainer->trainer_name)) ? $trainerbookingcafe->trainer->trainer_name : '',
+              "user" => $trainerbookingcafe->user->full_name,
+              //"trainer" => (!empty($trainerbookingcafe->trainer) && isset($trainerbookingcafe->trainer->trainer_name)) ? $trainerbookingcafe->trainer->trainer_name : '',
               "datetime" => date('d-M-Y',strtotime($trainerbookingcafe->booking_date)).'<br>'.date('H:i A',strtotime($trainerbookingcafe->booking_start_time)).'  '.date('H:i A',strtotime($trainerbookingcafe->booking_end_time)),
               "booking_amount" => $trainerbookingcafe->booking_amount,
               "status" => $trainerbookingcafe->booking_status,

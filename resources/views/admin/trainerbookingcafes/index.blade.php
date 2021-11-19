@@ -21,13 +21,13 @@
                       </div>                      
                   </div>
 
-                  <div class="col-md-4">
+                  <!-- <div class="col-md-4">
                       <div class="form-group">
                           <strong>Trainer:</strong>
                           {!! Form::select('mst_trainer_id', $trainers, null, ['class' => 'form-control', 'id' => 'mst_trainer_id']) !!}
 
                       </div>                  
-                  </div>
+                  </div> -->
 
                   <div class="col-md-4">
                       <div class="form-group">
@@ -42,7 +42,6 @@
                         <tr>
                            <th>No</th>
                            <th>User Name</th>
-                           <th>Trainer</th>
                            <th>Date & Time</th>
                            <th>Amount</th>
                            <th>Status</th>
@@ -74,10 +73,6 @@
                 <tr>
                   <th>User Name</th>
                   <th><span id="user"></span></th>
-                </tr>
-                <tr>
-                  <th>Trainer</th>
-                  <th><span id="trainer"></span></th>
                 </tr>
                 <tr>
                   <th>Date</th>
@@ -265,7 +260,6 @@
          columns: [
             { data: 'no' },
             { data: 'user' },
-            { data: 'trainer' },
             { data: 'datetime' },
             { data: 'booking_amount' },
             { data: 'status' },

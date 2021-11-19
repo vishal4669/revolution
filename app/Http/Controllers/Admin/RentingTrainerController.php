@@ -72,7 +72,7 @@ class RentingTrainerController extends Controller
                 return $row->deposit_received ? $row->deposit_received : '';
             });
             $table->editColumn('payment_option', function ($row) {
-                return $row->payment_option ? RentingTrainer::PAYMENT_OPTION_RADIO[$row->payment_option] : '';
+                return $row->payment_option ? RentingTrainer::PAYMENT_OPTION_RADIO[$row->payment_option == "razorpay" ? 1 : 0] : '';
             });
             $table->editColumn('is_cancelled', function ($row) {
                 return $row->is_cancelled ? RentingTrainer::IS_CANCELLED_RADIO[$row->is_cancelled] : '';

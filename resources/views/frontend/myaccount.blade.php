@@ -28,14 +28,14 @@
                   </div>
                 </div>
                 <div class="account-tab-inner">
-                  <ul class="account-tab-stap">
-                    <li id="step1" class="active"> <a href="javascript:void(0)">My Dashboard<i class="fa fa-angle-right"></i> </a> </li>
-                    <li id="step2"> <a href="javascript:void(0)">Account Details<i class="fa fa-angle-right"></i> </a> </li>
-                    <li id="step3"> <a href="javascript:void(0)">My Packages<i class="fa fa-angle-right"></i> </a> </li>
-                    <li id="step4"> <a href="javascript:void(0)">My Cycle Rentals<i class="fa fa-angle-right"></i> </a> </li>
-                    <li id="step5"> <a href="javascript:void(0)">My Trainer Rentals<i class="fa fa-angle-right"></i> </a> </li>
-                    <li id="step6"> <a href="javascript:void(0)">My Event Registrations<i class="fa fa-angle-right"></i> </a> </li>
-                    <li id="step7"> <a href="javascript:void(0)">Change Password<i class="fa fa-angle-right"></i> </a> </li>
+                  <ul class="account-tab-stap" id="myTab">
+                    <li id="step1" class="active"> <a href="#data-step1" data-toggle="tab">My Dashboard<i class="fa fa-angle-right"></i> </a> </li>
+                    <li id="step2"> <a href="#data-step2" data-toggle="tab">Account Details<i class="fa fa-angle-right"></i> </a> </li>
+                    <li id="step3"> <a href="#data-step3" data-toggle="tab">My Packages<i class="fa fa-angle-right"></i> </a> </li>
+                    <li id="step4"> <a href="#data-step4" data-toggle="tab">My Cycle Rentals<i class="fa fa-angle-right"></i> </a> </li>
+                    <li id="step5"> <a href="#data-step5" data-toggle="tab">My Trainer Rentals<i class="fa fa-angle-right"></i> </a> </li>
+                    <li id="step6"> <a href="#data-step6" data-toggle="tab">My Event Registrations<i class="fa fa-angle-right"></i> </a> </li>
+                    <li id="step7"> <a href="#data-step7" data-toggle="tab">Change Password<i class="fa fa-angle-right"></i> </a> </li>
                   </ul>
                 </div>
               </div>
@@ -45,6 +45,7 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="heading-part heading-bg mb-30">
+                      @include('frontend.layouts.flash')
                       <h2 class="heading m-0">Account Dashboard</h2>
                     </div>
                   </div>
@@ -101,7 +102,7 @@
                 </div>
               </div>
               <div id="data-step2" class="account-content" data-temp="tabdata" style="display:none">
-              <form class="main-form full" name="registerfrm" method="POST">
+              <form class="main-form full" action="#" name="registerfrm" method="POST">
                     <div class="personal-details mb-30">
                       <div class="row">                        
                         <div class="col-12">
@@ -276,7 +277,7 @@
                     <div class="Submit-btn">
                       <div class="row">
                         <div class="col-12">                       
-                          <button type="submit" class="btn-color right-side">Submit</button>
+                          <button type="submit" class="btn-color right-side">Update</button>
                         </div>
                       </div>
                     </div>
@@ -656,24 +657,22 @@
                     </div>
                   </div>
                 </div>
-                <form class="main-form full">
+                <form class="main-form full" action="{{ route("profile.password.update") }}" method="POST">
+                  @csrf
                   <div class="row">
-                    <div class="col-12">
-                      <div class="input-box">
-                        <label for="old-pass">Old-Password</label>
-                        <input type="password" placeholder="Old Password" required id="old-pass">
-                      </div>
-                    </div>
                     <div class="col-md-6">
                       <div class="input-box">
                         <label for="login-pass">Password</label>
-                        <input type="password" placeholder="Enter your Password" required id="login-pass">
+                        <input type="password" placeholder="Enter your Password" required id="password" name="password">                        
+                        @if($errors->has('password'))
+                              <span class="text-danger">{{ $errors->first('password') }}</span>
+                        @endif
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="input-box">
                         <label for="re-enter-pass">Re-enter Password</label>
-                        <input type="password" placeholder="Re-enter your Password" required id="re-enter-pass">
+                        <input type="password" placeholder="Re-enter your Password" required name="password_confirmation" id="password_confirmation">
                       </div>
                     </div>
                     <div class="col-12">
